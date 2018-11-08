@@ -1,4 +1,4 @@
-package org.soen387.app.pc;
+package org.soen387.app.Presentation.pc;
 
 import java.io.IOException;
 import java.util.HashMap;

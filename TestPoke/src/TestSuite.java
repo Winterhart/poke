@@ -1,9 +1,12 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,9 +21,180 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 class TestSuite {
+	String URL_BASE = "http://localhost:8080/poke/";
+	
 	private final static Logger testLogger = Logger.getLogger(TestSuite.class.getName());
 	
-	String URL_BASE = "http://localhost:8080/poke/";
+	
+	public static String TEST_DECK1 =
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"p \"Charizard\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"p \"Charizard\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Fire\"\n" +
+			"t \"Misty\"\n" +
+			"t \"Misty\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"p \"Charizard\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"p \"Charizard\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Fire\"\n" +
+			"t \"Misty\"\n" +
+			"t \"Misty\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"p \"Charizard\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"p \"Charizard\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Fire\"\n" +
+			"t \"Misty\"\n" +
+			"t \"Misty\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"e \"Fire\"\n" +
+			"p \"Charizard\"\n" +
+			"e \"Fire\"\n";
+
+	public static String TEST_DECK2 =
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n";
+	
+	//Too Few
+	public static String TEST_DECK3_BAD =
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n";
+	
+	//Too Many
+	public static String TEST_DECK4_BAD =
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n";
 	
 	private String register(WebClient webClient, String username, String password)
 			throws MalformedURLException, IOException {
@@ -50,6 +224,168 @@ class TestSuite {
 		return jsonText;
 	}
 	
+	private String logout(WebClient webClient)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"Logout"), HttpMethod.POST);
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String listPlayers(WebClient webClient)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"ListPlayers"), HttpMethod.GET);
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String challengePlayer(WebClient webClient, long player)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"ChallengePlayer"), HttpMethod.POST);
+
+		requestSettings.setRequestParameters(new ArrayList());
+		requestSettings.getRequestParameters().add(new NameValuePair("player", player+""));
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String listChallenges(WebClient webClient)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"ListChallenges"), HttpMethod.GET);
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String acceptChallenge(WebClient webClient, long challenge)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"AcceptChallenge"), HttpMethod.POST);
+
+		requestSettings.setRequestParameters(new ArrayList());
+		requestSettings.getRequestParameters().add(new NameValuePair("challenge", challenge+""));
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String refuseChallenge(WebClient webClient, long challenge)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"RefuseChallenge"), HttpMethod.POST);
+
+		requestSettings.setRequestParameters(new ArrayList());
+		requestSettings.getRequestParameters().add(new NameValuePair("challenge", challenge+""));
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String uploadDeck(WebClient webClient, String deck)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"UploadDeck"), HttpMethod.POST);
+
+		requestSettings.setRequestParameters(new ArrayList());
+		requestSettings.getRequestParameters().add(new NameValuePair("deck", deck));
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String viewDeck(WebClient webClient)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"ViewDeck"), HttpMethod.GET);
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String drawCard(WebClient webClient, long game)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"DrawCard"), HttpMethod.POST);
+
+		requestSettings.setRequestParameters(new ArrayList());
+		requestSettings.getRequestParameters().add(new NameValuePair("game", game+""));
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String playPokemonToBench(WebClient webClient, long game, long card)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"PlayPokemonToBench"), HttpMethod.POST);
+
+		requestSettings.setRequestParameters(new ArrayList());
+		requestSettings.getRequestParameters().add(new NameValuePair("game", game+""));
+		requestSettings.getRequestParameters().add(new NameValuePair("card", card+""));
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String viewBoard(WebClient webClient, long game)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"ViewBoard"+"?game="+game), HttpMethod.GET);
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String viewHand(WebClient webClient, long game)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"ViewHand"+"?game="+game), HttpMethod.GET);
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String listGames(WebClient webClient)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"ListGames"), HttpMethod.GET);
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
+	private String retire(WebClient webClient, long game)
+			throws MalformedURLException, IOException {
+		WebRequest requestSettings = new WebRequest(new URL(URL_BASE+"PlayPokemonToBench"), HttpMethod.POST);
+
+		requestSettings.setRequestParameters(new ArrayList());
+		requestSettings.getRequestParameters().add(new NameValuePair("game", game+""));
+
+		Page page = webClient.getPage(requestSettings);
+		String jsonText = page.getWebResponse().getContentAsString();
+		testLogger.log(Level.INFO, jsonText);
+		return jsonText;
+	}
+	
 	@Test
 	void testRegisterNoInfo() {
 		try {
@@ -67,7 +403,8 @@ class TestSuite {
 			assertEquals("fail", dc.read("$['status']"));
 			
 		} catch (IOException e) {
-			
+			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 	
@@ -80,7 +417,8 @@ class TestSuite {
 			assertEquals("success", dc.read("$['status']"));
 			
 		} catch (IOException e) {
-			
+			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 	
@@ -97,7 +435,8 @@ class TestSuite {
 			assertEquals("fail", dc.read("$['status']"));
 			
 		} catch (IOException e) {
-			
+			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 
@@ -118,7 +457,8 @@ class TestSuite {
 			
 			
 		} catch (IOException e) {
-			
+			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 	
@@ -130,6 +470,925 @@ class TestSuite {
 			DocumentContext dc = JsonPath.parse(jsonText);
 			assertEquals("fail", dc.read("$['status']"));
 			
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testLogoutFail() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = logout(webClient);
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testLogoutSuccess() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "bob6", "fred6");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = logout(webClient);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testListPlayersSuccess() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testListPlayersSuccessA", "testListPlayersSuccessAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+
+			List<Map<String, Object>> jPathResult = null;
+			
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testListPlayersSuccessA')].user");
+			assertEquals("testListPlayersSuccessA", jPathResult.get(0));
+
+			jsonText = register(webClient, "testListPlayersSuccessB", "testListPlayersSuccessBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testListPlayersSuccessA')].user");
+			assertEquals("testListPlayersSuccessA", jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testListPlayersSuccessB')].user");
+			assertEquals("testListPlayersSuccessB", jPathResult.get(0));
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testListPlayersFailure() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = listPlayers(webClient);
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));			
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testChallengePlayerSuccess() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testChallengePlayerSuccessA", "testChallengePlayerSuccessAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testChallengePlayerSuccessB", "testChallengePlayerSuccessBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testChallengePlayerSuccessA')].id");
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = challengePlayer(webClient, (Integer)((Object)(jPathResult.get(0))));
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testChallengePlayerFailureNoDeck() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testChallengePlayerFailureNoDeckA", "testChallengePlayerFailureNoDeckAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testChallengePlayerFailureNoDeckB", "testChallengePlayerFailureNoDeckBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testChallengePlayerFailureNoDeckA')].id");
+			
+			jsonText = challengePlayer(webClient, (Integer)((Object)(jPathResult.get(0))));
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testChallengePlayerFailureChallengeSelf() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testChallengePlayerFailureChallengeSelfA", "testChallengePlayerFailureChallengeSelfAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testChallengePlayerFailureChallengeSelfB", "testChallengePlayerFailureChallengeSelfBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testChallengePlayerFailureChallengeSelfB')].id");
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = challengePlayer(webClient, (Integer)((Object)(jPathResult.get(0))));
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testChallengePlayerFailureChallengeInvalidId() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testChallengePlayerFailureChallengeInvalidA", "testChallengePlayerFailureChallengeInvalidAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testChallengePlayerFailureChallengeInvalidB", "testChallengePlayerFailureChallengeInvalidBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = challengePlayer(webClient, -12);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	void testListChallengesSuccess() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testListChallengesSuccessA", "testListChallengesSuccessAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testListChallengesSuccessB", "testListChallengesSuccessBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testListChallengesSuccessA')].id");
+			int idA = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testListChallengesSuccessB')].id");
+			int idB = (Integer)((Object)jPathResult.get(0));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			String query = "challenges[?(@['challenger']==" + idB + "  && @['challengee']==" + idA + ")].length()";
+			jPathResult = dc.read(query);
+			assertTrue(jPathResult.isEmpty());
+			
+			jsonText = challengePlayer(webClient, idA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read(query);
+			assertTrue(!jPathResult.isEmpty());
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testListChallengesFailureNotLoggedIn() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testListChallengesFailureNotLoggedInA", "testListChallengesFailureNotLoggedInAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testListChallengesFailureNotLoggedInB", "testListChallengesFailureNotLoggedInBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testListChallengesFailureNotLoggedInA')].id");
+			int idA = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testListChallengesFailureNotLoggedInB')].id");
+			int idB = (Integer)((Object)jPathResult.get(0));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			String query = "challenges[?(@['challenger']==" + idB + "  && @['challengee']==" + idA + ")].length()";
+			jPathResult = dc.read(query);
+			assertTrue(jPathResult.isEmpty());
+			
+			logout(webClient);
+			
+			jsonText = challengePlayer(webClient, idA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testAcceptChallengesSuccess() {
+		try {
+			//Accept and check that it is listed as accepted
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testAcceptChallengesSuccessA", "testAcceptChallengesSuccessAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testAcceptChallengesSuccessB", "testAcceptChallengesSuccessBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testAcceptChallengesSuccessA')].id");
+			int idA = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testAcceptChallengesSuccessB')].id");
+			int idB = (Integer)((Object)jPathResult.get(0));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			String query = "challenges[?(@['challenger']==" + idB + "  && @['challengee']==" + idA + ")].length()";
+			jPathResult = dc.read(query);
+			assertTrue(jPathResult.isEmpty());
+			
+			jsonText = challengePlayer(webClient, idA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			logout(webClient);
+			
+			jsonText = login(webClient, "testAcceptChallengesSuccessA", "testAcceptChallengesSuccessAPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			query = "challenges[?(@['challenger']==" + idB + " && @['challengee']==" + idA + " && @['status']==0)].id";
+			jPathResult = dc.read(query);
+			
+			int ChallengeId = (Integer)((Object)jPathResult.get(0));
+			
+			jsonText = acceptChallenge(webClient, ChallengeId);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			query = "challenges[?(@['challenger']==" + idB + "  && @['challengee']==" + idA + " && @['status']==3)].length()";
+			jPathResult = dc.read(query);
+			assertTrue(!jPathResult.isEmpty());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testAcceptChallengesFailureAcceptSomeoneElsesChallenge() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testAcceptChallengesFailureAcceptSomeoneElsesChallengeA", "testAcceptChallengesFailureAcceptSomeoneElsesChallengeAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testAcceptChallengesFailureAcceptSomeoneElsesChallengeB", "testAcceptChallengesFailureAcceptSomeoneElsesChallengeBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testAcceptChallengesFailureAcceptSomeoneElsesChallengeC", "testAcceptChallengesFailureAcceptSomeoneElsesChallengeCPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testAcceptChallengesFailureAcceptSomeoneElsesChallengeA')].id");
+			int idA = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testAcceptChallengesFailureAcceptSomeoneElsesChallengeB')].id");
+			int idB = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testAcceptChallengesFailureAcceptSomeoneElsesChallengeC')].id");
+			int idC = (Integer)((Object)jPathResult.get(0));
+			
+			jsonText = challengePlayer(webClient, idA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			String query = "challenges[?(@['challenger']==" + idC + " && @['challengee']==" + idA + " && @['status']==0)].id";
+			jPathResult = dc.read(query);
+			int ChallengeId = (Integer)((Object)jPathResult.get(0));
+			
+			logout(webClient);
+			
+			jsonText = login(webClient, "testAcceptChallengesFailureAcceptSomeoneElsesChallengeB", "testAcceptChallengesFailureAcceptSomeoneElsesChallengeBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+
+			jsonText = acceptChallenge(webClient, ChallengeId);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			query = "challenges[?(@['challenger']==" + idC + "  && @['challengee']==" + idA + " && @['status']==0)].length()";
+			jPathResult = dc.read(query);
+			assertTrue(!jPathResult.isEmpty());
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	void testAcceptChallengesFailureAcceptOwnChallenge() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testAcceptChallengesFailureAcceptOwnChallengeA", "testAcceptChallengesFailureAcceptOwnChallengeAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testAcceptChallengesFailureAcceptOwnChallengeB", "testAcceptChallengesFailureAcceptOwnChallengeBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+		
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testAcceptChallengesFailureAcceptOwnChallengeA')].id");
+			int idA = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testAcceptChallengesFailureAcceptOwnChallengeB')].id");
+			int idB = (Integer)((Object)jPathResult.get(0));
+
+			jsonText = challengePlayer(webClient, idA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			String query = "challenges[?(@['challenger']==" + idB + " && @['challengee']==" + idA + " && @['status']==0)].id";
+			jPathResult = dc.read(query);
+			int ChallengeId = (Integer)((Object)jPathResult.get(0));
+
+			jsonText = acceptChallenge(webClient, ChallengeId);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			query = "challenges[?(@['challenger']==" + idB + "  && @['challengee']==" + idA + " && @['status']==0)].length()";
+			jPathResult = dc.read(query);
+			assertTrue(!jPathResult.isEmpty());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testRefuseChallengesSuccess() {
+		try {
+
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testRefuseChallengesSuccessA", "testRefuseChallengesSuccessAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testRefuseChallengesSuccessB", "testRefuseChallengesSuccessBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testRefuseChallengesSuccessC", "testRefuseChallengesSuccessCPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+		
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testRefuseChallengesSuccessA')].id");
+			int idA = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testRefuseChallengesSuccessB')].id");
+			int idB = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testRefuseChallengesSuccessC')].id");
+			int idC = (Integer)((Object)jPathResult.get(0));
+			
+			
+			jsonText = challengePlayer(webClient, idA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = challengePlayer(webClient, idB);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			String query = "challenges[?(@['challenger']==" + idC + " && @['challengee']==" + idA + " && @['status']==0)].id";
+			jPathResult = dc.read(query);
+			int ChallengeIdCvA = (Integer)((Object)jPathResult.get(0));
+			query = "challenges[?(@['challenger']==" + idC + " && @['challengee']==" + idB + " && @['status']==0)].id";
+			jPathResult = dc.read(query);
+			int ChallengeIdCvB = (Integer)((Object)jPathResult.get(0));
+			
+			//Withdraw and check that it is listed as withdrawn
+			jsonText = refuseChallenge(webClient, ChallengeIdCvA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = login(webClient, "testRefuseChallengesSuccessB", "testRefuseChallengesSuccessBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			//Refuse and check that it is listed as refused
+			jsonText = refuseChallenge(webClient, ChallengeIdCvB);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			query = "challenges[?(@['challenger']==" + idC + "  && @['challengee']==" + idA + " && @['status']==2)].length()";
+			jPathResult = dc.read(query);
+			assertTrue(!jPathResult.isEmpty());
+			query = "challenges[?(@['challenger']==" + idC + "  && @['challengee']==" + idB + " && @['status']==1)].length()";
+			jPathResult = dc.read(query);
+			assertTrue(!jPathResult.isEmpty());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testRefuseChallengesFailureRefuseSomeoneElsesChallenge() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "testRefuseChallengesFailureRefuseSomeoneElsesChallengeA", "testRefuseChallengesFailureRefuseSomeoneElsesChallengeAPass");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testRefuseChallengesFailureRefuseSomeoneElsesChallengeB", "testRefuseChallengesFailureRefuseSomeoneElsesChallengeBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = register(webClient, "testRefuseChallengesFailureRefuseSomeoneElsesChallengeC", "testRefuseChallengesFailureRefuseSomeoneElsesChallengeCPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+		
+			List<Map<String, Object>> jPathResult = null;
+			jsonText = listPlayers(webClient);
+			dc = JsonPath.parse(jsonText);
+			jPathResult = dc.read("players[?(@.user=='testRefuseChallengesFailureRefuseSomeoneElsesChallengeA')].id");
+			int idA = (Integer)((Object)jPathResult.get(0));
+			jPathResult = dc.read("players[?(@.user=='testRefuseChallengesFailureRefuseSomeoneElsesChallengeC')].id");
+			int idC = (Integer)((Object)jPathResult.get(0));
+			
+			
+			jsonText = challengePlayer(webClient, idA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			String query = "challenges[?(@['challenger']==" + idC + " && @['challengee']==" + idA + " && @['status']==0)].id";
+			jPathResult = dc.read(query);
+			int ChallengeIdCvA = (Integer)((Object)jPathResult.get(0));
+
+			
+			jsonText = login(webClient, "testRefuseChallengesFailureRefuseSomeoneElsesChallengeB", "testRefuseChallengesFailureRefuseSomeoneElsesChallengeBPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			//Refuse and check that it is listed as refused
+			jsonText = refuseChallenge(webClient, ChallengeIdCvA);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+
+			
+			jsonText = login(webClient, "testRefuseChallengesFailureRefuseSomeoneElsesChallengeC", "testRefuseChallengesFailureRefuseSomeoneElsesChallengeCPass");
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = listChallenges(webClient);
+			dc = JsonPath.parse(jsonText);
+			query = "challenges[?(@['challenger']==" + idC + "  && @['challengee']==" + idA + " && @['status']==0)].length()";
+			jPathResult = dc.read(query);
+			assertTrue(!jPathResult.isEmpty());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+
+	@Test
+	void testListGamesSuccess() {
+		try {
+			//Show that accepting challenges causes games to be listed
+			assertTrue(false);
+			//confirm that the players are the challenger and challengee
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	void testViewBoardSuccess() {
+		try {
+			//Check players are correct
+			assertTrue(false);
+			//Check deck size and hand size are correct to start
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testViewBoardFailureNotMyGame() {
+		try {
+			assertTrue(false);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testDrawCardSuccess() {
+		try {
+			//We know the content of the deck used, we know the order of cards, just test two of them
+			assertTrue(false);
+			//Test that both players can log in and draw cards
+			
+			//Test that deck size and hand size change on drawing cards
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	void testDrawCardFailureNotMyGame() {
+		try {
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testViewHandSuccess() {
+		try {
+			//Test that drawing cards puts them properly in your hand
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testViewHandFailureNotMyGame() {
+		try {
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testPlayPokemonToBenchSuccess() {
+		try {
+			//Test that a pokemon card ends up on bench after being drawn then played
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testPlayPokemonToBenchFailureNotMyGame() {
+		try {
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testPlayPokemonToBenchFailurePlayingACardNotInHand() {
+		try {
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testPlayPokemonToBenchFailurePlayingACardThatIsNotAPokemon() {
+		try {
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testRetireFromGameSuccess() {
+		try {
+			//Test that viewing the board afterward shows status of the retired player has changed
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	void testRetireFromGameFailureNotMyGame() {
+		try {
+			assertTrue(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	/*
+	 * Testing Upload Deck
+	 *  TestNotLoggedIn
+	 *  
+	 */
+
+	@Test
+	void testUploadDeckFailNoLogin() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = uploadDeck(webClient, TEST_DECK1);
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));			
+		} catch (IOException e) {
+			
+		}
+	}
+	
+	@Test
+	void testUploadDeckFailSmallDeck() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "bob7", "fred7");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK3_BAD);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+		} catch (IOException e) {
+			
+		}
+	}
+
+	@Test
+	void testUploadDeckFailBigDeck() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "bob8", "fred8");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK4_BAD);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+		} catch (IOException e) {
+			
+		}
+	}
+	
+	@Test
+	void testUploadDeckSuccess() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "bob9", "fred9");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+		} catch (IOException e) {
+			
+		}
+	}
+	
+	@Test
+	void testUploadDeckSuccessRecoverFromFail() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "bob10", "fred10");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK4_BAD);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
+			
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+		} catch (IOException e) {
+			
+		}
+	}
+	
+	@Test
+	void testViewDeckSuccess() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "bob11", "fred11");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+
+			jsonText = uploadDeck(webClient, TEST_DECK1);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+			
+			String[] cards = TEST_DECK1.split("\n");
+			assertEquals(40, cards.length);
+			for(int i = 0; i < cards.length; i++) {
+				String line = cards[i];
+				String type = line.substring(0,1);
+				String name = line.substring(3,line.length()-1);
+				jsonText = viewDeck(webClient);
+				dc = JsonPath.parse(jsonText);
+				assertEquals(type, dc.read("$['deck']['cards'][" + i + "]['t']"));
+				assertEquals(name, dc.read("$['deck']['cards'][" + i + "]['n']"));
+			}
+			
+		} catch (IOException e) {
+			
+		}
+	}
+	
+	@Test
+	void testViewDeckFail() {
+		try {
+			WebClient webClient = new WebClient();
+			String jsonText = register(webClient, "bob12", "fred12");
+			DocumentContext dc = JsonPath.parse(jsonText);
+			assertEquals("success", dc.read("$['status']"));
+
+			jsonText = viewDeck(webClient);
+			dc = JsonPath.parse(jsonText);
+			assertEquals("fail", dc.read("$['status']"));
 		} catch (IOException e) {
 			
 		}
