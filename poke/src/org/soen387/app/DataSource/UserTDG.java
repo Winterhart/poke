@@ -40,6 +40,15 @@ public class UserTDG {
 		return pState.executeQuery();
 	}
 	
+	// Login function
+	public static ResultSet findUserWithCredential(String username, String password) throws SQLException {
+		Connection conn = DatabaseConnector.getConnection();
+		PreparedStatement pState = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE username = ? AND password = ?;");
+		pState.setString(1, username);
+		pState.setString(2, password);
+		return pState.executeQuery();
+	}
+	
 	public static ResultSet find(long id) throws SQLException {
 		Connection conn = DatabaseConnector.getConnection();
 		PreparedStatement pState = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE id = ?;");

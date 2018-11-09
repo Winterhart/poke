@@ -1,11 +1,17 @@
 package org.soen387.app.Presentation.pc;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.soen387.app.Domain.DataMapper.UserDataMapper;
+import org.soen387.app.Domain.pojo.User;
+import org.soen387.app.Util.Hasher;
 
 /**
  * Servlet implementation class Login
@@ -28,7 +34,6 @@ public class Login extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		String user = request.getParameter("user");
 		String pass = request.getParameter("pass");
@@ -36,16 +41,23 @@ public class Login extends HttpServlet {
 			request.setAttribute("message", "Please enter both a username and a password.");
 			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
-//		} else if(pass.equals(Register.registeredMap.get(user))) {
-//			request.setAttribute("message", "Successfully logged in.");
-//			request.getSession(true).setAttribute("login", user);
-//			request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);
-			
-		//}
-		else {
+		String hashedPassword = Hasher.obtainHashText(pass);
+		User userFound = null;
+		try {
+			userFound = UserDataMapper.findUserWithCredential(user, hashedPassword);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(userFound == null) {
 			request.setAttribute("message", "I do not recognize that username and password combination.");
 			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 		}
+		
+		request.setAttribute("message", "Successfully logged in.");
+		request.getSession(true).setAttribute("userid", userFound.getId());
+		request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);
 		
 	}
 

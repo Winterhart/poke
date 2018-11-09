@@ -44,11 +44,9 @@ public class Register extends HttpServlet {
 			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 		}  
 		//Convert to lower cases
-		String lowerUsername = user.toLowerCase();
-		String lowerPass = pass.toLowerCase();
 		User similarUser = null;
 		try {
-			similarUser = UserDataMapper.findByUsername(lowerUsername);
+			similarUser = UserDataMapper.findByUsername(user);
 		}catch(Exception ee) {
 			System.out.println(ee.getMessage());
 		}
@@ -60,7 +58,7 @@ public class Register extends HttpServlet {
 		
 		
 		// Very simple hash function to not store user password directly
-		String hashedPassword = lowerUsername + lowerPass;
+		String hashedPassword = user + pass;
 		hashedPassword = Hasher.obtainHashText(hashedPassword);
 		
 		if(hashedPassword == null) {
@@ -71,7 +69,7 @@ public class Register extends HttpServlet {
 		int creationStatus = 0;
 		try {
 			id = UserDataMapper.getFollowingId();
-			User createdUser = new User(id, 0, lowerUsername, hashedPassword);
+			User createdUser = new User(id, 0, user, hashedPassword);
 			creationStatus = UserDataMapper.insertUser(createdUser);
 		}catch(Exception ee) {
 			ee.printStackTrace();
