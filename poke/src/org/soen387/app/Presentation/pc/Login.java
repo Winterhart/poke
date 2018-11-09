@@ -35,12 +35,14 @@ public class Login extends HttpServlet {
 		if(user==null || user.isEmpty() || pass==null || pass.isEmpty() ) {
 			request.setAttribute("message", "Please enter both a username and a password.");
 			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-		} else if(pass.equals(Register.registeredMap.get(user))) {
-			request.setAttribute("message", "Successfully logged in.");
-			request.getSession(true).setAttribute("login", user);
-			request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);
+		}
+//		} else if(pass.equals(Register.registeredMap.get(user))) {
+//			request.setAttribute("message", "Successfully logged in.");
+//			request.getSession(true).setAttribute("login", user);
+//			request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);
 			
-		} else {
+		//}
+		else {
 			request.setAttribute("message", "I do not recognize that username and password combination.");
 			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
 		}

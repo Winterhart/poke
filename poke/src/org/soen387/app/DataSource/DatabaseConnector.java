@@ -9,28 +9,17 @@ import java.util.Properties;
 
 public class DatabaseConnector {
 	private DatabaseConnector() {};
-	private static String url = "";
-	private static String user = "";
-	private static String pwd = "";
+	private static String url = "jdbc:mysql://localhost:3306/poke";
+	private static String user = "root";
+	private static String pwd = "coco751700";
 	
 	public static Connection getConnection() {
 		Connection con = null;
 		
 		try {
-			Properties pr = new Properties();
-			pr.load(new FileInputStream("connection.properties"));
-			url = pr.getProperty("databaseURL");
-			user = pr.getProperty("user");
-			pwd = pr.getProperty("pwd");
-			
-			
-		}catch(Exception ee) {
-			System.out.println("Can't get properties file " + ee.getMessage() );
-		}
-		
-		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, pwd);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return con;

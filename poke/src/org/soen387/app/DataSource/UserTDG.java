@@ -51,7 +51,7 @@ public class UserTDG {
 
 		if(followingId == -1) {
 			Connection conn = DatabaseConnector.getConnection();
-			String query = "SELECT mac(id) as id from " + tableName + ";";
+			String query = "SELECT max(id) as id from " + tableName + ";";
 			Statement pState = conn.createStatement();
 			ResultSet result = pState.executeQuery(query);
 			
@@ -70,12 +70,13 @@ public class UserTDG {
 	public static int insert(long id, int version, String username, String pwd) throws SQLException {
 		Connection conn = DatabaseConnector.getConnection();
 		PreparedStatement pState = conn.prepareStatement("INSERT INTO " + tableName +
-				" (id, version,username, password) VALUES(?,?,?,?);" );
+				"(id, version,username, password) VALUES(?,?,?,?);" );
 		pState.setLong(1, id);
 		pState.setInt(2, version);
 		pState.setString(3, username);
 		pState.setString(4, pwd);
-		return 0;
+		
+		return pState.executeUpdate();
 	}
 
 }

@@ -45,6 +45,4 @@ public class UserDataMapper {
 	public static long getFollowingId() throws SQLException {
 		return UserTDG.getFollowingId();
 	}
-	
-	
 }
