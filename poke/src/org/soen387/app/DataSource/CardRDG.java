@@ -104,11 +104,11 @@ public class CardRDG {
 	public int insert() throws SQLException {
 		Connection conn = DatabaseConnector.getConnection();
 		PreparedStatement pState = conn.prepareStatement("INSERT INTO " + tableName +
-				"(id, version, deckId, cardName, cardType) VALUES(?,?,?,?);" );
+				"(id, version, deckId, cardName, cardType) VALUES(?,?,?,?,?);" );
 		pState.setLong(1, this.getId());
 		pState.setInt(2, this.getVersion());
-		pState.setString(3, this.getName());
-		pState.setLong(4, this.getDeckId());
+		pState.setLong(3, this.getDeckId());
+		pState.setString(4, this.getName());
 		pState.setString(5, this.getType());
 		
 		return pState.executeUpdate();
