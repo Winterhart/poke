@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.soen387.app.Domain.DataMapper.UserDataMapper;
-import org.soen387.app.Domain.pojo.User;
+import org.soen387.app.DataSource.UserRDG;
 import org.soen387.app.Util.Hasher;
 
 /**
@@ -43,9 +42,9 @@ public class Login extends HttpServlet {
 			request.setAttribute("message", "Please enter both a username and a password.");
 			dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
 			String hashedPassword = Hasher.obtainHashText(user + pass);
-			User userFound = null;
+			UserRDG userFound = null;
 			try {
-				userFound = UserDataMapper.findUserWithCredential(user, hashedPassword);
+				userFound = UserRDG.findUserWithCredential(user, hashedPassword);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

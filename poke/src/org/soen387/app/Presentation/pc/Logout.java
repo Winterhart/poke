@@ -8,8 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.soen387.app.Domain.DataMapper.UserDataMapper;
-import org.soen387.app.Domain.pojo.User;
+
+import org.soen387.app.DataSource.UserRDG;
 
 @WebServlet("/Logout")
 public class Logout extends HttpServlet {
@@ -27,8 +27,8 @@ public class Logout extends HttpServlet {
     	RequestDispatcher dis = null;
     	try {
         	long userid = (Long)request.getSession(true).getAttribute("userid");
-        	User userFound = null;
-        	userFound = UserDataMapper.find(userid);
+        	UserRDG userFound = null;
+        	userFound = UserRDG.find(userid);
         	if(userFound == null) {
         		request.setAttribute("message", "I do not recognize that user.");
         		dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");

@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.soen387.app.Domain.DataMapper.UserDataMapper;
-import org.soen387.app.Domain.pojo.User;
+import org.soen387.app.DataSource.UserRDG;
 import org.soen387.app.Util.Hasher;
 
 /**
@@ -43,9 +42,9 @@ public class Register extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
 		}else {
 			//Convert to lower cases
-			User similarUser = null;
+			UserRDG similarUser = null;
 			try {
-				similarUser = UserDataMapper.findByUsername(user);
+				similarUser = UserRDG.findByUsername(user);
 			}catch(Exception ee) {
 				System.out.println(ee.getMessage());
 			}
@@ -56,9 +55,9 @@ public class Register extends HttpServlet {
 			if(similarUser == null) {
 				try {
 					long id = 0;
-					id = UserDataMapper.getFollowingId();
-					User createdUser = new User(id, 0, user, hashedPassword);
-					UserDataMapper.insertUser(createdUser);
+					id = UserRDG.getFollowingId();
+					UserRDG createdUser = new UserRDG(id, 0, user, hashedPassword);
+					createdUser.insert();
 					request.getSession(true).setAttribute("userid", id);
 					request.setAttribute("message", "That user has been successfully registered.");
 					dispatcher = request.getRequestDispatcher("WEB-INF/jsp/success.jsp");
