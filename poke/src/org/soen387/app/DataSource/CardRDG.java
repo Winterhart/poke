@@ -113,11 +113,11 @@ public class CardRDG {
 		return pState.executeUpdate();
 	}
 	
-	public static List<CardRDG> findAllDeck(int deckId) throws SQLException {
+	public static List<CardRDG> findAllDeck(Long deckId) throws SQLException {
 		List<CardRDG> cards = new ArrayList<CardRDG>();
 		Connection conn = DatabaseConnector.getConnection();
 		PreparedStatement pState = conn.prepareStatement("SELECT * FROM " + tableName + " WHERE deckId = ? ;");
-		pState.setInt(1, deckId);
+		pState.setLong(1, deckId);
 		ResultSet r = pState.executeQuery();
 		while(r.next()) {
 			CardRDG card = new CardRDG(
