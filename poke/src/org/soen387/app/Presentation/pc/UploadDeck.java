@@ -46,7 +46,7 @@ public class UploadDeck extends HttpServlet {
     			
         	}else {
 		
-            		
+            		//TODO: Replace all delete/insert by real update
         			DeckRDG deckFound = DeckRDG.findByUserId(userFound.getId());
             		if(deckFound != null) {
             			for(CardRDG oldCard : deckFound.getCards()) {

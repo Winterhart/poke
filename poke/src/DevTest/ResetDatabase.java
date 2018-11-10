@@ -3,6 +3,7 @@ package DevTest;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.soen387.app.DataSource.TableInit.CardTableInit;
+import org.soen387.app.DataSource.TableInit.ChallengeTableInit;
 import org.soen387.app.DataSource.TableInit.DeckTableInit;
 import org.soen387.app.DataSource.TableInit.UserTableInit;
 
@@ -19,7 +20,9 @@ class ResetDatabase {
 				UserTableInit.deleteTable();
 				CardTableInit.deleteTable();
 				DeckTableInit.deleteTable();
+				ChallengeTableInit.deleteTable();
 				
+				ChallengeTableInit.createTable();
 				DeckTableInit.createTable();
 				CardTableInit.createTable();
 				UserTableInit.createTable();
