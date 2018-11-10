@@ -87,5 +87,11 @@ public class UserTDG {
 		
 		return pState.executeUpdate();
 	}
+	
+	public static ResultSet findAll() throws SQLException {
+		Connection conn = DatabaseConnector.getConnection();
+		PreparedStatement pState = conn.prepareStatement("SELECT * FROM " + tableName + " ;");
+		return pState.executeQuery();	
+	}
 
 }

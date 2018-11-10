@@ -53,7 +53,7 @@ public class Register extends HttpServlet {
 			String hashedPassword = user + pass;
 			hashedPassword = Hasher.obtainHashText(hashedPassword);
 			
-			if(similarUser != null) {
+			if(similarUser == null) {
 				try {
 					long id = 0;
 					id = UserDataMapper.getFollowingId();

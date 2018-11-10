@@ -2,6 +2,9 @@ package org.soen387.app.Domain.DataMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.soen387.app.Domain.pojo.User;
 import org.soen387.app.DataSource.UserTDG;
 
@@ -59,5 +62,22 @@ public class UserDataMapper {
 	
 	public static long getFollowingId() throws SQLException {
 		return UserTDG.getFollowingId();
+	}
+	
+	public static List<User> findAll() throws SQLException {
+		List<User> users = new ArrayList<User>();
+		
+		ResultSet usersFound = UserTDG.findAll();
+		while(usersFound.next()) {
+			long foundId = usersFound.getLong("id");
+			int version = usersFound.getInt("version");
+			String username = usersFound.getString("username");
+			String password = usersFound.getString("password");
+			
+			User createdUser = new User(foundId, version, username, password);
+			users.add(createdUser);
+		}
+		
+		return users;
 	}
 }
