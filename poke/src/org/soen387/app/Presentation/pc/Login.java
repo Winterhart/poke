@@ -3,6 +3,7 @@ package org.soen387.app.Presentation.pc;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,28 +38,31 @@ public class Login extends HttpServlet {
 		
 		String user = request.getParameter("user");
 		String pass = request.getParameter("pass");
+		RequestDispatcher dis = null;
 		if(user==null || user.isEmpty() || pass==null || pass.isEmpty() ) {
 			request.setAttribute("message", "Please enter both a username and a password.");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-		}
-		String hashedPassword = Hasher.obtainHashText(pass);
-		User userFound = null;
-		try {
-			userFound = UserDataMapper.findUserWithCredential(user, hashedPassword);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
+			String hashedPassword = Hasher.obtainHashText(user + pass);
+			User userFound = null;
+			try {
+				userFound = UserDataMapper.findUserWithCredential(user, hashedPassword);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(userFound != null) {
+				request.setAttribute("message", "Successfully logged in.");
+				request.getSession(true).setAttribute("userid", userFound.getId());
+				dis = request.getRequestDispatcher("WEB-INF/jsp/success.jsp");
+
+			}else {
+				request.setAttribute("message", "I do not recognize that username and password combination.");
+				dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
+			}		
 		}
 		
-		if(userFound == null) {
-			request.setAttribute("message", "I do not recognize that username and password combination.");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-		}
-		
-		request.setAttribute("message", "Successfully logged in.");
-		request.getSession(true).setAttribute("userid", userFound.getId());
-		request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);
-		
+		dis.forward(request, response);
 	}
 
 	/**

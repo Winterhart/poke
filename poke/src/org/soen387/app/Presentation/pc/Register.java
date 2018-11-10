@@ -1,9 +1,7 @@
 package org.soen387.app.Presentation.pc;
 
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,52 +37,45 @@ public class Register extends HttpServlet {
 		
 		String user = request.getParameter("user");
 		String pass = request.getParameter("pass");
+		RequestDispatcher dispatcher = null;
 		if(user==null || user.isEmpty() || pass==null || pass.isEmpty() ) {
 			request.setAttribute("message", "Please enter both a username and a password.");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-		}  
-		//Convert to lower cases
-		User similarUser = null;
-		try {
-			similarUser = UserDataMapper.findByUsername(user);
-		}catch(Exception ee) {
-			System.out.println(ee.getMessage());
-		}
-
-		if(similarUser != null) {
-			request.setAttribute("message", "That user has already registered.");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-		}
-		
-		
-		// Very simple hash function to not store user password directly
-		String hashedPassword = user + pass;
-		hashedPassword = Hasher.obtainHashText(hashedPassword);
-		
-		if(hashedPassword == null) {
-			request.setAttribute("message", "Problem while creating password");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-		}
-		long id = 0;
-		int creationStatus = 0;
-		try {
-			id = UserDataMapper.getFollowingId();
-			User createdUser = new User(id, 0, user, hashedPassword);
-			creationStatus = UserDataMapper.insertUser(createdUser);
-		}catch(Exception ee) {
-			ee.printStackTrace();
-			request.setAttribute("message", "Problem while creating user");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
-		}
-		
-		if(creationStatus != 0) {
-			request.setAttribute("message", "That user has been successfully registered.");
-			request.getSession(true).setAttribute("userid", id);
-			request.getRequestDispatcher("WEB-INF/jsp/success.jsp").forward(request, response);
+			dispatcher = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
 		}else {
-			request.setAttribute("message", "Problem with user registration");
-			request.getRequestDispatcher("WEB-INF/jsp/fail.jsp").forward(request, response);
+			//Convert to lower cases
+			User similarUser = null;
+			try {
+				similarUser = UserDataMapper.findByUsername(user);
+			}catch(Exception ee) {
+				System.out.println(ee.getMessage());
+			}
+			// Very simple hash function to not store user password directly
+			String hashedPassword = user + pass;
+			hashedPassword = Hasher.obtainHashText(hashedPassword);
+			
+			if(similarUser != null) {
+				try {
+					long id = 0;
+					id = UserDataMapper.getFollowingId();
+					User createdUser = new User(id, 0, user, hashedPassword);
+					UserDataMapper.insertUser(createdUser);
+					request.getSession(true).setAttribute("userid", id);
+					request.setAttribute("message", "That user has been successfully registered.");
+					dispatcher = request.getRequestDispatcher("WEB-INF/jsp/success.jsp");
+					
+				}catch(Exception ee) {
+					ee.printStackTrace();
+					request.setAttribute("message", "Problem while registring");
+					dispatcher = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
+				}		
+			}else {
+				request.setAttribute("message", "That user has already registered.");
+				dispatcher = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
+			}
 		}
+		
+		dispatcher.forward(request, response);
+
 	}
 
 	/**

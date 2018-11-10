@@ -58,7 +58,7 @@ public class UserTDG {
 	
 	public static long getFollowingId() throws SQLException {
 
-		if(followingId == -1) {
+		//if(followingId == -1) {
 			Connection conn = DatabaseConnector.getConnection();
 			String query = "SELECT max(id) as id from " + tableName + ";";
 			Statement pState = conn.createStatement();
@@ -71,7 +71,7 @@ public class UserTDG {
 				//Prevent iterating multiple times...
 			}
 			
-		}
+		//}
 		
 		return followingId;
 	}
