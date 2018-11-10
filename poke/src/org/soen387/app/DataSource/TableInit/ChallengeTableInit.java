@@ -7,17 +7,17 @@ import java.sql.Statement;
 
 import org.soen387.app.DataSource.DatabaseConnector;
 
-public class CardTableInit {
-	private static final String tableName = "cards";
+public class ChallengeTableInit {
+	private static final String tableName = "challenges";
 	public static void createTable() throws SQLException {
 		Connection conn = DatabaseConnector.getConnection();
 		Statement state = conn.createStatement();
 		state.execute("CREATE TABLE IF NOT EXISTS " + tableName  +  
 				" (id BIGINT NOT NULL UNIQUE, "
 				+ "version int NOT NULL, "
-				+ "deckId BIGINT NOT NULL, "
-				+ "cardType NVARCHAR(200) NOT NULL,"
-				+ "cardName NVARCHAR(200) NOT NULL;");
+				+ "challengerId BIGINT NOT NULL, "
+				+ "challengeeId BIGINT NOT NULL, "
+				+ "challengeStatus int NOT NULL);");
 	}
 	
 	public static void deleteTable() throws SQLException{

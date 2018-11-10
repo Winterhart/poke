@@ -13,19 +13,13 @@ public class CardRDG {
 	private int version;
 	private String type;
 	private String name;
-	private int deckId;
-	public int getDeckId() {
-		return deckId;
-	}
+	private Long deckId;
 
-	public void setDeckId(int deckId) {
-		this.deckId = deckId;
-	}
 
 	private static final String tableName = "cards";
 	private static long followingId = -1;
 	
-	public CardRDG(Long id, int version, int deckId, String name, String type) {
+	public CardRDG(Long id, int version, Long deckId, String name, String type) {
 		this.id = id;
 		this.version =version; 
 		this.type = type;
@@ -33,6 +27,13 @@ public class CardRDG {
 		this.deckId = deckId;
 	}
 
+	public Long getDeckId() {
+		return deckId;
+	}
+
+	public void setDeckId(Long deckId) {
+		this.deckId = deckId;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -76,7 +77,7 @@ public class CardRDG {
 			card = new CardRDG(
 					r.getLong("id"), 
 					r.getInt("version"), 
-					r.getInt("deckId"),
+					r.getLong("deckId"),
 					r.getString("username"),
 					r.getString("password"));
 		}
@@ -107,7 +108,7 @@ public class CardRDG {
 		pState.setLong(1, this.getId());
 		pState.setInt(2, this.getVersion());
 		pState.setString(3, this.getName());
-		pState.setInt(4, this.getDeckId());
+		pState.setLong(4, this.getDeckId());
 		pState.setString(5, this.getType());
 		
 		return pState.executeUpdate();
@@ -123,7 +124,7 @@ public class CardRDG {
 			CardRDG card = new CardRDG(
 					r.getLong("id"), 
 					r.getInt("version"),
-					r.getInt("deckId"),
+					r.getLong("deckId"),
 					r.getString("cardName"),
 					r.getString("cardType"));
 			
@@ -143,7 +144,7 @@ public class CardRDG {
 			CardRDG card = new CardRDG(
 					r.getLong("id"), 
 					r.getInt("version"),
-					r.getInt("deckId"),
+					r.getLong("deckId"),
 					r.getString("cardName"),
 					r.getString("cardType"));
 			
@@ -152,6 +153,14 @@ public class CardRDG {
 		}
 		
 		return cards;
+	}
+	
+	public int delete() throws SQLException {
+		Connection conn = DatabaseConnector.getConnection();
+		PreparedStatement pState = conn.prepareStatement("DELETE FROM " + tableName +
+				" WHERE id = ?;" );
+		pState.setLong(1, this.getId());
+		return pState.executeUpdate();
 	}
 	
 }

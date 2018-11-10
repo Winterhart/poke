@@ -21,9 +21,6 @@ public class DeckRDG {
 	public void setCards(List<CardRDG> cards) {
 		this.cards = cards;
 	}
-
-
-	
 	
 	public DeckRDG(Long id, int version, List<CardRDG> cards, Long ownerId){
 		this.id = id;
@@ -97,6 +94,14 @@ public class DeckRDG {
 		pState.setLong(1, this.getId());
 		pState.setInt(2, this.getVersion());
 		pState.setLong(3, this.getUserId());
+		return pState.executeUpdate();
+	}
+	
+	public int delete() throws SQLException {
+		Connection conn = DatabaseConnector.getConnection();
+		PreparedStatement pState = conn.prepareStatement("DELETE FROM " + tableName +
+				" WHERE id= ? AND ;" );
+		pState.setLong(1, this.getId());
 		return pState.executeUpdate();
 	}
 	
