@@ -3,11 +3,11 @@ package org.soen387.app.Domain.pojo;
 public class Challenge {
 	private Long id;
 	private int version;
-	private int challenger;
-	private int challengee;
+	private User challenger;
+	private User challengee;
 	private ChallengeStatus challengeStatus;
-	public Challenge(Long id, int version, int challenger, int challengee, ChallengeStatus challengeStatus) {
-		super();
+	
+	public Challenge(Long id, int version, User challenger, User challengee, ChallengeStatus challengeStatus) {
 		this.id = id;
 		this.version = version;
 		this.challenger = challenger;
@@ -15,17 +15,59 @@ public class Challenge {
 		this.challengeStatus = challengeStatus;
 	}
 	
+	public User getChallenger() {
+		return challenger;
+	}
+
+	public void setChallenger(User challenger) {
+		this.challenger = challenger;
+	}
+
+	public User getChallengee() {
+		return challengee;
+	}
+
+	public void setChallengee(User challengee) {
+		this.challengee = challengee;
+	}
+
+	public Challenge(Long id, int version, User challenger, User challengee,  int challengeStatusNumber) {
+		this.id = id;
+		this.version = version;
+		this.challenger = challenger;
+		this.challengee = challengee;
+		this.setChallengeStatusWithNumber(challengeStatusNumber);
+	}
+	
 	
 	public void setChallengeStatusWithNumber(int number) {
-		
+		switch(number) {
+		case 0:
+			this.challengeStatus = ChallengeStatus.A;
+			break;
+		case 1:
+			this.challengeStatus = ChallengeStatus.B;
+			break;
+		case 2:
+			this.challengeStatus = ChallengeStatus.C;
+			break;
+		case 3:
+			this.challengeStatus = ChallengeStatus.D;
+		}
 	}
 	
 	public int getChallengeStatusWithNumber() {
-		switch(this.challengeStatus) {
-		
-		case ChallengeStatus.A:
-			
-		
+		switch(this.getChallengeStatus()) {
+		case A:
+			return 0;
+		case B:
+			return 1;
+		case C:
+			return 2;
+		case D:
+			return 3;
+		default:
+			return 404;
 		}
 	}
 	public Long getId() {
@@ -40,18 +82,7 @@ public class Challenge {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	public int getChallenger() {
-		return challenger;
-	}
-	public void setChallenger(int challenger) {
-		this.challenger = challenger;
-	}
-	public int getChallengee() {
-		return challengee;
-	}
-	public void setChallengee(int challengee) {
-		this.challengee = challengee;
-	}
+
 	public ChallengeStatus getChallengeStatus() {
 		return challengeStatus;
 	}

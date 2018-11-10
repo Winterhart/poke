@@ -8,7 +8,7 @@ public class Card {
 	
 	public Card(Long id, int version, String name, CardType type) {
 		this.id = id;
-		this.version =version;
+		this.version =version; 
 		this.type = type;
 		this.name = name;
 	}
