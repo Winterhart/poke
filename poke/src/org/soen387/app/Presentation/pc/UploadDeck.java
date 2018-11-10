@@ -41,7 +41,7 @@ public class UploadDeck extends HttpServlet {
         	UserRDG userFound = null;
         	userFound = UserRDG.find(userid);
         	if(userFound == null || deck == null || deck.isEmpty() || preCards == null) {
-        		request.setAttribute("message", "I do not recognize that user.");
+        		request.setAttribute("message", "I do not recognize that user or deck.");
         		dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
     			
         	}else {

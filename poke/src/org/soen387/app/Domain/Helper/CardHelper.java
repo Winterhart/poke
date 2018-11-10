@@ -16,7 +16,7 @@ public class CardHelper {
 	public void setCardName(String cardName) {
 		this.cardName = cardName;
 	}
-	public CardHelper(String cardType, String cardName) {
+	public CardHelper(String cardName, String cardType) {
 		super();
 		this.cardType = cardType;
 		this.cardName = cardName;

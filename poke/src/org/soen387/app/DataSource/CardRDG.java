@@ -145,8 +145,8 @@ public class CardRDG {
 					r.getLong("id"), 
 					r.getInt("version"),
 					r.getLong("deckId"),
-					r.getString("cardName"),
-					r.getString("cardType"));
+					r.getString("cardType"),
+					r.getString("cardName"));
 			
 			cards.add(card);
 					
