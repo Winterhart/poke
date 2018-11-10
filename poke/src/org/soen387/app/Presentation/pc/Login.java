@@ -38,7 +38,7 @@ public class Login extends HttpServlet {
 		String user = request.getParameter("user");
 		String pass = request.getParameter("pass");
 		RequestDispatcher dis = null;
-		if(user==null || user.isEmpty() || pass==null || pass.isEmpty() ) {
+		if(user!=null && !user.isEmpty() && pass!=null && !pass.isEmpty() ) {
 			request.setAttribute("message", "Please enter both a username and a password.");
 			dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
 			String hashedPassword = Hasher.obtainHashText(user + pass);

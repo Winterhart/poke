@@ -17,7 +17,7 @@ public class CardTableInit {
 				+ "version int NOT NULL, "
 				+ "deckId BIGINT NOT NULL, "
 				+ "cardType NVARCHAR(200) NOT NULL,"
-				+ "cardName NVARCHAR(200) NOT NULL;");
+				+ "cardName NVARCHAR(200) NOT NULL);");
 	}
 	
 	public static void deleteTable() throws SQLException{

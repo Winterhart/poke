@@ -111,8 +111,6 @@ public class UserRDG {
 	}
 	
 	public static long getFollowingId() throws SQLException {
-
-		//if(followingId == -1) {
 			Connection conn = DatabaseConnector.getConnection();
 			String query = "SELECT max(id) as id from " + tableName + ";";
 			Statement pState = conn.createStatement();
@@ -124,8 +122,6 @@ public class UserRDG {
 				return followingId;
 				//Prevent iterating multiple times...
 			}
-			
-		//}
 		
 		return followingId;
 	}
@@ -153,6 +149,8 @@ public class UserRDG {
 					r.getInt("version"),
 					r.getString("username"),
 					r.getString("password"));
+			
+			users.add(user);
 		}
 		
 		return users;

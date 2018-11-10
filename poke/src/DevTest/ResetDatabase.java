@@ -19,6 +19,7 @@ class ResetDatabase {
 				UserTableInit.deleteTable();
 				CardTableInit.deleteTable();
 				DeckTableInit.deleteTable();
+				
 				DeckTableInit.createTable();
 				CardTableInit.createTable();
 				UserTableInit.createTable();
