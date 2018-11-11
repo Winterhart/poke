@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.soen387.app.DataSource.BoardRDG;
 import org.soen387.app.DataSource.ChallengeRDG;
+import org.soen387.app.DataSource.GameRDG;
 import org.soen387.app.DataSource.UserRDG;
 
 @WebServlet("/AcceptChallenge")
@@ -38,10 +40,10 @@ public class AcceptChallenge extends HttpServlet {
         	ChallengeRDG challenge = ChallengeRDG.find(challengeId);
         	
         	// Cannot accept challenge if you are the challenger
-        	// Cannot accept challenge status is already refused
+        	// Can only accept challenge which are status => 0
         	if(userFound == null || challenge == null || challenge.getChallenger() == userid 
         			|| challenge.getChallengee() != userid 
-        			 || challenge.getChallengeStatus() == 2 || challenge.getChallengeStatus() == 1) {
+        			 || challenge.getChallengeStatus() != 0) {
         		request.setAttribute("message", "Error Invalid context");
         		dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
     			
@@ -50,8 +52,15 @@ public class AcceptChallenge extends HttpServlet {
         		challenge.setChallengeStatus(3);
         		challenge.update();
         		
-        		//TODO: Create Game when it's accepted...
+        		Long newGameId = GameRDG.getFollowingId();
+        		GameRDG game = new GameRDG(newGameId, 0, challenge.getId(), challenge.getChallenger(), challenge.getChallengee());
+        		game.insert();
         		
+        		// We also need to create a board
+        		Long newBoardId = BoardRDG.getFollowingId();
+        		BoardRDG board = new BoardRDG(newBoardId, 0, newGameId, "playing", "playing");
+        		board.insert();
+        				
     			request.setAttribute("message", "Challenge Accepted");
     			dis = request.getRequestDispatcher("WEB-INF/jsp/success.jsp");
         	}

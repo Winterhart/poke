@@ -12,11 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.soen387.app.DataSource.ChallengeRDG;
+import org.soen387.app.DataSource.GameRDG;
 import org.soen387.app.DataSource.UserRDG;
 
 @WebServlet("/ListGames")
 public class ListGames extends HttpServlet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ListGames() {
 		super();
 	}
@@ -29,7 +35,7 @@ public class ListGames extends HttpServlet {
         	Long userid = (Long)request.getSession(true).getAttribute("userid");
         	UserRDG userFound = null;
         	userFound = UserRDG.find(userid);
-
+        	
         	if(userFound == null) {
         		request.setAttribute("message", "I do not recognize the user");
         		dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
@@ -37,28 +43,27 @@ public class ListGames extends HttpServlet {
         	}else {
         		
 	    		
-    			List<ChallengeRDG> allChallenges = ChallengeRDG.findAll();
-        		if(allChallenges != null) {
+    			List<GameRDG>  games = GameRDG.findAll();
+        		if(games != null) {
             		PrintWriter writer = response.getWriter();
             		writer.println("{");
-            		writer.println("\"challenges\": [ ");
-            		for(ChallengeRDG cha : allChallenges) {
-            			writer.println("{ \"id\": " + cha.getId() + ", \"challenger\": " 
-            		+ cha.getChallenger() + ", \"challengee\":  " + cha.getChallengee() + 
-            		", \"status\": " + cha.getChallengeStatus() + "},");
+            		writer.println("\"games\": [ ");
+            		for(GameRDG g : games) {
+            			writer.println("{\"id\": " + g.getId() + ", \"players\": ["
+            			+ g.getChallengerId() + ", " + g.getChallengeeId()	+ "]},");
             		}
             		writer.println("]");
             		writer.println("}");
             		writer.close();
         		}else {
-          			request.setAttribute("message",  "No challenge are created");
+          			request.setAttribute("message",  "No games are created");
                 	dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp"); 
         		}
    		
         	}
     	}catch(Exception ee) {
     		ee.printStackTrace();
-			request.setAttribute("message", "Problem while creating challenge");
+			request.setAttribute("message", "Problem while getting the games");
 			dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
     	}
     	

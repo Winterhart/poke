@@ -13,21 +13,23 @@ public class GameRDG {
 	private Long id;
 	private int version;
 	private Long challengeId;
-	private Long challengeeId;
 	private Long challengerId;
+	private Long challengeeId;
+
 
 	
 	private static final String tableName = "games";
 	private static long followingId = -1;
 
+	
 
-	public GameRDG(Long id, int version, Long challengeId, Long challengeeId, Long challengerId) {
+	public GameRDG(Long id, int version, Long challengeId, Long challengerId, Long challengeeId) {
 		super();
 		this.id = id;
 		this.version = version;
 		this.challengeId = challengeId;
-		this.challengeeId = challengeeId;
 		this.challengerId = challengerId;
+		this.challengeeId = challengeeId;
 	}
 
 	public Long getChallengeId() {
@@ -119,7 +121,7 @@ public class GameRDG {
 		pState.setInt(2, this.getVersion());
 		pState.setLong(3, this.getChallengeId());
 		pState.setLong(4, this.getChallengerId());
-		pState.setLong(5, this.getChallengerId());
+		pState.setLong(5, this.getChallengeeId());
 		int status = pState.executeUpdate();
 		conn.close();
 
