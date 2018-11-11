@@ -125,7 +125,7 @@ public class UserRDG {
 				return followingId;
 				//Prevent iterating multiple times...
 			}
-			conn.close();
+		conn.close();
 		return followingId;
 	}
 	

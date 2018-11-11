@@ -42,13 +42,16 @@ public class AcceptChallenge extends HttpServlet {
         	if(userFound == null || challenge == null || challenge.getChallenger() == userid 
         			|| challenge.getChallengee() != userid 
         			 || challenge.getChallengeStatus() == 2 || challenge.getChallengeStatus() == 1) {
-        		request.setAttribute("message", "Error while invalid context");
+        		request.setAttribute("message", "Error Invalid context");
         		dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
     			
         	}else {
         		// We assume they both have deck since they both need deck to create a challenge
         		challenge.setChallengeStatus(3);
         		challenge.update();
+        		
+        		//TODO: Create Game when it's accepted...
+        		
     			request.setAttribute("message", "Challenge Accepted");
     			dis = request.getRequestDispatcher("WEB-INF/jsp/success.jsp");
         	}

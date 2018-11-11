@@ -96,8 +96,11 @@ public class DeckRDG {
 		pState.setLong(1, this.getId());
 		pState.setInt(2, this.getVersion());
 		pState.setLong(3, this.getUserId());
+
+		int status =  pState.executeUpdate();
 		conn.close();
-		return pState.executeUpdate();
+		
+		return status;
 	}
 	
 	public int delete() throws SQLException {
@@ -105,8 +108,9 @@ public class DeckRDG {
 		PreparedStatement pState = conn.prepareStatement("DELETE FROM " + tableName +
 				" WHERE id= ? AND ;" );
 		pState.setLong(1, this.getId());
+		int status = pState.executeUpdate();
 		conn.close();
-		return pState.executeUpdate();
+		return status;
 	}
 	
 	public static long getFollowingId() throws SQLException {

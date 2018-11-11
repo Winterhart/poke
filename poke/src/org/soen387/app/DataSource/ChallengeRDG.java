@@ -126,8 +126,9 @@ public class ChallengeRDG {
 		pState.setLong(3, this.getChallenger());
 		pState.setLong(4, this.getChallengee());
 		pState.setLong(5, this.getChallengeStatus());
-		conn.close();
 		int status = pState.executeUpdate();
+		conn.close();
+
 		return status;
 	}
 	

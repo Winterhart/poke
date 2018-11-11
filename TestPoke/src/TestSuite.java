@@ -570,6 +570,7 @@ public class TestSuite {
 			dc = JsonPath.parse(jsonText);
 			Assert.assertEquals("success", dc.read("$['status']"));
 
+
 			jsonText = listPlayers(webClient);
 			dc = JsonPath.parse(jsonText);
 			jPathResult = dc.read("players[?(@.user=='testListPlayersSuccessA')].user");

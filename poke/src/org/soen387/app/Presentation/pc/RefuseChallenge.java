@@ -36,7 +36,7 @@ public class RefuseChallenge extends HttpServlet {
         	
         	Long challengeId = Long.parseLong(challengeIdS);
         	ChallengeRDG challenge = ChallengeRDG.find(challengeId);
-        	boolean isUserImply = (challenge.getChallengee() == userid || challenge.getChallengee() == userid);
+        	boolean isUserImply = (challenge.getChallenger() == userid || challenge.getChallengee() == userid);
         	if(userFound == null || challenge == null || !isUserImply ) {
         		request.setAttribute("message", "Invalid Challenge context");
         		dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
