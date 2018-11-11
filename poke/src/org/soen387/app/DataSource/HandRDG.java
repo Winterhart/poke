@@ -77,7 +77,7 @@ public class HandRDG {
 	public int delete() throws SQLException {
 		Connection conn = DatabaseConnector.getConnection();
 		PreparedStatement pState = conn.prepareStatement("DELETE FROM " + tableName +
-				" WHERE id= ? AND ;" );
+				" WHERE id=? ;" );
 		pState.setLong(1, this.getId());
 		int status = pState.executeUpdate();
 		conn.close();
@@ -129,7 +129,6 @@ public class HandRDG {
 		conn.close();
 		return hand;
 	}
-	
 	
 	public static long getFollowingId() throws SQLException {
 		Connection conn = DatabaseConnector.getConnection();

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.soen387.app.DataSource.BenchRDG;
 import org.soen387.app.DataSource.BoardRDG;
 import org.soen387.app.DataSource.CardRDG;
 import org.soen387.app.DataSource.DeckRDG;
@@ -48,11 +49,11 @@ public class DrawCard extends HttpServlet {
             			
             			// Grab current hand
             			List<HandRDG> handCards = HandRDG.findAllByGameIdUserId(userid, gameFound.getId());
-            			
+            			List<BenchRDG> benchedCards = BenchRDG.findAllByGameIdUserId(userid, gameId);
             			// Grab current deck
             			DeckRDG deck = DeckRDG.findByUserId(userid);
             			List<CardRDG> cards = deck.getCards();
-            			int index = handCards.size();
+            			int index = handCards.size() + benchedCards.size();
             			if(index < 40 && deck != null) {
             				
             				// Draw next card
@@ -67,7 +68,7 @@ public class DrawCard extends HttpServlet {
                         	dis = request.getRequestDispatcher("WEB-INF/jsp/success.jsp"); 
             				
             			}else {
-                  			request.setAttribute("message",  "Problem with deck size or other...");
+                  			request.setAttribute("message",  "Problem with deck size or other...maybe your deck is empty...");
                         	dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp"); 
             			}
             		}else {
