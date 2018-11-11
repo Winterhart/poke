@@ -68,6 +68,7 @@ public class DeckRDG {
 			List<CardRDG> cardsList =  CardRDG.findAllDeck(deckId);
 			deck = new DeckRDG(deckId, v, cardsList, own);
 		}
+		conn.close();
         return deck;
     }
     public static DeckRDG findByUserId(long Userid) throws SQLException {
@@ -84,6 +85,7 @@ public class DeckRDG {
 			List<CardRDG> cardsList =  CardRDG.findAllDeck(deckId);
 			deck = new DeckRDG(deckId, v, cardsList, own);
 		}
+		conn.close();
         return deck;
     }
     
@@ -94,6 +96,7 @@ public class DeckRDG {
 		pState.setLong(1, this.getId());
 		pState.setInt(2, this.getVersion());
 		pState.setLong(3, this.getUserId());
+		conn.close();
 		return pState.executeUpdate();
 	}
 	
@@ -102,6 +105,7 @@ public class DeckRDG {
 		PreparedStatement pState = conn.prepareStatement("DELETE FROM " + tableName +
 				" WHERE id= ? AND ;" );
 		pState.setLong(1, this.getId());
+		conn.close();
 		return pState.executeUpdate();
 	}
 	
@@ -117,7 +121,7 @@ public class DeckRDG {
 				return followingId;
 				//Prevent iterating multiple times...
 			}
-		
+		conn.close();
 		return followingId;
 	}
     

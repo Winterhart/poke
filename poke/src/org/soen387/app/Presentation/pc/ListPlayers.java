@@ -47,15 +47,16 @@ public class ListPlayers extends HttpServlet {
         		writer.println("]");
         		writer.println("}");
         		writer.close();
-        		
         	}
     	}catch(Exception ee) {
     		ee.printStackTrace();
 			request.setAttribute("message", "Problem while getting players");
 			dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
     	}
-    	
-    	dis.forward(request, response);
+    	if(dis != null) {
+    		dis.forward(request, response);
+    	}    
+
 	}
 
 }

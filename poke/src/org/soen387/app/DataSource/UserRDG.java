@@ -73,6 +73,7 @@ public class UserRDG {
 					r.getString("username"),
 					r.getString("password"));
 		}
+		conn.close();
 		return user;
 	}
 	
@@ -91,6 +92,7 @@ public class UserRDG {
 					r.getString("username"),
 					r.getString("password"));
 		}
+		conn.close();
 		return user;
 	}
 	
@@ -107,6 +109,7 @@ public class UserRDG {
 					r.getString("username"),
 					r.getString("password"));
 		}
+		conn.close();
 		return user;
 	}
 	
@@ -122,7 +125,7 @@ public class UserRDG {
 				return followingId;
 				//Prevent iterating multiple times...
 			}
-		
+			conn.close();
 		return followingId;
 	}
 	
@@ -134,7 +137,7 @@ public class UserRDG {
 		pState.setInt(2, this.getVersion());
 		pState.setString(3, this.getUsername());
 		pState.setString(4, this.getPassword());
-		
+		conn.close();
 		return pState.executeUpdate();
 	}
 	
@@ -152,7 +155,7 @@ public class UserRDG {
 			
 			users.add(user);
 		}
-		
+		conn.close();
 		return users;
 	}
 

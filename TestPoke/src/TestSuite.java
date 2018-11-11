@@ -559,11 +559,12 @@ public class TestSuite {
 			Assert.assertEquals("success", dc.read("$['status']"));
 
 			List<Map<String, Object>> jPathResult = null;
-			
+
 			jsonText = listPlayers(webClient);
 			dc = JsonPath.parse(jsonText);
 			jPathResult = dc.read("players[?(@.user=='testListPlayersSuccessA')].user");
 			Assert.assertEquals("testListPlayersSuccessA", jPathResult.get(0));
+
 
 			jsonText = register(webClient, "testListPlayersSuccessB", "testListPlayersSuccessBPass");
 			dc = JsonPath.parse(jsonText);

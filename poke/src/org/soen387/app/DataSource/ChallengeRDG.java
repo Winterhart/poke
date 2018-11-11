@@ -66,12 +66,13 @@ public class ChallengeRDG {
 		while(r.next()) {
 			Long chaId = r.getLong("id");
 			int v =r.getInt("version");
-			Long challengerId = r.getLong("challengeId");
+			Long challengerId = r.getLong("challengerId");
 			Long challengeeId = r.getLong("challengeeId");
 			int status = r.getInt("challengeStatus");
 			
 			cha = new ChallengeRDG(chaId, v, challengerId, challengeeId, status);
 		}
+		conn.close();
         return cha;
     }
     public static List<ChallengeRDG> findByUserId(long userId) throws SQLException {
@@ -84,13 +85,14 @@ public class ChallengeRDG {
 		while(r.next()) {
 			Long chaId = r.getLong("id");
 			int v =r.getInt("version");
-			Long challengerId = r.getLong("challengeId");
+			Long challengerId = r.getLong("challengerId");
 			Long challengeeId = r.getLong("challengeeId");
 			int status = r.getInt("challengeStatus");
 			
 			ChallengeRDG c = new ChallengeRDG(chaId, v, challengerId, challengeeId, status);
 			chaList.add(c);
 		}
+		conn.close();
         return chaList;
     }
     
@@ -103,7 +105,7 @@ public class ChallengeRDG {
 		while(r.next()) {
 			Long chaId = r.getLong("id");
 			int v =r.getInt("version");
-			Long challengerId = r.getLong("challengeId");
+			Long challengerId = r.getLong("challengerId");
 			Long challengeeId = r.getLong("challengeeId");
 			int status = r.getInt("challengeStatus");
 			
@@ -122,6 +124,7 @@ public class ChallengeRDG {
 		pState.setLong(3, this.getChallenger());
 		pState.setLong(4, this.getChallengee());
 		pState.setLong(5, this.getChallengeStatus());
+		conn.close();
 		return pState.executeUpdate();
 	}
 	
@@ -129,10 +132,11 @@ public class ChallengeRDG {
 		Connection conn = DatabaseConnector.getConnection();
 		PreparedStatement pState = conn.prepareStatement("UPDATE " + tableName +
 				" SET version = ?, challengeStatus = ?" +
-				"WHERE id = ?");
+				" WHERE id = ? ;");
 		pState.setLong(1, (this.getVersion()+ 1));
 		pState.setInt(2, this.challengeStatus);
 		pState.setLong(3, this.getId());
+		conn.close();
 		return pState.executeUpdate();
 	}
 	
@@ -148,7 +152,7 @@ public class ChallengeRDG {
 				return followingId;
 				//Prevent iterating multiple times...
 			}
-		
+		conn.close();
 		return followingId;
 	}
     

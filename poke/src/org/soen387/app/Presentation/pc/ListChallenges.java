@@ -69,6 +69,9 @@ public class ListChallenges extends HttpServlet {
 				dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
 	    	}
 	    	
-	    	dis.forward(request, response);
+	    	if(dis != null) {
+		    	dis.forward(request, response);
+	    	}
+
 		}
 }

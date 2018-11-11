@@ -81,6 +81,7 @@ public class CardRDG {
 					r.getString("username"),
 					r.getString("password"));
 		}
+		conn.close();
 		return card;
 	}
 	
@@ -97,7 +98,7 @@ public class CardRDG {
 				//Prevent iterating multiple times...
 			}
 			
-		
+		conn.close();
 		return followingId;
 	}
 	
@@ -110,7 +111,7 @@ public class CardRDG {
 		pState.setLong(3, this.getDeckId());
 		pState.setString(4, this.getName());
 		pState.setString(5, this.getType());
-		
+		conn.close();
 		return pState.executeUpdate();
 	}
 	
@@ -131,7 +132,7 @@ public class CardRDG {
 			cards.add(card);
 					
 		}
-		
+		conn.close();
 		return cards;
 	}
 	
@@ -151,7 +152,7 @@ public class CardRDG {
 			cards.add(card);
 					
 		}
-		
+		conn.close();
 		return cards;
 	}
 	
@@ -160,6 +161,7 @@ public class CardRDG {
 		PreparedStatement pState = conn.prepareStatement("DELETE FROM " + tableName +
 				" WHERE id = ?;" );
 		pState.setLong(1, this.getId());
+		conn.close();
 		return pState.executeUpdate();
 	}
 	

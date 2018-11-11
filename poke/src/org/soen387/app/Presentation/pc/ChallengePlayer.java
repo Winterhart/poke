@@ -45,11 +45,9 @@ public class ChallengePlayer extends HttpServlet {
         		dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp");
     			
         	}else {
-            	// Both user must have a deck
+            	// Only the challenger needs to have a deck
         		DeckRDG deckUser =  DeckRDG.findByUserId(userid);
-        		DeckRDG deckTargetUser = DeckRDG.findByUserId(targetUserId);
-        		if(deckUser != null && deckTargetUser != null && deckUser.getCards().size() == 40 
-        				&& deckTargetUser.getCards().size() == 40) {
+        		if(deckUser != null  && deckUser.getCards().size() == 40 ) {
             		
         			Long currentId = ChallengeRDG.getFollowingId();
         			
