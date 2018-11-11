@@ -137,8 +137,9 @@ public class UserRDG {
 		pState.setInt(2, this.getVersion());
 		pState.setString(3, this.getUsername());
 		pState.setString(4, this.getPassword());
+		int status =pState.executeUpdate();
 		conn.close();
-		return pState.executeUpdate();
+		return status;
 	}
 	
 	public static List<UserRDG> findAll() throws SQLException {

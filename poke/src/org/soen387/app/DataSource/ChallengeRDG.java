@@ -112,6 +112,8 @@ public class ChallengeRDG {
 			ChallengeRDG c = new ChallengeRDG(chaId, v, challengerId, challengeeId, status);
 			chaList.add(c);
 		}
+		
+		conn.close();
         return chaList;
     }
     
@@ -125,7 +127,8 @@ public class ChallengeRDG {
 		pState.setLong(4, this.getChallengee());
 		pState.setLong(5, this.getChallengeStatus());
 		conn.close();
-		return pState.executeUpdate();
+		int status = pState.executeUpdate();
+		return status;
 	}
 	
 	public int update() throws SQLException {
@@ -136,8 +139,9 @@ public class ChallengeRDG {
 		pState.setLong(1, (this.getVersion()+ 1));
 		pState.setInt(2, this.challengeStatus);
 		pState.setLong(3, this.getId());
+		int status = pState.executeUpdate();
 		conn.close();
-		return pState.executeUpdate();
+		return status;
 	}
 	
 	public static long getFollowingId() throws SQLException {

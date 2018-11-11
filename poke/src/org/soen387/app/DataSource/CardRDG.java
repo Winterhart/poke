@@ -111,8 +111,10 @@ public class CardRDG {
 		pState.setLong(3, this.getDeckId());
 		pState.setString(4, this.getName());
 		pState.setString(5, this.getType());
+
+		int status = pState.executeUpdate();
 		conn.close();
-		return pState.executeUpdate();
+		return status;
 	}
 	
 	public static List<CardRDG> findAllDeck(Long deckId) throws SQLException {
@@ -161,8 +163,9 @@ public class CardRDG {
 		PreparedStatement pState = conn.prepareStatement("DELETE FROM " + tableName +
 				" WHERE id = ?;" );
 		pState.setLong(1, this.getId());
+		int status = pState.executeUpdate();
 		conn.close();
-		return pState.executeUpdate();
+		return status;
 	}
 	
 }
