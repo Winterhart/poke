@@ -16,8 +16,8 @@ public class BoardTableInit {
 				" (id BIGINT NOT NULL UNIQUE, "
 				+ "version int NOT NULL, "
 				+ "gameId BIGINT NOT NULL, "
-				+ "challengeeStatus NVARCHAR(200) NOT NULL,"
-				+ "challengerStatus NVARCHAR(200) NOT NULL);");
+				+ "challengerStatus NVARCHAR(200) NOT NULL,"
+				+ "challengeeStatus NVARCHAR(200) NOT NULL);");
 	}
 	
 	public static void deleteTable() throws SQLException{

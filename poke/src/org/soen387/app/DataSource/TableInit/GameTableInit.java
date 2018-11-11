@@ -15,6 +15,7 @@ public class GameTableInit {
 		state.execute("CREATE TABLE IF NOT EXISTS " + tableName  +  
 				" (id BIGINT NOT NULL UNIQUE, "
 				+ "version int NOT NULL, "
+				+ "challengeId BIGING NOT NULL, "
 				+ "challengerId BIGINT NOT NULL, "
 				+ "challengeeId BIGINT NOT NULL);");
 	}

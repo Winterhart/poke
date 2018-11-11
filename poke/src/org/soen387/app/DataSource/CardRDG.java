@@ -66,7 +66,7 @@ public class CardRDG {
 		this.name = name;
 	}
 	
-	
+	//TODO: Update Method
 	public static CardRDG find(long id) throws SQLException {
 		CardRDG card = null;
 		Connection conn = DatabaseConnector.getConnection();
