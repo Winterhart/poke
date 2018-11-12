@@ -35,7 +35,7 @@ public class DrawCard extends HttpServlet {
         	GameRDG gameFound = GameRDG.find(gameId);
         	Long challengerId = gameFound.getChallengerId();
         	Long challengeeId = gameFound.getChallengeeId();
-        	
+        	boolean isTheUserChallenger = userid == challengerId;
         	boolean isTheUserImply = (userid == challengerId || userid == challengeeId);
         	
         	if(userFound == null || gameFound == null || !isTheUserImply ) {
@@ -45,7 +45,14 @@ public class DrawCard extends HttpServlet {
         	}else {
 		    		
         			BoardRDG board = BoardRDG.findByGameId(gameId);
-            		if(board != null) {
+        			String status = "";
+                	if(isTheUserChallenger) {
+                		status = board.getChallengerStatus();
+                	}
+                	else {
+                		status = board.getChallengeeStatus();
+                	}
+            		if(board != null && !status.equals("retired")) {
             			
             			// Grab current hand
             			List<HandRDG> handCards = HandRDG.findAllByGameIdUserId(userid, gameFound.getId());
@@ -72,7 +79,7 @@ public class DrawCard extends HttpServlet {
                         	dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp"); 
             			}
             		}else {
-              			request.setAttribute("message",  "You don't have a board");
+              			request.setAttribute("message",  "You don't have a board, or are retired from game");
                     	dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp"); 
             		}
    		

@@ -33,7 +33,10 @@ public class ViewHand extends HttpServlet {
         	Long challengerId = gameFound.getChallengerId();
         	Long challengeeId = gameFound.getChallengeeId();
         	
+        	boolean isTheUserChallenger = userid == challengerId;
         	boolean isTheUserImply = (userid == challengerId || userid == challengeeId);
+        	
+
         	
         	if(userFound == null || gameFound == null || !isTheUserImply ) {
         		request.setAttribute("message", "Wrong Context...");
@@ -43,7 +46,14 @@ public class ViewHand extends HttpServlet {
 		    		
         			BoardRDG board = BoardRDG.findByGameId(gameId);
         			List<HandRDG> handOfUser = HandRDG.findAllByGameIdUserId(userid, gameFound.getId());
-            		if(board != null) {
+        			String status = "";
+                	if(isTheUserChallenger) {
+                		status = board.getChallengerStatus();
+                	}
+                	else {
+                		status = board.getChallengeeStatus();
+                	}
+            		if(board != null && !status.equals("retired")) {
             			
             			
             			
@@ -57,7 +67,7 @@ public class ViewHand extends HttpServlet {
                 		writer.println("}, ");
                 		writer.close();
             		}else {
-              			request.setAttribute("message",  "You don't have a board");
+              			request.setAttribute("message",  "You don't have a board, or you are retired from it...");
                     	dis = request.getRequestDispatcher("WEB-INF/jsp/fail.jsp"); 
             		}
    		

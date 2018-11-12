@@ -43,7 +43,7 @@ public class PlayPokemonToBench extends HttpServlet {
         	if(cardIndex < samCard.size()) {
         		foundCard = samCard.get(cardIndex);
         	}
-        	
+        	boolean isTheUserChallenger = userid == challengerId;
         	boolean isTheUserImply = (userid == challengerId || userid == challengeeId);
         	
         	if(userFound == null || gameFound == null || !isTheUserImply || foundCard == null ) {
@@ -53,7 +53,15 @@ public class PlayPokemonToBench extends HttpServlet {
         	}else {
 		    		
         			BoardRDG board = BoardRDG.findByGameId(gameId);
-            		if(board != null) {
+        			List<HandRDG> handOfUser = HandRDG.findAllByGameIdUserId(userid, gameFound.getId());
+        			String status = "";
+                	if(isTheUserChallenger) {
+                		status = board.getChallengerStatus();
+                	}
+                	else {
+                		status = board.getChallengeeStatus();
+                	}
+            		if(board != null && !status.equals("retired")) {
             			
             			Long idForBench = BenchRDG.getFollowingId();
             			BenchRDG cardToBench = new BenchRDG(idForBench, 0, userid, gameFound.getId(), foundCard.getCardId());

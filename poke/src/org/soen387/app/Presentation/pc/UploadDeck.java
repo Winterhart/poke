@@ -49,40 +49,51 @@ public class UploadDeck extends HttpServlet {
             		//TODO: Replace all delete/insert by real update
         			DeckRDG deckFound = DeckRDG.findByUserId(userFound.getId());
             		if(deckFound != null) {
-            			for(CardRDG oldCard : deckFound.getCards()) {
-            				oldCard.delete();
-            			}
-            			
-            			deckFound.delete();
-            		}
-            		Long latestDeckID = DeckRDG.getFollowingId();
-            		
-            		List<CardRDG> cards = new ArrayList<CardRDG>();
-            		// Convert to Cards
-            		Long startingIndex = CardRDG.getFollowingId();
-            		for(CardHelper helper : preCards) {
-            			CardRDG createdCard = new CardRDG(
-            					startingIndex,
-            					0, 
-            					latestDeckID, 
-            					helper.getCardName(), 
-            					helper.getCardType());
-            			
-            			startingIndex++;
-            			cards.add(createdCard);
+            			// Update Deck
+            				int ind = 0;
+            				for(CardRDG c : deckFound.getCards()) {
+            					CardHelper newValue = preCards.get(ind);
+            					CardRDG updatedCard = new CardRDG(
+            							c.getId(),
+            							c.getVersion(),
+            							c.getDeckId(),
+            							newValue.getCardName(),
+            							newValue.getCardType());
+            					updatedCard.update();
+            					ind++;
+            				}
+            		}else {
+            			// Insert Deck
+                		Long latestDeckID = DeckRDG.getFollowingId();
+                		
+                		List<CardRDG> cards = new ArrayList<CardRDG>();
+                		// Convert to Cards
+                		Long startingIndex = CardRDG.getFollowingId();
+                		for(CardHelper helper : preCards) {
+                			CardRDG createdCard = new CardRDG(
+                					startingIndex,
+                					0, 
+                					latestDeckID, 
+                					helper.getCardName(), 
+                					helper.getCardType());
+                			
+                			startingIndex++;
+                			cards.add(createdCard);
+                		}
+
+                		
+                		
+                		// Insert New Deck
+                		DeckRDG createdDeck = new DeckRDG(latestDeckID, 0, cards, userFound.getId());
+                		createdDeck.insert();
+                		
+                		
+                		//Now that the deck exists,  insert All Card
+                		for(CardRDG card: cards) {
+                			card.insert();
+                		}
             		}
 
-            		
-            		
-            		// Insert New Deck
-            		DeckRDG createdDeck = new DeckRDG(latestDeckID, 0, cards, userFound.getId());
-            		createdDeck.insert();
-            		
-            		
-            		//Now that the deck exists,  insert All Card
-            		for(CardRDG card: cards) {
-            			card.insert();
-            		}
         			request.setAttribute("message", "New deck inserted !!! ");
         			dis = request.getRequestDispatcher("WEB-INF/jsp/success.jsp");    		
         	}

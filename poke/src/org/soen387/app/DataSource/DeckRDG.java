@@ -104,15 +104,6 @@ public class DeckRDG {
 		return status;
 	}
 	
-	public int delete() throws SQLException {
-		Connection conn = DatabaseConnector.getConnection();
-		PreparedStatement pState = conn.prepareStatement("DELETE FROM " + tableName +
-				" WHERE id= ? AND ;" );
-		pState.setLong(1, this.getId());
-		int status = pState.executeUpdate();
-		conn.close();
-		return status;
-	}
 	
 	public static long getFollowingId() throws SQLException {
 			Connection conn = DatabaseConnector.getConnection();

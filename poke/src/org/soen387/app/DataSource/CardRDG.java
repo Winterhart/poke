@@ -138,6 +138,20 @@ public class CardRDG {
 		return cards;
 	}
 	
+	public int update() throws SQLException {
+		Connection conn = DatabaseConnector.getConnection();
+		PreparedStatement pState = conn.prepareStatement("UPDATE " + tableName +
+				" SET version = ?, cardName = ?, cardType = ?" +
+				" WHERE id = ? ;");
+		pState.setLong(1, (this.getVersion()+ 1));
+		pState.setString(2, this.getName());
+		pState.setString(3, this.getType());
+		pState.setLong(4, this.getId());
+		int status = pState.executeUpdate();
+		conn.close();
+		return status;
+	}
+	
 	public static List<CardRDG> findAll() throws SQLException {
 		List<CardRDG> cards = new ArrayList<CardRDG>();
 		Connection conn = DatabaseConnector.getConnection();
