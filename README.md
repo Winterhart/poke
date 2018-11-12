@@ -10,6 +10,7 @@ Pokemon card game in a web application with Java EE and no web framework
 ### How to make it work ?
 - Download and Extract the `.zip` folder
 - Make sure you have Eclipse, MySQL and Tomcat 8.5 installed
+- Install/Fix `.classpath` and `.settings`
 - Change connection parametes in `app/DataSource` in the class `DatabaseConnector.java`
 - Go to `app/util/` and run the test `testInitDB()`
 - Install make sure to rebuild class path and install libraries with Eclipse...
