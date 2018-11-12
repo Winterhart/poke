@@ -43,7 +43,7 @@ public class RefuseChallenge extends HttpServlet {
     			
         	}else {
         		int status = 0;
-        		// We know it must be from challengee or challenger
+        		// We know it must be from challenge or challenger
         		if(challenge.getChallengee() == userid) {
         			status = 1;
         			

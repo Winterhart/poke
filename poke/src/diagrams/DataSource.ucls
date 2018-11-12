@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="org.soen387.app.DataSource.BoardRDG" project="poke" 
+    file="/poke/src/org/soen387/app/DataSource/BoardRDG.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="143" width="239" x="1261" y="283"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="org.soen387.app.DataSource.HandRDG" project="poke" 
+    file="/poke/src/org/soen387/app/DataSource/HandRDG.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="285" width="232" x="1409" y="476"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="org.soen387.app.DataSource.ChallengeRDG" project="poke" 
+    file="/poke/src/org/soen387/app/DataSource/ChallengeRDG.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="257" width="184" x="748" y="270"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="org.soen387.app.DataSource.DeckRDG" project="poke" 
+    file="/poke/src/org/soen387/app/DataSource/DeckRDG.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="200" width="217" x="507" y="45"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="org.soen387.app.DataSource.GameRDG" project="poke" 
+    file="/poke/src/org/soen387/app/DataSource/GameRDG.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="218" width="170" x="985" y="279"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="org.soen387.app.DataSource.BenchRDG" project="poke" 
+    file="/poke/src/org/soen387/app/DataSource/BenchRDG.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="291" width="222" x="1174" y="473"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="org.soen387.app.DataSource.CardRDG" project="poke" 
+    file="/poke/src/org/soen387/app/DataSource/CardRDG.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="246" width="232" x="504" y="404"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="org.soen387.app.DataSource.UserRDG" project="poke" 
+    file="/poke/src/org/soen387/app/DataSource/UserRDG.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="192" width="253" x="193" y="149"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="9">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="10" name="cards"/>      
+      <multiplicity id="11" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
