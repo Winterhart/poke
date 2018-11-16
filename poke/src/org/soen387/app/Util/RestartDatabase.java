@@ -1,6 +1,5 @@
 package org.soen387.app.Util;
 
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.soen387.app.DataSource.TableInit.BenchTableInit;
 import org.soen387.app.DataSource.TableInit.BoardTableInit;
@@ -38,7 +37,6 @@ public class RestartDatabase {
 			
 		}catch(Exception ee) {
 			System.out.println("Problem while reset database " + ee.getMessage());
-			fail("Error while trying to reset " + ee.getMessage());
 		}	
 	}
 	

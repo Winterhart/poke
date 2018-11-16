@@ -2,6 +2,7 @@
     <wb-module deploy-name="poke">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/tests"/>
         <property name="context-root" value="poke"/>
         <property name="java-output-path" value="/poke/build/classes"/>
     </wb-module>

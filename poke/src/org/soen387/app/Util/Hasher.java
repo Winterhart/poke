@@ -6,6 +6,11 @@ import java.security.NoSuchAlgorithmException;
 
 public class Hasher {
 
+	/**
+	 * Snippet from https://www.baeldung.com/sha-256-hashing-java
+	 * @param textIn
+	 * @return
+	 */
     public static String obtainHashText(String textIn) {
 		String hashedText = null;
     	try {

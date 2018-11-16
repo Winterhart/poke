@@ -1,10 +1,8 @@
-package DevTest;
-
-import static org.junit.jupiter.api.Assertions.*;
+package testsDev;
 
 import java.sql.SQLException;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.soen387.app.DataSource.TableInit.BenchTableInit;
 import org.soen387.app.DataSource.TableInit.BoardTableInit;
 import org.soen387.app.DataSource.TableInit.CardTableInit;
@@ -14,10 +12,10 @@ import org.soen387.app.DataSource.TableInit.GameTableInit;
 import org.soen387.app.DataSource.TableInit.HandTableInit;
 import org.soen387.app.DataSource.TableInit.UserTableInit;
 
-class InitializeDatabase {
-
+public class InitiDB {
+	
 	@Test
-	void testInitDB() {
+	public void testInitDB() {
 		try {
 			GameTableInit.createTable();
 			BoardTableInit.createTable();
@@ -33,5 +31,4 @@ class InitializeDatabase {
 		}
 
 	}
-
 }

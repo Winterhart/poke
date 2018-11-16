@@ -1,14 +1,15 @@
-package DevTest;
+package testsDev;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.soen387.app.Domain.Helper.CardHelper;
 import org.soen387.app.Util.DeckParser;
 
-class TestDeckParser {
+public class TestDeckParser {
 	
 	public static String TEST_DECK1 =
 			"e \"Fire\"\n" +
@@ -180,28 +181,18 @@ class TestDeckParser {
 			"e \"Lightning\"\n" +
 			"e \"Lightning\"\n";
 	@Test
-	void testDeckPar() {
+	public void testDeckPar() {
 		
 		List<CardHelper> correctDeck = DeckParser.parseDeck(TEST_DECK1);
 		List<CardHelper> correctDeck2 = DeckParser.parseDeck(TEST_DECK2);
-		List<CardHelper> NotcorrectDeck = DeckParser.parseDeck(TEST_DECK3_BAD);
-		List<CardHelper> NotcorrectDeck2 = DeckParser.parseDeck(TEST_DECK4_BAD);
+		List<CardHelper> notCorrectDeck = DeckParser.parseDeck(TEST_DECK3_BAD);
+		List<CardHelper> notCorrectDeck2 = DeckParser.parseDeck(TEST_DECK4_BAD);
+
+		assertEquals(correctDeck.size(), 40);
+		assertEquals(correctDeck2.size(), 40);
+		assertEquals(notCorrectDeck, null);
+		assertEquals(notCorrectDeck2, null);
 		
-		if(correctDeck.size() != 40) {
-			fail("Fail to partse");
-		}
-		
-		if(correctDeck2.size() != 40) {
-			fail("Fail to partse");
-		}
-		
-		if(NotcorrectDeck2 != null) {
-			fail("Fail to partse");
-		}
-		
-		if(NotcorrectDeck != null) {
-			fail("Fail to partse");
-		}
 		
 
 	}

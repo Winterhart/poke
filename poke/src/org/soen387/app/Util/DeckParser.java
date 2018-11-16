@@ -14,11 +14,11 @@ public class DeckParser {
 				return null;
 			}
 			
-			String[] splittedDeck =  deck.split(System.getProperty("line.separator"));
+			String[] splittedDeck =  deck.split("\n");
 			
 			
 			for(String s: splittedDeck) {
-				s = s.replace("\"", "");
+
 				String[] splittedData = s.split(" ");
 				String cardName = splittedData[1];
 				String cardType = splittedData[0];

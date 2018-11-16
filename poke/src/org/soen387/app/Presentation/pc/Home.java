@@ -19,7 +19,7 @@ public class Home extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	RestartDatabase.RestartDB();
+    	//RestartDatabase.RestartDB();
     	request.getRequestDispatcher("WEB-INF/jsp/home.jsp").forward(request, response);
 	}
 }
