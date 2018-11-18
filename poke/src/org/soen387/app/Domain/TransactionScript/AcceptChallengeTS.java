@@ -2,9 +2,9 @@ package org.soen387.app.Domain.TransactionScript;
 
 import java.sql.SQLException;
 
-import org.soen387.app.DataSource.BoardRDG;
-import org.soen387.app.DataSource.ChallengeRDG;
-import org.soen387.app.DataSource.GameRDG;
+import org.soen387.app.DataSource.RDG.BoardRDG;
+import org.soen387.app.DataSource.RDG.ChallengeRDG;
+import org.soen387.app.DataSource.RDG.GameRDG;
 
 public class AcceptChallengeTS {
 	

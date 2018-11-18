@@ -10,7 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.soen387.app.DataSource.UserRDG;
+
+import org.soen387.app.DataSource.RDG.UserRDG;
 
 @WebServlet("/ListPlayers")
 public class ListPlayers extends HttpServlet {

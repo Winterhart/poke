@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.soen387.app.DataSource.BenchRDG;
-import org.soen387.app.DataSource.BoardRDG;
-import org.soen387.app.DataSource.CardRDG;
-import org.soen387.app.DataSource.DeckRDG;
-import org.soen387.app.DataSource.GameRDG;
-import org.soen387.app.DataSource.HandRDG;
-import org.soen387.app.DataSource.UserRDG;
+import org.soen387.app.DataSource.RDG.BenchRDG;
+import org.soen387.app.DataSource.RDG.BoardRDG;
+import org.soen387.app.DataSource.RDG.CardRDG;
+import org.soen387.app.DataSource.RDG.DeckRDG;
+import org.soen387.app.DataSource.RDG.GameRDG;
+import org.soen387.app.DataSource.RDG.HandRDG;
+import org.soen387.app.DataSource.RDG.UserRDG;
 
 @WebServlet("/DrawCard")
 public class DrawCard extends HttpServlet {

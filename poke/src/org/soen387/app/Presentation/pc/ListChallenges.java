@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.soen387.app.DataSource.CardRDG;
-import org.soen387.app.DataSource.ChallengeRDG;
-import org.soen387.app.DataSource.DeckRDG;
-import org.soen387.app.DataSource.UserRDG;
+import org.soen387.app.DataSource.RDG.CardRDG;
+import org.soen387.app.DataSource.RDG.ChallengeRDG;
+import org.soen387.app.DataSource.RDG.DeckRDG;
+import org.soen387.app.DataSource.RDG.UserRDG;
 
 @WebServlet("/ListChallenges")
 public class ListChallenges extends HttpServlet {

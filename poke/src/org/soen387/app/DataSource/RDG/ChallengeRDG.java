@@ -1,4 +1,4 @@
-package org.soen387.app.DataSource;
+package org.soen387.app.DataSource.RDG;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.soen387.app.DataSource.DatabaseConnector;
 
 public class ChallengeRDG {
 	private Long id;
