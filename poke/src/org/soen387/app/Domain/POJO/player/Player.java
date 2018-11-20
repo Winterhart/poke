@@ -12,6 +12,13 @@ public class Player extends User implements IPlayer  {
 	private List<IChallenge> challenges;
 	private List<IGame> games;
 	
+	public Player(Long id, long version, String user,  String pwd, 
+			List<IDeck> decks,  List<IChallenge> challenge, List<IGame> games) {
+		super(id, version, user, pwd);
+		this.challenges = challenge;
+		this.decks = decks;
+		this.games = games;
+	}	
 	
 	public List<IDeck> getDecks() {
 		return decks;
@@ -43,13 +50,7 @@ public class Player extends User implements IPlayer  {
 	}
 
 
-	public Player(Long id, long version, String user,  String pwd, 
-			List<IDeck> decks,  List<IChallenge> challenge, List<IGame> games) {
-		super(id, version, user, pwd);
-		this.challenges = challenge;
-		this.decks = decks;
-		this.games = games;
-	}	
+
 	
 
 }

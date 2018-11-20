@@ -1,5 +1,7 @@
 package org.soen387.app.Domain.POJO.challenge;
 
-public interface IChallenge {
+import org.dsrg.soenea.domain.interf.IDomainObject;
+
+public interface IChallenge extends IDomainObject<Long> {
 
 }
