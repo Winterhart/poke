@@ -4,13 +4,12 @@ import org.dsrg.soenea.domain.DomainObject;
 
 public class Game  extends DomainObject<Long>  implements IGame{
 	
-	private IBoard board;
 	private Long challengerId;
 	private Long challengeeId;
 	private Long currentTurn;
 	private int numberOfTurn;
-	private boardStatus challengerStatus;
-	private boardStatus challengeeStatus;
+	private BoardStatus challengerStatus;
+	private BoardStatus challengeeStatus;
 	private Long challengerDeck;
 	private Long challengeeDeck;
 	private IHand challengerHand;
@@ -83,19 +82,19 @@ public class Game  extends DomainObject<Long>  implements IGame{
 		this.numberOfTurn = numberOfTurn;
 	}
 
-	public boardStatus getChallengerStatus() {
+	public BoardStatus getChallengerStatus() {
 		return challengerStatus;
 	}
 
-	public void setChallengerStatus(boardStatus challengerStatus) {
+	public void setChallengerStatus(BoardStatus challengerStatus) {
 		this.challengerStatus = challengerStatus;
 	}
 
-	public boardStatus getChallengeeStatus() {
+	public BoardStatus getChallengeeStatus() {
 		return challengeeStatus;
 	}
 
-	public void setChallengeeStatus(boardStatus challengeeStatus) {
+	public void setChallengeeStatus(BoardStatus challengeeStatus) {
 		this.challengeeStatus = challengeeStatus;
 	}
 
@@ -147,12 +146,6 @@ public class Game  extends DomainObject<Long>  implements IGame{
 		this.challengeeDiscard = challengeeDiscard;
 	}
 	
-	public IBoard getBoard() {
-		return board;
-	}
-	public void setBoard(IBoard board) {
-		this.board = board;
-	}
 	public Long getChallengerId() {
 		return challengerId;
 	}
