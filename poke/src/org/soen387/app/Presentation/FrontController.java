@@ -36,6 +36,7 @@ public class FrontController extends DispatcherServlet {
 	 */
 	public static void InitializeUnitOfWork() {
 		// Use MapperFactory... to init your domain obj
+		//TODO: Impl. this
 	}
 	
 	/**
@@ -43,6 +44,7 @@ public class FrontController extends DispatcherServlet {
 	 */
 	public static void prepareDatabase() {
 		// prepare Database 
+		//TODO: Impl
 	}
 	
 	/**
@@ -50,7 +52,7 @@ public class FrontController extends DispatcherServlet {
 	 * @param key
 	 */
 	public static void prepareDBRegsitry(String key) {
-		
+		//TODO: Impl
 	}
 	
 	/**
@@ -59,7 +61,7 @@ public class FrontController extends DispatcherServlet {
 	@Override
 	protected void processRequest(HttpServletRequest request, 
 			HttpServletResponse reponse) {
-		
+		//TODO: Implement this 
 	}
 	
 	/**
@@ -68,7 +70,7 @@ public class FrontController extends DispatcherServlet {
 	@Override
 	protected void preProcessRequest(HttpServletRequest request, 
 			HttpServletResponse reponse) {
-		
+		//TODO: Implement this
 	}
 	
 	/**
@@ -77,12 +79,13 @@ public class FrontController extends DispatcherServlet {
 	@Override
 	protected void postProcessRequest(HttpServletRequest request, 
 			HttpServletResponse reponse) {
-		
+		//TODO: Implment this
 	}
 	
 	protected String getCommandName(HttpServletRequest request, 
 			HttpServletResponse reponse) {
 		String cmdName = "";
+		//TODO: Implement this
 		return cmdName;
 	}
 }
