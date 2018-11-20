@@ -12,10 +12,7 @@ public class Board implements IBoard {
 	private IDeck challengerDeck;
 	private IDeck challengeeDeck;
 	
-	private List<ITurn> turns;
-	
-
-	
+	private Long currentTurn;
 	
 	
 
