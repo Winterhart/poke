@@ -4,8 +4,8 @@ import org.dsrg.soenea.domain.interf.IDomainObject;
 
 public interface IUser extends IDomainObject<Long> {
 	
-	public abstract String getUsername();
-	public abstract String getHashedPassword();
+	public String getUsername();
+	public String getHashedPassword();
 	
 
 }

@@ -8,8 +8,8 @@ public class Game  extends DomainObject<Long>  implements IGame{
 	private Long challengeeId;
 	private Long currentTurn;
 	private int numberOfTurn;
-	private BoardStatus challengerStatus;
-	private BoardStatus challengeeStatus;
+	private GameStatus challengerStatus;
+	private GameStatus challengeeStatus;
 	private Long challengerDeck;
 	private Long challengeeDeck;
 	private IHand challengerHand;
@@ -82,19 +82,19 @@ public class Game  extends DomainObject<Long>  implements IGame{
 		this.numberOfTurn = numberOfTurn;
 	}
 
-	public BoardStatus getChallengerStatus() {
+	public GameStatus getChallengerStatus() {
 		return challengerStatus;
 	}
 
-	public void setChallengerStatus(BoardStatus challengerStatus) {
+	public void setChallengerStatus(GameStatus challengerStatus) {
 		this.challengerStatus = challengerStatus;
 	}
 
-	public BoardStatus getChallengeeStatus() {
+	public GameStatus getChallengeeStatus() {
 		return challengeeStatus;
 	}
 
-	public void setChallengeeStatus(BoardStatus challengeeStatus) {
+	public void setChallengeeStatus(GameStatus challengeeStatus) {
 		this.challengeeStatus = challengeeStatus;
 	}
 

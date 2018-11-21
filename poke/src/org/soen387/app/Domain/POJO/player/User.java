@@ -12,13 +12,10 @@ public class User extends DomainObject<Long> implements IUser {
 		this.hashedPassword = pwd;
 	}
 
-	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
 		return this.username;
 	}
-
-	@Override
 	public String getHashedPassword() {
 		return this.hashedPassword;
 	}
