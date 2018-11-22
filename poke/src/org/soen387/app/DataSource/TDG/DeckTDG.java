@@ -15,12 +15,13 @@ public class DeckTDG {
 	private static final String TABLE = DbRegistry.getTablePrefix()  + tableName;
 	
 	private final static String CREATE_TABLE = 
-			"CREATE TABLE IF NOT EXISTS" + TABLE + 
+			"CREATE TABLE IF NOT EXISTS " + TABLE + 
 			"(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
 			"ownerId BIGINT NOT NULL, " +
-			"FOREIGN KEY (ownerId) REFERENCES user(id) ON DELETE CASCADE"
-			+ "ON DELETE CASCADE ); ";
+			"CONSTRAINT FK_OwnerId FOREIGN KEY (ownerId) REFERENCES user(id) "
+			+ "ON UPDATE CASCADE "
+			+ "ON DELETE CASCADE )ENGINE=INNODB; ";
 	
 	private final static String DROP_TABLE = 
 			"DROP TABLE IF EXISTS " + TABLE + ";";

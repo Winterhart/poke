@@ -20,7 +20,7 @@ public abstract class DbSetup {
 	protected static void createDatabase() {
 		
 		try {
-			
+			FrontController.prepareDBRegsitry("");	
 			UserTDG.createTable();
 			//TODO: Add other table
 			

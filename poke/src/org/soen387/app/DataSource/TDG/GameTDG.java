@@ -15,27 +15,32 @@ public class GameTDG {
 	private static final String TABLE = DbRegistry.getTablePrefix()  + tableName;
 	
 	private final static String CREATE_TABLE = 
-			"CREATE TABLE IF NOT EXISTS" + TABLE + 
-			"(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+			"CREATE TABLE IF NOT EXISTS " + TABLE + 
+			" (id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
 			"challengerId BIGINT NOT NULL, " + 
 			"challengeeId BIGINT NOT NULL, " +
-			"currentTurn BIGINT NOT NULL," +
-			"numberOfTurn INT NOT NULL, DEFAULT 0, " +
+			"currentTurn BIGINT NOT NULL, " +
+			"numberOfTurn INT NOT NULL DEFAULT 0, " +
 			"challengerStatus NVARCHAR(50) NOT NULL, " +
 			"challengeeStatus NVARCHAR(50) NOT NULL, "+
 			"challengerDeckId BIGINT NOT NULL, " +
-			"challengerDeckId BIGINT NOT NULL, " +
-			"FOREING KEY challengerId REFERENCES user(id) " +
+			"challengeeDeckId BIGINT NOT NULL, " +
+			"CONSTRAINT FK_game_challengerId "
+			+ " FOREIGN KEY (challengerId) REFERENCES user(id) " +
 			"ON DELETE CASCADE ON UPDATE CASCADE, " +
-			"FOREIGN KEY challengeeId REFERENCES user(id) " +
+			"CONSTRAINT FK_game_challengeeId "
+			+ "FOREIGN KEY (challengeeId) REFERENCES user(id) " +
 			"ON DELETE CASCADE ON UPDATE CASCADE, " +
-			"FOREIGN KEY currentTurn REFERENCES user(id) "+
+			"CONSTRAINT FK_currentTurn "
+			+ "FOREIGN KEY (currentTurn) REFERENCES user(id) "+
 			"ON DELETE CASCADE ON UPDATE CASCADE, " +
-			"FOREIGN KEY challengerDeckId REFERENCES deck(id) " +
+			"CONSTRAINT FK_game_challengerDeckId "
+			+ "FOREIGN KEY (challengerDeckId) REFERENCES deck(id) " +
 			"ON DELETE CASCADE ON UPDATE CASCADE, " +
-			"FOREIGN KEY challengeeDeckId REFERENCES deck(id) " + 
-			"ON DELETE CASCADE ON UPDATE CASCADE);";
+			"CONSTRAINT FK_game_challengeeDeckId "
+			+ "FOREIGN KEY (challengeeDeckId) REFERENCES deck(id) " + 
+			"ON DELETE CASCADE ON UPDATE CASCADE)ENGINE=INNODB;";
 			
 	
 	private final static String DROP_TABLE = 

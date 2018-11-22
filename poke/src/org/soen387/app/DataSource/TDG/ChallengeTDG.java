@@ -15,19 +15,22 @@ public class ChallengeTDG {
 	private static final String TABLE = DbRegistry.getTablePrefix()  + tableName;
 	
 	private final static String CREATE_TABLE = 
-			"CREATE TABLE IF NOT EXISTS" + TABLE + 
-			"(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+			"CREATE TABLE IF NOT EXISTS " + TABLE + 
+			" (id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
 			"challengerId BIGINT NOT NULL, " +
 			"challengeeId BIGINT NOT NULL, " +
 			"challengeStatus INT NOT NULL, " +
 			"deckInit BIGINT NOT NULL, " +
-			"FOREIGN KEY (challengerId) REFERENCES user(id) ON DELETE CASCADE"
+			"CONSTRAINT FK_challengerId FOREIGN KEY (challengerId) REFERENCES user(id) "
+			+ "ON DELETE CASCADE "
 			+ "ON UPDATE CASCADE, "
-			+ "FOREIGN KEY (challengeeId) REFERENCES user(id) ON DELETE CASCADE"
-			+ "ON UPDATE CASCADE,"
-			+ "FOREIGN KEY (deckInit) REFERENCES deck(id) ON DELETE CASCADE"
-			+ "ON UPDATE CASCADE ); ";
+			+ "CONSTRAINT FK_challengeeId FOREIGN KEY (challengeeId) REFERENCES user(id) "
+			+ "ON DELETE CASCADE "
+			+ "ON UPDATE CASCADE, "
+			+ "CONSTRAINT FK_challenge_deckId FOREIGN KEY (deckInit) REFERENCES deck(id) "
+			+ "ON DELETE CASCADE "
+			+ "ON UPDATE CASCADE )ENGINE=INNODB; ";
 	
 	private final static String DROP_TABLE = 
 			"DROP TABLE IF EXISTS " + TABLE + ";";

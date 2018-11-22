@@ -15,18 +15,23 @@ public class DiscardTDG {
 	private static final String TABLE = DbRegistry.getTablePrefix()  + tableName;
 	
 	private final static String CREATE_TABLE = 
-			"CREATE TABLE IF NOT EXISTS" + TABLE + 
-			"(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+			"CREATE TABLE IF NOT EXISTS " + TABLE + 
+			" (id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
-			"cardId NOT NULL, " +
-			"deckId NOT NULL" +
-			"gameId NOT NULL" +
-			"FOREIGN KEY (cardId) REFERENCES card(id) ON DELETE CASCADE" +
-			" ON UPDATE CASCADE " +
-			"FOREIGN KEY (deckId) REFERENCES deck(id) ON DELETE CASCASDE" +
-			"ON UPDATE CASCADE" +
-			"FOREIGN KEY (gameId) REFENCES game(id) ON DELETE CASCADE "
-			+ "ON UPDATE CASCADE ); ";
+			"cardId BIGINT NOT NULL, " +
+			"deckId BIGINT NOT NULL, " +
+			"gameId BIGINT NOT NULL, " +
+			"CONSTRAINT FK_DISCARD_cardId "
+			+ "FOREIGN KEY (cardId) REFERENCES card(id) "
+			+ "ON DELETE CASCADE " 
+			+ "ON UPDATE CASCADE, " +
+			"CONSTRAINT FK_DISCARD_deckId "
+			+ "FOREIGN KEY (deckId) REFERENCES deck(id) "
+			+ "ON DELETE CASCADE " 
+			+ "ON UPDATE CASCADE, " +
+			"CONSTRAINT FK_DISCARD_gameId FOREIGN KEY (gameId) REFERENCES game(id) "
+			+ "ON DELETE CASCADE "
+			+ "ON UPDATE CASCADE )ENGINE=INNODB; ";
 	
 	private final static String DROP_TABLE = 
 			"DROP TABLE IF EXISTS " + TABLE + ";";

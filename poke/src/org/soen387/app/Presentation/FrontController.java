@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.dsrg.soenea.application.servlet.DispatcherServlet;
+import org.dsrg.soenea.service.MySQLConnectionFactory;
+import org.dsrg.soenea.service.threadLocal.DbRegistry;
 
 /**
  * This Front-End Controller class and method
@@ -17,9 +19,6 @@ public class FrontController extends DispatcherServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * Original method from Stuart Thiel
-	 */
 	@Override
 	public void init(ServletConfig conf) throws ServletException {
 		super.init(conf);
@@ -31,51 +30,61 @@ public class FrontController extends DispatcherServlet {
 		// (Optional) Log stuff...init logger
 	}
 	
-	/**
-	 *  Original method from Stuart Thiel
-	 */
+
 	public static void InitializeUnitOfWork() {
 		// Use MapperFactory... to init your domain obj
 		//TODO: Impl. this
 	}
 	
-	/**
-	 *  Original method from Stuart Thiel
-	 */
 	public static void prepareDatabase() {
 		// prepare Database 
 		//TODO: Impl
 	}
 	
 	/**
-	 *  Original method from Stuart Thiel
+	 * This is the main method to connect to a database...
 	 * @param key
 	 */
 	public static void prepareDBRegsitry(String key) {
-		//TODO: Impl
+		MySQLConnectionFactory facto = new MySQLConnectionFactory(null, null, null, null);
+		try {
+			facto.defaultInitialization();
+			
+		}catch(Exception ee) {
+			System.out.println("Problem while creating connection to database: ");
+			ee.printStackTrace();
+		}
+		
+		DbRegistry.setConFactory(facto);
+		String tablePre = "";
+		try {
+			tablePre = DbRegistry.getTablePrefix();
+			
+		}catch(Exception ee) {
+			System.out.println("Problem while setting table prefix  ... ");
+			//ee.printStackTrace();
+			tablePre = "";
+		}
+		
+		DbRegistry.setTablePrefix(key, tablePre);
+		
+		
 	}
 	
-	/**
-	 *  Original method from Stuart Thiel
-	 */
 	@Override
 	protected void processRequest(HttpServletRequest request, 
 			HttpServletResponse reponse) {
 		//TODO: Implement this 
 	}
 	
-	/**
-	 *  Original method from Stuart Thiel
-	 */
+
 	@Override
 	protected void preProcessRequest(HttpServletRequest request, 
 			HttpServletResponse reponse) {
 		//TODO: Implement this
 	}
 	
-	/**
-	 *  Original method from Stuart Thiel
-	 */
+
 	@Override
 	protected void postProcessRequest(HttpServletRequest request, 
 			HttpServletResponse reponse) {

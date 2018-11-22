@@ -18,12 +18,13 @@ public class CardTDG {
 			"CREATE TABLE IF NOT EXISTS " + TABLE + 
 			"(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
-			"deckId BIGINT NOT NULL" +
+			"deckId BIGINT NOT NULL, " +
 			"cardName NVARCHAR(128) NOT NULL, " +
 			"cardType NVARCHAR(128) NOT NULL, " +
 			"cardBase NVARCHAR(128), "+
-			"FOREING KEY (deckId) REFERENCES deck(id) ON DELETE CASCADE"
-			+ "ON UPDATE CASCADE); ";
+			"CONSTRAINT FK_DeckId FOREIGN KEY (deckId) REFERENCES deck(id) " +
+			"ON UPDATE CASCADE " +
+			"ON DELETE CASCADE )ENGINE=INNODB;  ";
 	
 	private final static String DROP_TABLE = 
 			"DROP TABLE IF EXISTS " + TABLE + ";";

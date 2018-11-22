@@ -3,7 +3,15 @@ package testsDev;
 import java.sql.SQLException;
 
 import org.junit.Test;
+import org.soen387.app.DataSource.TDG.BenchTDG;
+import org.soen387.app.DataSource.TDG.CardTDG;
+import org.soen387.app.DataSource.TDG.ChallengeTDG;
+import org.soen387.app.DataSource.TDG.DeckTDG;
+import org.soen387.app.DataSource.TDG.DiscardTDG;
+import org.soen387.app.DataSource.TDG.GameTDG;
+import org.soen387.app.DataSource.TDG.HandTDG;
 import org.soen387.app.DataSource.TDG.UserTDG;
+import org.soen387.app.Presentation.FrontController;
 
 public class InitiDB {
 	
@@ -11,7 +19,27 @@ public class InitiDB {
 	public void testInitDB() {
 		
 		try {
+			FrontController.prepareDBRegsitry("");
+
+			HandTDG.dropTable();
+			BenchTDG.dropTable();
+			DiscardTDG.dropTable();
+			CardTDG.dropTable();
+			GameTDG.dropTable();
+			ChallengeTDG.dropTable();
+			DeckTDG.dropTable();
+			UserTDG.dropTable();
+
+			
 			UserTDG.createTable();
+			DeckTDG.createTable();
+			ChallengeTDG.createTable();
+			GameTDG.createTable();
+			CardTDG.createTable();
+			DiscardTDG.createTable();
+			BenchTDG.createTable();
+			HandTDG.createTable();
+
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
