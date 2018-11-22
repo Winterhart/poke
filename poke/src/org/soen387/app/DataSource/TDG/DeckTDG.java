@@ -16,7 +16,8 @@ public class DeckTDG {
 			"(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
 			"ownerId BIGINT NOT NULL, " +
-			"ownerId BIGINT FOREIGN KEY REFERENCES user(id)); ";
+			"FOREIGN KEY (ownerId) REFERENCES user(id) ON DELETE CASCADE"
+			+ "ON DELETE CASCADE ); ";
 	
 	private final static String DROP_TABLE = 
 			"DROP TABLE IF EXISTS " + TABLE + ";";

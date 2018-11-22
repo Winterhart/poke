@@ -15,21 +15,26 @@ public class CardTDG {
 			"CREATE TABLE IF NOT EXISTS " + TABLE + 
 			"(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
+			"deckId BIGINT NOT NULL" +
 			"cardName NVARCHAR(128) NOT NULL, " +
 			"cardType NVARCHAR(128) NOT NULL, " +
-			"cardBase NVARCHAR(128)); ";
+			"cardBase NVARCHAR(128), "+
+			"FOREING KEY (deckId) REFERENCES deck(id) ON DELETE CASCADE"
+			+ "ON UPDATE CASCADE); ";
 	
 	private final static String DROP_TABLE = 
 			"DROP TABLE IF EXISTS " + TABLE + ";";
 	
 	private final static String INSERT_QUERY =
-			"INSERT INTO " + TABLE + " (id, version, cardName, cardType, cardBase) values(?,?,?,?,?) ;";
+			"INSERT INTO " + TABLE + " (id, version, deckId, cardName, cardType, cardBase)"
+					+ " values(?,?,?,?,?,?) ;";
 	
 	private final static String DELETE_QUERY_ID = 
 			" DELETE FROM " + TABLE + " WHERE id=? and version=? ;";
 	
 	private final static String UPDATE_QUERY_ID = 
-			"UPDATE " + TABLE + " SET version=version+1, cardName=?, cardType=?, cardBase=? " +
+			"UPDATE " + TABLE + " SET version=version+1, deckId=?"
+					+ " cardName=?, cardType=?, cardBase=? " +
 					"WHERE id=? and version=?";
 	
 	public static void dropTable() throws SQLException {
@@ -40,27 +45,31 @@ public class CardTDG {
 		SQLLogger.processUpdate(DbRegistry.getDbConnection().createStatement(), CREATE_TABLE);
 	}
 	
-	public static int insert(Long id, Long version, String cardName, String cardType, String cardBase) throws SQLException {
+	public static int insert(Long id, Long version, Long deckId,
+			String cardName, String cardType, String cardBase) throws SQLException {
 		Connection conn = DbRegistry.getDbConnection();
 		PreparedStatement ps = conn.prepareStatement(INSERT_QUERY);
 		ps.setLong(1, id);
 		ps.setLong(2, version);
-		ps.setString(3, cardName);
-		ps.setString(4, cardType);
-		ps.setString(5, cardBase);
+		ps.setLong(3, deckId);
+		ps.setString(4, cardName);
+		ps.setString(5, cardType);
+		ps.setString(6, cardBase);
 		int result = SQLLogger.processUpdate(ps);
 		ps.close();
 		return result;
 	}
 	
-	public static int update(Long id, Long version, String cardName, String cardType, String cardBase) throws SQLException {
+	public static int update(Long id, Long version, Long deckId,
+			String cardName, String cardType, String cardBase) throws SQLException {
 		Connection conn = DbRegistry.getDbConnection();
 		PreparedStatement ps = conn.prepareStatement(UPDATE_QUERY_ID);
-		ps.setString(1, cardName);
-		ps.setString(2, cardType);
-		ps.setString(3, cardBase);
-		ps.setLong(4, id);
-		ps.setLong(5, version);	
+		ps.setLong(1,  deckId);
+		ps.setString(2, cardName);
+		ps.setString(3, cardType);
+		ps.setString(4, cardBase);
+		ps.setLong(5, id);
+		ps.setLong(6, version);	
 		int result = SQLLogger.processUpdate(ps);
 		ps.close();
 		return result;
