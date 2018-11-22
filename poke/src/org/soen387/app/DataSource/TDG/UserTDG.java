@@ -13,7 +13,7 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
 public class UserTDG {
 	
 	private static final String tableName = "user";
-	private static final String TABLE = DbRegistry.getTablePrefix()  + tableName;
+	private static final String TABLE = tableName;
 	
 	private final static String CREATE_TABLE = 
 			"CREATE TABLE IF NOT EXISTS " + TABLE + 
