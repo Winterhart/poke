@@ -88,4 +88,9 @@ public class FrontController extends DispatcherServlet {
 		//TODO: Implement this
 		return cmdName;
 	}
+
+	public static void setupUoW() {
+		// TODO Auto-generated method stub
+		
+	}
 }

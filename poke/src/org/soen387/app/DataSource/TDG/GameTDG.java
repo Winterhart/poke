@@ -6,7 +6,10 @@ import java.sql.SQLException;
 
 import org.dsrg.soenea.service.logging.SQLLogger;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
-
+/**
+ * Inspired by Stuart Thiel's Thesis : 
+ * 'Enterprise Application Design Patterns: Improved and Applied'
+ */
 public class GameTDG {
 	private static final String tableName = "game";
 	private static final String TABLE = DbRegistry.getTablePrefix()  + tableName;
