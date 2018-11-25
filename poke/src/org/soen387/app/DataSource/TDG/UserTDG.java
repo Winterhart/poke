@@ -3,7 +3,6 @@ package org.soen387.app.DataSource.TDG;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
 import org.dsrg.soenea.service.logging.SQLLogger;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
 /**
@@ -13,7 +12,7 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
 public class UserTDG {
 	
 	private static final String tableName = "user";
-	private static final String TABLE = DbRegistry.getTablePrefix() + tableName;
+	public static final String TABLE = DbRegistry.getTablePrefix() + tableName;
 	
 	private final static String CREATE_TABLE = 
 			"CREATE TABLE IF NOT EXISTS " + TABLE + 

@@ -12,7 +12,7 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
  */
 public class DeckTDG {
 	private static final String tableName = "deck";
-	private static final String TABLE = DbRegistry.getTablePrefix()  + tableName;
+	public static final String TABLE = DbRegistry.getTablePrefix()  + tableName;
 	
 	private final static String CREATE_TABLE = 
 			"CREATE TABLE IF NOT EXISTS " + TABLE + 
