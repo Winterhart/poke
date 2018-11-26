@@ -7,7 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dsrg.soenea.application.servlet.DispatcherServlet;
 import org.dsrg.soenea.service.MySQLConnectionFactory;
+import org.dsrg.soenea.service.authorization.ApplicationAuthorizaton;
+import org.dsrg.soenea.service.registry.Registry;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
+import org.dsrg.soenea.uow.MapperFactory;
+import org.dsrg.soenea.uow.UoW;
+import org.soen387.app.Domain.Mapper.PlayerOutputMapper;
+import org.soen387.app.Domain.POJO.user.Player;
 
 /**
  * This Front-End Controller class and method
@@ -18,6 +24,7 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
 public class FrontController extends DispatcherServlet {
 
 	private static final long serialVersionUID = 1L;
+	private static String defaultDispatcher = "";
 	
 	@Override
 	public void init(ServletConfig conf) throws ServletException {
@@ -28,8 +35,29 @@ public class FrontController extends DispatcherServlet {
 		// SetupUoW
 		
 		// (Optional) Log stuff...init logger
+		super.init(conf);
+		try {
+			defaultDispatcher = Registry.getProperty("defaultDispatcher");
+		}catch(Exception ee) {
+			System.out.println("Problem with init , Front-Controller " + ee.getMessage());
+		}
+		
+		//Setup Authorization
+		ApplicationAuthorizaton.setBasePath(getServletContext().getRealPath("."));
+		prepareDBRegistry();
+		setupUoW();
+		
+		//TODO: Add logging here... 
+		
+		
 	}
 	
+
+	private void prepareDBRegistry() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	public static void InitializeUnitOfWork() {
 		// Use MapperFactory... to init your domain obj
@@ -45,7 +73,7 @@ public class FrontController extends DispatcherServlet {
 	 * This is the main method to connect to a database...
 	 * @param key
 	 */
-	public static void prepareDBRegsitry(String key) {
+	public static void prepareDBRegistry(String key) {
 		MySQLConnectionFactory facto = new MySQLConnectionFactory(null, null, null, null);
 		try {
 			facto.defaultInitialization();
@@ -99,7 +127,11 @@ public class FrontController extends DispatcherServlet {
 	}
 
 	public static void setupUoW() {
-		// TODO Auto-generated method stub
+		
+		//TODO: Create Mapper to find domain
+		MapperFactory domainToMapper = new MapperFactory();
+		//domainToMapper.addMapping(Player.class, PlayerOutputMapper.class);
+		UoW.initMapperFactory(domainToMapper);
 		
 	}
 }

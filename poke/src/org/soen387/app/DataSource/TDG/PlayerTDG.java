@@ -9,7 +9,7 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
  * Inspired by Stuart Thiel's Thesis : 
  * 'Enterprise Application Design Patterns: Improved and Applied'
  */
-public class UserTDG {
+public class PlayerTDG {
 	
 	private static final String tableName = "user";
 	public static final String TABLE = DbRegistry.getTablePrefix() + tableName;

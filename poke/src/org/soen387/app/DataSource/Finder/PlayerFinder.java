@@ -7,17 +7,17 @@ import java.sql.SQLException;
 
 import org.dsrg.soenea.service.logging.SQLLogger;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
-import org.soen387.app.DataSource.TDG.UserTDG;
+import org.soen387.app.DataSource.TDG.PlayerTDG;
 
 /**
  * Inspired by Stuart Thiel's Thesis : 
  * 'Enterprise Application Design Patterns: Improved and Applied'
  */
-public class UserFinder {
+public class PlayerFinder {
 	private static String SELECT_BY_ID_SQL = 
-			"SELECT u.id, u.version, u.username FROM " + UserTDG.TABLE + " AS u WHERE u.id=? ;";
+			"SELECT u.id, u.version, u.username FROM " + PlayerTDG.TABLE + " AS u WHERE u.id=? ;";
 	private static String SELECT_ALL_SQL = 
-			"SELECT u.id, u.version, u.username FROM " + UserTDG.TABLE + " AS u;";
+			"SELECT u.id, u.version, u.username FROM " + PlayerTDG.TABLE + " AS u;";
 	
 	
 	
