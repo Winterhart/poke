@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/SoenEA2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.1.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/home/winterhart/DEV/SOEN387/web/poke/poke/WebContent/WEB-INF/lib/SoenEA2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

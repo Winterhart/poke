@@ -14,7 +14,7 @@ import org.soen387.app.DataSource.TDG.DeckTDG;
 import org.soen387.app.DataSource.TDG.DiscardTDG;
 import org.soen387.app.DataSource.TDG.GameTDG;
 import org.soen387.app.DataSource.TDG.HandTDG;
-import org.soen387.app.DataSource.TDG.UserTDG;
+import org.soen387.app.DataSource.TDG.PlayerTDG;
 import org.soen387.app.Presentation.FrontController;
 
 public class TestTDGs {
@@ -23,13 +23,13 @@ public class TestTDGs {
 	
 	@BeforeClass
 	public static void setupDbConnection() {
-		FrontController.prepareDBRegsitry("");
+		FrontController.prepareDBRegistry("");
 	}
 	@Test
 	public void testInsertUser() {
 
 		try {
-			int res = UserTDG.insert(id, v, "Bob", "19i2j32ijedj89j8d9dj393jhdjdidjsijdsij");
+			int res = PlayerTDG.insert(id, v, "Bob", "19i2j32ijedj89j8d9dj393jhdjdidjsijdsij");
 			if(res != 1) {
 				assertTrue(false);
 			}
@@ -42,7 +42,7 @@ public class TestTDGs {
 	public void testInsertUser2() {
 
 		try {
-			int res = UserTDG.insert(id++, v, "Alice", "daewd2e2edj89j8d9dj393jhdjdidjsijdsij");
+			int res = PlayerTDG.insert(id++, v, "Alice", "daewd2e2edj89j8d9dj393jhdjdidjsijdsij");
 			if(res != 1) {
 				assertTrue(false);
 			}
@@ -145,10 +145,10 @@ public class TestTDGs {
 			GameTDG.dropTable();
 			ChallengeTDG.dropTable();
 			DeckTDG.dropTable();
-			UserTDG.dropTable();
+			PlayerTDG.dropTable();
 
 			
-			UserTDG.createTable();
+			PlayerTDG.createTable();
 			DeckTDG.createTable();
 			ChallengeTDG.createTable();
 			GameTDG.createTable();

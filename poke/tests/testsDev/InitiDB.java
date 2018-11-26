@@ -10,7 +10,7 @@ import org.soen387.app.DataSource.TDG.DeckTDG;
 import org.soen387.app.DataSource.TDG.DiscardTDG;
 import org.soen387.app.DataSource.TDG.GameTDG;
 import org.soen387.app.DataSource.TDG.HandTDG;
-import org.soen387.app.DataSource.TDG.UserTDG;
+import org.soen387.app.DataSource.TDG.PlayerTDG;
 import org.soen387.app.Presentation.FrontController;
 
 public class InitiDB {
@@ -19,7 +19,7 @@ public class InitiDB {
 	public void testInitDB() {
 		
 		try {
-			FrontController.prepareDBRegsitry("");
+			FrontController.prepareDBRegistry("");
 
 			HandTDG.dropTable();
 			BenchTDG.dropTable();
@@ -28,10 +28,10 @@ public class InitiDB {
 			GameTDG.dropTable();
 			ChallengeTDG.dropTable();
 			DeckTDG.dropTable();
-			UserTDG.dropTable();
+			PlayerTDG.dropTable();
 
 			
-			UserTDG.createTable();
+			PlayerTDG.createTable();
 			DeckTDG.createTable();
 			ChallengeTDG.createTable();
 			GameTDG.createTable();
