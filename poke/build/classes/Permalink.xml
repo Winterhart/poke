@@ -1,0 +1,38 @@
+<permalinks>
+    <Permalink>
+        <pattern>Poke/Player/Register</pattern>
+        <dispatcher>org.soen387.app.dispatcher.user.Register</dispatcher>
+    </Permalink>
+    <Permalink>
+        <pattern>Poke/Player/Login</pattern>
+        <dispatcher>org.soen387.app.dispatcher.user.Login</dispatcher>
+    </Permalink>
+    <Permalink>
+        <pattern>Poke/Player/Logout</pattern>
+        <dispatcher>org.soen387.app.dispatcher.user.Logout</dispatcher>
+    </Permalink>
+    <Permalink>
+        <pattern>Poke/Deck</pattern>
+        <dispatcher>org.soen387.app.dispatcher.deck.ManageDeck</dispatcher>
+    </Permalink>
+    <Permalink>
+        <pattern>Poke/Deck/(\d+)</pattern>
+        <dispatcher>org.soen387.app.dispatcher.deck.ManageDeck</dispatcher>
+        <attribute name="deck" />
+    </Permalink>
+    <Permalink>
+        <pattern>Poke/Player</pattern>
+        <dispatcher>org.soen387.app.dispatcher.challenge.ListPlayers</dispatcher>
+    </Permalink>
+    <Permalink>
+        <pattern>Poke/Player/(\d+)/Challenge</pattern>
+        <dispatcher>org.soen387.app.dispatcher.challenge.ChallengePlayer</dispatcher>
+        <attribute name="challengee" />
+    </Permalink>
+    <Permalink>
+        <pattern>Poke/Challenge/(\d+)/(Accept)</pattern>
+        <dispatcher>org.soen387.app.dispatcher.challenge.ChallengePlayer</dispatcher>
+        <attribute name="challenge" />
+        <attribute name="type" />
+    </Permalink>
+</permalinks>
