@@ -15,7 +15,7 @@ import org.soen387.ser.TDG.DiscardTDG;
 import org.soen387.ser.TDG.GameTDG;
 import org.soen387.ser.TDG.HandTDG;
 import org.soen387.ser.TDG.PlayerTDG;
-import org.soen387.app.FrontController;
+import org.soen387.app.PokeFC;
 
 public class TestTDGs {
 	Long id =  (long) 1;
@@ -23,7 +23,7 @@ public class TestTDGs {
 	
 	@BeforeClass
 	public static void setupDbConnection() {
-		FrontController.prepareDBRegistry("");
+		PokeFC.prepareDbRegistry("");
 	}
 	@Test
 	public void testInsertUser() {

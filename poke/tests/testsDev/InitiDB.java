@@ -11,7 +11,7 @@ import org.soen387.ser.TDG.DiscardTDG;
 import org.soen387.ser.TDG.GameTDG;
 import org.soen387.ser.TDG.HandTDG;
 import org.soen387.ser.TDG.PlayerTDG;
-import org.soen387.app.FrontController;
+import org.soen387.app.PokeFC;;
 
 public class InitiDB {
 	
@@ -19,7 +19,7 @@ public class InitiDB {
 	public void testInitDB() {
 		
 		try {
-			FrontController.prepareDBRegistry("");
+			PokeFC.prepareDbRegistry("");
 
 			HandTDG.dropTable();
 			BenchTDG.dropTable();

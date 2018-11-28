@@ -138,7 +138,7 @@ public class PokeFC extends Servlet {
 		}
 		getServletContext().setAttribute("fileUploadDirectory", fileUploadDir);
 		
-		FileUploadFactory.setRepo(new File(getServletContext().getRealPath("/WEB-INF/files/temp")));
+		FileUploadFactory.setRepo(new File(getServletContext().getRealPath("WEB-INF/files/temp")));
 		
 		setupUoW();
 	}
