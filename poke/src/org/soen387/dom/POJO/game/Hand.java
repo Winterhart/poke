@@ -1,9 +1,9 @@
-package org.soen387.app.Domain.POJO.game;
+package org.soen387.dom.POJO.game;
 
 import java.util.List;
 
 import org.dsrg.soenea.domain.DomainObject;
-import org.soen387.app.Domain.POJO.deck.ICard;
+import org.soen387.dom.POJO.deck.ICard;
 
 public class Hand extends DomainObject<Long> implements IHand {
 	private List<ICard> cards;

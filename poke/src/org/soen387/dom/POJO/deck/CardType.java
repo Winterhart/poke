@@ -1,4 +1,4 @@
-package org.soen387.app.Domain.POJO.deck;
+package org.soen387.dom.POJO.deck;
 
 public enum CardType {
 	p,

@@ -1,11 +1,11 @@
-package org.soen387.app.Domain.POJO.user;
+package org.soen387.dom.POJO.user;
 
 import java.util.List;
 
 import org.dsrg.soenea.domain.DomainObject;
-import org.soen387.app.Domain.POJO.challenge.IChallenge;
-import org.soen387.app.Domain.POJO.deck.IDeck;
-import org.soen387.app.Domain.POJO.game.IGame;
+import org.soen387.dom.POJO.challenge.IChallenge;
+import org.soen387.dom.POJO.deck.IDeck;
+import org.soen387.dom.POJO.game.IGame;
 
 public class Player extends DomainObject<Long> implements IPlayer  {
 	

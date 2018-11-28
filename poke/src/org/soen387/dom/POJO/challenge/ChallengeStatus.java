@@ -1,4 +1,4 @@
-package org.soen387.app.Domain.POJO.challenge;
+package org.soen387.dom.POJO.challenge;
 
 public enum ChallengeStatus {
 	A, // Open challenge (Default)

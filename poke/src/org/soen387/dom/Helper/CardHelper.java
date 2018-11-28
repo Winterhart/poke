@@ -1,4 +1,4 @@
-package org.soen387.app.Domain.Helper;
+package org.soen387.dom.Helper;
 
 public class CardHelper {
 

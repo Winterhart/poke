@@ -1,4 +1,4 @@
-package org.soen387.app.DataSource.Finder;
+package org.soen387.ser.Finder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,11 +7,12 @@ import java.sql.SQLException;
 
 import org.dsrg.soenea.service.logging.SQLLogger;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
-import org.soen387.app.DataSource.TDG.GameTDG;
+import org.soen387.ser.TDG.GameTDG;
 
 /**
  * Inspired by Stuart Thiel's Thesis : 
- * 'Enterprise Application Design Patterns: Improved and Applied'
+ * '
+ * Enterprise Application Design Patterns: Improved and Applied'
  */
 public class GameFinder {
 	private static String SELECT_BY_ID_SQL = 

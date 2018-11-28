@@ -1,6 +1,6 @@
-package org.soen387.app.Domain.Mapper;
+package org.soen387.dom.Mapper;
 
-import org.soen387.app.Domain.POJO.user.*;
+import org.soen387.dom.POJO.user.*;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.mapper.GenericOutputMapper;
 

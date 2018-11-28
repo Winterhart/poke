@@ -1,4 +1,4 @@
-package org.soen387.app.Presentation;
+package org.soen387.app;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,8 +12,8 @@ import org.dsrg.soenea.service.registry.Registry;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
 import org.dsrg.soenea.uow.MapperFactory;
 import org.dsrg.soenea.uow.UoW;
-import org.soen387.app.Domain.Mapper.PlayerOutputMapper;
-import org.soen387.app.Domain.POJO.user.Player;
+import org.soen387.dom.Mapper.PlayerOutputMapper;
+import org.soen387.dom.POJO.user.Player;
 
 /**
  * This Front-End Controller class and method

@@ -6,8 +6,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.Test;
-import org.soen387.app.Domain.Helper.CardHelper;
-import org.soen387.app.Util.DeckParser;
+import org.soen387.dom.Helper.CardHelper;
+import org.soen387.Util.DeckParser;
 
 public class TestDeckParser {
 	

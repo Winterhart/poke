@@ -1,4 +1,4 @@
-package org.soen387.app.DataSource.Finder;
+package org.soen387.ser.Finder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import org.dsrg.soenea.service.logging.SQLLogger;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
-import org.soen387.app.DataSource.TDG.BenchTDG;
+import org.soen387.ser.TDG.BenchTDG;
 
 /**
  * Inspired by Stuart Thiel's Thesis : 

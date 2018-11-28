@@ -1,4 +1,4 @@
-package org.soen387.app.Domain.POJO.game;
+package org.soen387.dom.POJO.game;
 
 import org.dsrg.soenea.domain.interf.IDomainObject;
 

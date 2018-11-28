@@ -1,4 +1,4 @@
-package org.soen387.app.DataSource.TDG;
+package org.soen387.ser.TDG;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

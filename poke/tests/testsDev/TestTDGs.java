@@ -7,15 +7,15 @@ import java.sql.SQLException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.soen387.app.DataSource.TDG.BenchTDG;
-import org.soen387.app.DataSource.TDG.CardTDG;
-import org.soen387.app.DataSource.TDG.ChallengeTDG;
-import org.soen387.app.DataSource.TDG.DeckTDG;
-import org.soen387.app.DataSource.TDG.DiscardTDG;
-import org.soen387.app.DataSource.TDG.GameTDG;
-import org.soen387.app.DataSource.TDG.HandTDG;
-import org.soen387.app.DataSource.TDG.PlayerTDG;
-import org.soen387.app.Presentation.FrontController;
+import org.soen387.ser.TDG.BenchTDG;
+import org.soen387.ser.TDG.CardTDG;
+import org.soen387.ser.TDG.ChallengeTDG;
+import org.soen387.ser.TDG.DeckTDG;
+import org.soen387.ser.TDG.DiscardTDG;
+import org.soen387.ser.TDG.GameTDG;
+import org.soen387.ser.TDG.HandTDG;
+import org.soen387.ser.TDG.PlayerTDG;
+import org.soen387.app.FrontController;
 
 public class TestTDGs {
 	Long id =  (long) 1;

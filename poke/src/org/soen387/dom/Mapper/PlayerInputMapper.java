@@ -1,4 +1,4 @@
-package org.soen387.app.Domain.Mapper;
+package org.soen387.dom.Mapper;
 
 public class PlayerInputMapper {
 
