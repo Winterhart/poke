@@ -1,6 +1,6 @@
 <roles>
 <role name="org.dsrg.soenea.domain.role.impl.GuestRole">
- <command name="org.soen387.app.dispatcher.user.Login" post="true" />
+ <command name="org.soen387.app.dispatcher.user.Login" post="true"  />
  <command name="org.soen387.app.dispatcher.user.Register" post="true" />
   <command name="org.soen387.app.dispatcher.user.Home" post="true" get="true" />
 </role> 

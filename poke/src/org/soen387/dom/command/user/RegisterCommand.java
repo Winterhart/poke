@@ -47,7 +47,9 @@ public class RegisterCommand extends ValidatorCommand {
 			roles.add(new GuestRole());
 			roles.add(new RegisteredRole());
 
-			currentUser = UserFactory.createNew(user, pass, roles);			
+			currentUser = UserFactory.createNew(user, pass, roles);
+			String message = "User Created";
+			helper.setRequestAttribute("message", message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addNotification(e.getMessage());

@@ -30,6 +30,7 @@ public class Register extends Dispatcher {
 			}
 			
 		} catch (CommandException e) {
+			myHelper.setRequestAttribute("message", e.getMessage());
 			forward("/WEB-INF/jsp/fail.jsp");
 		}
 	}
