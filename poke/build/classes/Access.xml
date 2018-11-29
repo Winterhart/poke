@@ -2,8 +2,11 @@
 <role name="org.dsrg.soenea.domain.role.impl.GuestRole">
  <command name="org.soen387.app.dispatcher.user.Login" post="true" />
  <command name="org.soen387.app.dispatcher.user.Register" post="true" />
+  <command name="org.soen387.app.dispatcher.user.Home" post="true" get="true" />
 </role> 
 <role name="org.soen387.dom.model.role.RegisteredRole">
 <command name="org.soen387.app.dispatcher.user.Logout" post="true" get="true" />
+<command name="org.soen387.app.dispatcher.challenge.ListPlayers" get="true"/>
+
 </role> 
 </roles>

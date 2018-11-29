@@ -1,5 +1,9 @@
 <permalinks>
     <Permalink>
+        <pattern>Poke/</pattern>
+        <dispatcher>org.soen387.app.dispatcher.user.Home</dispatcher>
+    </Permalink>
+    <Permalink>
         <pattern>Poke/Player/Register</pattern>
         <dispatcher>org.soen387.app.dispatcher.user.Register</dispatcher>
     </Permalink>
