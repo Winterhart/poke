@@ -10,7 +10,6 @@ import org.soen387.ser.TDG.DeckTDG;
 import org.soen387.ser.TDG.DiscardTDG;
 import org.soen387.ser.TDG.GameTDG;
 import org.soen387.ser.TDG.HandTDG;
-import org.soen387.ser.TDG.PlayerTDG;
 import org.soen387.app.PokeFC;;
 
 public class InitiDB {
@@ -28,10 +27,7 @@ public class InitiDB {
 			GameTDG.dropTable();
 			ChallengeTDG.dropTable();
 			DeckTDG.dropTable();
-			PlayerTDG.dropTable();
 
-			
-			PlayerTDG.createTable();
 			DeckTDG.createTable();
 			ChallengeTDG.createTable();
 			GameTDG.createTable();

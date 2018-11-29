@@ -9,14 +9,12 @@ import org.soen387.ser.TDG.DeckTDG;
 import org.soen387.ser.TDG.DiscardTDG;
 import org.soen387.ser.TDG.GameTDG;
 import org.soen387.ser.TDG.HandTDG;
-import org.soen387.ser.TDG.PlayerTDG;
 
 public class RenewDatabase {
 
 	public static void main(String[] args) {
-		PokeFC.prepareDbRegistry("");
-		try {
-
+		PokeFC.prepareDbRegistry("");			
+		try {			
 			HandTDG.dropTable();
 			BenchTDG.dropTable();
 			DiscardTDG.dropTable();
@@ -24,10 +22,14 @@ public class RenewDatabase {
 			GameTDG.dropTable();
 			ChallengeTDG.dropTable();
 			DeckTDG.dropTable();
-			PlayerTDG.dropTable();
-
-			
-			PlayerTDG.createTable();
+			UserTDG.dropTable();
+			UserTDG.dropUserRoleTable();
+		} catch(Exception e){
+			System.out.println("Problem while droping table " + e.getMessage());
+		}
+		try {			
+			UserTDG.createTable();
+			UserTDG.createUserRoleTable();
 			DeckTDG.createTable();
 			ChallengeTDG.createTable();
 			GameTDG.createTable();
@@ -35,17 +37,10 @@ public class RenewDatabase {
 			DiscardTDG.createTable();
 			BenchTDG.createTable();
 			HandTDG.createTable();
-		} catch(Exception e){}
+		} catch(Exception e){
+			System.out.println("Problem while creating table: " + e.getMessage());
+		}
 		
-		try {
-			UserTDG.dropUserRoleTable();
-		} catch(Exception e){}
-		
-		
-		try {
-			UserTDG.createTable();
-			UserTDG.createUserRoleTable();
-		} catch(Exception e){}
 
 	}
 

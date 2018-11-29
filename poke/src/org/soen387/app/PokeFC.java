@@ -61,7 +61,7 @@ public class PokeFC extends Servlet {
 	public static void prepareDbRegistry(final String db_id) {
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -130,16 +130,17 @@ public class PokeFC extends Servlet {
 	    } catch (final Exception e) {
 	    	e.printStackTrace();
 	    }
-
-		final File fileUploadDir = new File(Registry.getString("file.uploadDir"));
-		if (!fileUploadDir.exists()) {
-			if (!fileUploadDir.mkdirs())
-				throw new ServletException("Could not create file upload directory: " + fileUploadDir.getAbsolutePath());
-		}
-		getServletContext().setAttribute("fileUploadDirectory", fileUploadDir);
-		
-		FileUploadFactory.setRepo(new File(getServletContext().getRealPath("WEB-INF/files/temp")));
-		
+	    
+//
+//		final File fileUploadDir = new File(Registry.getString("file.uploadDir"));
+//		if (!fileUploadDir.exists()) {
+//			if (!fileUploadDir.mkdirs())
+//				throw new ServletException("Could not create file upload directory: " + fileUploadDir.getAbsolutePath());
+//		}
+//		getServletContext().setAttribute("fileUploadDirectory", fileUploadDir);
+//		
+//		FileUploadFactory.setRepo(new File(getServletContext().getRealPath("/WEB-INF/files/temp")));
+//		
 		setupUoW();
 	}
 	
@@ -272,6 +273,7 @@ public class PokeFC extends Servlet {
 				currentUser = UserInputMapper.find(userId);
 			}
 		} catch (final Exception e) {
+			System.out.println("Problem with Authentication process... ");
 			throw new AuthenticationException(e);
 		} finally {
 			helper.get().setRequestAttribute(RequestAttributes.CURRENT_USER, currentUser);
@@ -286,6 +288,7 @@ public class PokeFC extends Servlet {
 		try {
 			startDatabaseTransactions();
 		} catch (final SQLException e) {
+			System.out.println("Problem with Pre-process request ");
 			e.printStackTrace();
 		}
 	}
@@ -298,6 +301,7 @@ public class PokeFC extends Servlet {
 			//It's ok to throw this away... that's the point. If something is really
 			//going wrong, we'll catch it elsewhere. I guess that's the theory.
 			// 20070621 dhr: Scary...
+			System.out.println("Problem Post Request : " + e.getMessage());
 		}
 		performRequestCleanup();
 	}

@@ -18,22 +18,22 @@ public class GameTDG {
 			"CREATE TABLE IF NOT EXISTS " + TABLE + 
 			" (id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
-			"challengerId BIGINT NOT NULL, " + 
-			"challengeeId BIGINT NOT NULL, " +
-			"currentTurn BIGINT NOT NULL, " +
+			"challengerId INTEGER NOT NULL, " + 
+			"challengeeId INTEGER NOT NULL, " +
+			"currentTurn INTEGER NOT NULL, " +
 			"numberOfTurn INT NOT NULL DEFAULT 0, " +
 			"challengerStatus NVARCHAR(50) NOT NULL, " +
 			"challengeeStatus NVARCHAR(50) NOT NULL, "+
 			"challengerDeckId BIGINT NOT NULL, " +
 			"challengeeDeckId BIGINT NOT NULL, " +
 			"CONSTRAINT FK_game_challengerId "
-			+ " FOREIGN KEY (challengerId) REFERENCES user(id) " +
+			+ " FOREIGN KEY (challengerId) REFERENCES User(id) " +
 			"ON DELETE CASCADE ON UPDATE CASCADE, " +
 			"CONSTRAINT FK_game_challengeeId "
-			+ "FOREIGN KEY (challengeeId) REFERENCES user(id) " +
+			+ "FOREIGN KEY (challengeeId) REFERENCES User(id) " +
 			"ON DELETE CASCADE ON UPDATE CASCADE, " +
 			"CONSTRAINT FK_currentTurn "
-			+ "FOREIGN KEY (currentTurn) REFERENCES user(id) "+
+			+ "FOREIGN KEY (currentTurn) REFERENCES User(id) "+
 			"ON DELETE CASCADE ON UPDATE CASCADE, " +
 			"CONSTRAINT FK_game_challengerDeckId "
 			+ "FOREIGN KEY (challengerDeckId) REFERENCES deck(id) " +

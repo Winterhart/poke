@@ -18,8 +18,8 @@ public class DeckTDG {
 			"CREATE TABLE IF NOT EXISTS " + TABLE + 
 			"(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
 			"version int NOT NULL DEFAULT 0, " +
-			"ownerId BIGINT NOT NULL, " +
-			"CONSTRAINT FK_OwnerId FOREIGN KEY (ownerId) REFERENCES user(id) "
+			"ownerId INTEGER NOT NULL, " +
+			"CONSTRAINT FK_OwnerId FOREIGN KEY (ownerId) REFERENCES User(id) "
 			+ "ON UPDATE CASCADE "
 			+ "ON DELETE CASCADE )ENGINE=INNODB; ";
 	

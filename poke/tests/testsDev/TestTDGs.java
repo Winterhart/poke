@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
 
+import org.dsrg.soenea.service.tdg.UserTDG;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +15,6 @@ import org.soen387.ser.TDG.DeckTDG;
 import org.soen387.ser.TDG.DiscardTDG;
 import org.soen387.ser.TDG.GameTDG;
 import org.soen387.ser.TDG.HandTDG;
-import org.soen387.ser.TDG.PlayerTDG;
 import org.soen387.app.PokeFC;
 
 public class TestTDGs {
@@ -29,7 +29,7 @@ public class TestTDGs {
 	public void testInsertUser() {
 
 		try {
-			int res = PlayerTDG.insert(id, v, "Bob", "19i2j32ijedj89j8d9dj393jhdjdidjsijdsij");
+			int res = UserTDG.insert(id, v, "Bob", "19i2j32ijedj89j8d9dj393jhdjdidjsijdsij");
 			if(res != 1) {
 				assertTrue(false);
 			}
@@ -42,7 +42,7 @@ public class TestTDGs {
 	public void testInsertUser2() {
 
 		try {
-			int res = PlayerTDG.insert(id++, v, "Alice", "daewd2e2edj89j8d9dj393jhdjdidjsijdsij");
+			int res = UserTDG.insert(id++, v, "Alice", "daewd2e2edj89j8d9dj393jhdjdidjsijdsij");
 			if(res != 1) {
 				assertTrue(false);
 			}
@@ -145,10 +145,7 @@ public class TestTDGs {
 			GameTDG.dropTable();
 			ChallengeTDG.dropTable();
 			DeckTDG.dropTable();
-			PlayerTDG.dropTable();
 
-			
-			PlayerTDG.createTable();
 			DeckTDG.createTable();
 			ChallengeTDG.createTable();
 			GameTDG.createTable();
