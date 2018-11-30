@@ -85,7 +85,6 @@ public class CardInputMapper implements IdentityBasedProducer {
 					t,
 					rs.getString("cardBase"));
 		} catch (MapperException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
