@@ -3,7 +3,13 @@ package org.soen387.dom.POJO.deck;
 import java.util.List;
 
 import org.dsrg.soenea.domain.DomainObject;
+import org.dsrg.soenea.domain.annotation.ExternalProducer;
+import org.dsrg.soenea.domain.annotation.IDFieldType;
+import org.dsrg.soenea.domain.annotation.Interface;
 
+@IDFieldType (Long.class)
+@Interface (IDeck.class)
+@ExternalProducer (DeckProxy.class)
 public class Deck extends DomainObject<Long> implements IDeck {
 	
 

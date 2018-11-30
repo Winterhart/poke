@@ -90,4 +90,9 @@ public class CardTDG {
 		return result;
 	}
 
+	public static Long getMaxId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

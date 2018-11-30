@@ -1,9 +1,7 @@
 package org.soen387.app.dispatcher.challenge;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
-
 import org.dsrg.soenea.application.servlet.dispatcher.Dispatcher;
 import org.soen387.dom.command.challenge.ListPlayersCommand;
 
