@@ -64,6 +64,16 @@ public class Card extends DomainObject<Long> implements ICard {
 		this.base = base;
 	}
 	
+	public static CardType convertToType(String typ) {
+		for(CardType type: CardType.values()) {
+			if(type.toString().equalsIgnoreCase(typ)) {
+				return type;
+			}
+		}
+		
+		return null;
+	}
+	
 	
 	
 	

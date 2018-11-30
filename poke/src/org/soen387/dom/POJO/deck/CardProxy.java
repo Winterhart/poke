@@ -12,42 +12,6 @@ public CardProxy(Long id) {
 }
 
 @Override
-public String getName() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-@Override
-public void setName(String name) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public CardType getCardType() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-@Override
-public void setCardType(CardType cardType) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public String getBase() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-@Override
-public void setBase(String base) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
 protected Card getFromMapper(Long id) throws MapperException, DomainObjectCreationException {
 	try {
 		return CardInputMapper.find(getId());
@@ -57,14 +21,46 @@ protected Card getFromMapper(Long id) throws MapperException, DomainObjectCreati
 }
 
 @Override
+public String getName() {
+	return getInnerObject().getName();
+}
+
+@Override
+public void setName(String name) {
+	getInnerObject().setName(name);
+	
+}
+
+@Override
+public CardType getCardType() {
+	return getInnerObject().getCardType();
+}
+
+@Override
+public void setCardType(CardType cardType) {
+	getInnerObject().setCardType(cardType);
+	
+}
+
+@Override
+public String getBase() {
+	return getInnerObject().getBase();
+}
+
+@Override
+public void setBase(String base) {
+	getInnerObject().setBase(base);
+	
+}
+
+@Override
 public Long getDeckId() {
-	// TODO Auto-generated method stub
-	return null;
+	return getInnerObject().getDeckId();
 }
 
 @Override
 public void setDeckId(Long deckId) {
-	// TODO Auto-generated method stub
+	getInnerObject().setDeckId(deckId);
 	
 }
 	
