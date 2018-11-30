@@ -18,7 +18,7 @@ public class DeckProxy extends DomainObjectProxy<Long, Deck> implements IDeck  {
 		try {
 			return DeckInputMapper.find(getId());
 		}catch(Exception ee) {
-			throw new MapperException(ee);
+			throw new MapperException(ee.getMessage());
 		}
 	}
 

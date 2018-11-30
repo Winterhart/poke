@@ -16,7 +16,7 @@ protected Card getFromMapper(Long id) throws MapperException, DomainObjectCreati
 	try {
 		return CardInputMapper.find(getId());
 	}catch(Exception ee) {
-		throw new MapperException(ee);
+		throw new MapperException(ee.getMessage());
 	}
 }
 
