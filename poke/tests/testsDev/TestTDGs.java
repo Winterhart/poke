@@ -137,7 +137,7 @@ public class TestTDGs {
 	
 	@AfterClass
 	public static void ResetDB() {
-		try {
+		try {			
 			HandTDG.dropTable();
 			BenchTDG.dropTable();
 			DiscardTDG.dropTable();
@@ -145,7 +145,14 @@ public class TestTDGs {
 			GameTDG.dropTable();
 			ChallengeTDG.dropTable();
 			DeckTDG.dropTable();
-
+			UserTDG.dropTable();
+			UserTDG.dropUserRoleTable();
+		} catch(Exception e){
+			System.out.println("Problem while droping table " + e.getMessage());
+		}
+		try {			
+			UserTDG.createTable();
+			UserTDG.createUserRoleTable();
 			DeckTDG.createTable();
 			ChallengeTDG.createTable();
 			GameTDG.createTable();
@@ -153,9 +160,8 @@ public class TestTDGs {
 			DiscardTDG.createTable();
 			BenchTDG.createTable();
 			HandTDG.createTable();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch(Exception e){
+			System.out.println("Problem while creating table: " + e.getMessage());
 		}
 
 	}
