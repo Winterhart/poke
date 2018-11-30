@@ -10,7 +10,7 @@ import org.soen387.dom.POJO.deck.ICard;
 
 public class HandProxy extends DomainObjectProxy<Long, Hand> implements IHand {
 
-	protected HandProxy(Long id) {
+	public HandProxy(Long id) {
 		super(id);
 	}
 	

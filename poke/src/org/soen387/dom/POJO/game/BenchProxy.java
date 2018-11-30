@@ -10,7 +10,7 @@ import org.soen387.dom.POJO.deck.ICard;
 
 public class BenchProxy extends DomainObjectProxy<Long, Bench> implements IBench {
 
-	protected BenchProxy(Long id) {
+	public BenchProxy(Long id) {
 		super(id);
 	}
 

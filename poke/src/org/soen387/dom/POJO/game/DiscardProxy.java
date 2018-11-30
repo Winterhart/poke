@@ -10,7 +10,7 @@ import org.soen387.dom.POJO.deck.ICard;
 
 public class DiscardProxy extends DomainObjectProxy<Long, Discard> implements IDiscard {
 
-	protected DiscardProxy(Long id) {
+	public DiscardProxy(Long id) {
 		super(id);
 	}
 
