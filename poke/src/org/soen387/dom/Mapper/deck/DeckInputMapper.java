@@ -54,18 +54,16 @@ public class DeckInputMapper implements IdentityBasedProducer {
 	}
 	
 	private static Deck getDeck(ResultSet rs) throws SQLException, MapperException {
-		List<ICard> cardFromDeck = new ArrayList<ICard>();
 		try {	
-			cardFromDeck = CardInputMapper.findAllByDeckId(rs.getLong("id"));
+			return DeckFactory.createClean(
+					rs.getLong("id"),
+					rs.getLong("version"),
+					rs.getLong("ownerId"));
 		}catch(Exception e) {
 			System.out.println("Can't load card for deck..." + e.getMessage());
 		}
+		return null;
 
-		return DeckFactory.createClean(
-				rs.getLong("id"),
-				rs.getLong("version"),
-				cardFromDeck,
-				rs.getLong("ownerId"));
 	}
 
 }

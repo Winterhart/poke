@@ -14,7 +14,7 @@ public class ManagerDeck extends Dispatcher {
 		if(this.myRequest.getParameterMap().containsKey("deck")) {
 			//User want to upload a deck
 			UploadDeckCommand upload = new UploadDeckCommand(myHelper);
-			this.myRequest.getParameter("deck");
+			
 			
 			try {
 				upload.execute();

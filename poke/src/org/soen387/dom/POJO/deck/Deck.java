@@ -1,7 +1,5 @@
 package org.soen387.dom.POJO.deck;
 
-import java.util.List;
-
 import org.dsrg.soenea.domain.DomainObject;
 import org.dsrg.soenea.domain.annotation.ExternalProducer;
 import org.dsrg.soenea.domain.annotation.IDFieldType;
@@ -13,7 +11,6 @@ import org.dsrg.soenea.domain.annotation.Interface;
 public class Deck extends DomainObject<Long> implements IDeck {
 	
 
-	private List<ICard> cards;
 	private Long ownerId;
 	
 	public Long getOwnerId() {
@@ -28,19 +25,11 @@ public class Deck extends DomainObject<Long> implements IDeck {
 		super(id, version);
 	}
 	
-	public Deck(Long id, long version, List<ICard> cards, Long ownerId) {
+	public Deck(Long id, long version, Long ownerId) {
 		super(id, version);
-		this.cards = cards;
 		this.ownerId = ownerId;
 	}
 
-	public List<ICard> getCards() {
-		return cards;
-	}
-
-	public void setCards(List<ICard> cards) {
-		this.cards = cards;
-	}
 	
 
 	

@@ -24,4 +24,17 @@ public class CardFactory {
 		UoW.getCurrent().registerClean(c);
 		return c;
 	}
+	
+	public static Card createNew(String name, String type, Long deckId, String base) throws SQLException, MapperException {
+		Long version = (long)1;
+		CardType choosenType = null;
+		for(CardType t: CardType.values()) {
+			if(t.toString().equalsIgnoreCase(type)) {
+				choosenType = t;
+				return  createNew(CardTDG.getMaxId(), version, name, choosenType, deckId, base);
+			}
+		}
+		
+		return null;
+	}
 }

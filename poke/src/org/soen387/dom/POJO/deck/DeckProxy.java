@@ -1,6 +1,5 @@
 package org.soen387.dom.POJO.deck;
 
-import java.util.List;
 
 import org.dsrg.soenea.domain.DomainObjectCreationException;
 import org.dsrg.soenea.domain.MapperException;
@@ -20,17 +19,6 @@ public class DeckProxy extends DomainObjectProxy<Long, Deck> implements IDeck  {
 		}catch(Exception ee) {
 			throw new MapperException(ee.getMessage());
 		}
-	}
-
-	@Override
-	public List<ICard> getCards() {
-		return getInnerObject().getCards();
-	}
-
-	@Override
-	public void setCards(List<ICard> cards) {
-		getInnerObject().setCards(cards);
-		
 	}
 	
 	@Override
