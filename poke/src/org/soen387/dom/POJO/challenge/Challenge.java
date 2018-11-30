@@ -1,7 +1,13 @@
 package org.soen387.dom.POJO.challenge;
 
 import org.dsrg.soenea.domain.DomainObject;
+import org.dsrg.soenea.domain.annotation.ExternalProducer;
+import org.dsrg.soenea.domain.annotation.IDFieldType;
+import org.dsrg.soenea.domain.annotation.Interface;
 
+@IDFieldType(Long.class)
+@Interface(IChallenge.class)
+@ExternalProducer(ChallengeProxy.class)
 public class Challenge extends DomainObject<Long> implements IChallenge {
 
 	private Long challengerId;

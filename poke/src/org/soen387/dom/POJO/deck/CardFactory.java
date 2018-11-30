@@ -7,8 +7,14 @@ import org.dsrg.soenea.uow.UoW;
 import org.soen387.ser.TDG.CardTDG;
 
 public class CardFactory {
+	
 	public static Card createNew(String name, CardType type, Long deckId) throws SQLException, MapperException {
-		Card c = new Card(CardTDG.getMaxId(), 1, deckId, name, type, "");
+		Long version = (long)1;
+		return createNew(CardTDG.getMaxId(), version, name, type, deckId, "");
+	}
+	
+	public static Card createNew(Long id, Long version, String name, CardType type, Long deckId, String base) throws SQLException, MapperException {
+		Card c = new Card(id, version, deckId, name, type, "");
 		UoW.getCurrent().registerNew(c);
 		return c;
 	}

@@ -14,6 +14,8 @@ import org.soen387.dom.POJO.deck.ICard;
 
 public class Discard extends DomainObject<Long> implements IDiscard {
 	private List<ICard> cards;
+	private Long gameId;
+	private Long deckId;
 	
 	public List<ICard> getCards() {
 		return cards;
@@ -26,9 +28,23 @@ public class Discard extends DomainObject<Long> implements IDiscard {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Discard(Long id, long version, List<ICard> cards) {
+	public Discard(Long id, long version, List<ICard> cards, Long gameId, Long deckId) {
 		super(id, version);
 		this.cards = cards;
+		this.gameId = gameId;
+		this.deckId = deckId;
+	}
+	public Long getGameId() {
+		return gameId;
+	}
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
+	}
+	public Long getDeckId() {
+		return deckId;
+	}
+	public void setDeckId(Long deckId) {
+		this.deckId = deckId;
 	}
 
 

@@ -13,16 +13,36 @@ import org.soen387.dom.POJO.deck.ICard;
 @ExternalProducer(HandProxy.class)
 public class Hand extends DomainObject<Long> implements IHand {
 	private List<ICard> cards;
+	private Long gameId;
+	private Long deckId;
+	
+	public Long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
+	}
+
+	public Long getDeckId() {
+		return deckId;
+	}
+
+	public void setDeckId(Long deckId) {
+		this.deckId = deckId;
+	}
+
 	protected Hand(Long id, long version) {
 		super(id, version);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Hand(Long id, long version, List<ICard> cards) {
+	public Hand(Long id, long version, List<ICard> cards, Long gameId, Long deckId) {
 		super(id, version);
 		this.cards = cards;
+		this.gameId = gameId;
+		this.deckId = deckId;
 	}
-	
 	public List<ICard> getCards() {
 		return cards;
 	}

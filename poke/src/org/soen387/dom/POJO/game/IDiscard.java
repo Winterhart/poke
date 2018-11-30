@@ -8,4 +8,8 @@ import org.soen387.dom.POJO.deck.ICard;
 public interface IDiscard extends IDomainObject<Long>  {
 	public List<ICard> getCards();
 	public void setCards(List<ICard> cards);
+	public Long getGameId(); 
+	public void setGameId(Long gameId);
+	public Long getDeckId();
+	public void setDeckId(Long deckId);
 }
