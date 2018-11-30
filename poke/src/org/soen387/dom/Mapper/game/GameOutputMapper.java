@@ -5,7 +5,6 @@ import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.mapper.GenericOutputMapper;
 import org.dsrg.soenea.domain.mapper.LostUpdateException;
 import org.soen387.dom.POJO.game.Game;
-import org.soen387.ser.TDG.ChallengeTDG;
 import org.soen387.ser.TDG.GameTDG;
 
 public class GameOutputMapper extends GenericOutputMapper<Long, Game> {
