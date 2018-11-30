@@ -11,6 +11,5 @@ public interface ICard extends IDomainObject<Long> {
 	public String getBase();
 	public void setBase(String base);
 	public Long getDeckId();
-
 	public void setDeckId(Long deckId);
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.dsrg.soenea.service.UniqueIdFactory;
 import org.dsrg.soenea.service.logging.SQLLogger;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
 /**
@@ -76,6 +77,10 @@ public class DeckTDG {
 		int result = SQLLogger.processUpdate(ps);
 		ps.close();
 		return result;
+	}
+	
+	public static long getMaxId() throws SQLException {
+		return UniqueIdFactory.getMaxId(TABLE, "id");
 	}
 
 }

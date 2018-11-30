@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.dsrg.soenea.service.UniqueIdFactory;
 import org.dsrg.soenea.service.logging.SQLLogger;
 import org.dsrg.soenea.service.threadLocal.DbRegistry;
 /**
@@ -40,6 +41,8 @@ public class CardTDG {
 			"UPDATE " + TABLE + " SET version=version+1, deckId=?"
 					+ " cardName=?, cardType=?, cardBase=? " +
 					"WHERE id=? and version=?";
+	
+	private final static String GET_MAX_ID = "SELECT max(id) as id from " + TABLE + " ;";
 	
 	public static void dropTable() throws SQLException {
 		SQLLogger.processUpdate(DbRegistry.getDbConnection().createStatement(), DROP_TABLE);
@@ -90,9 +93,8 @@ public class CardTDG {
 		return result;
 	}
 
-	public static Long getMaxId() {
-		// TODO Auto-generated method stub
-		return null;
+	public static long getMaxId() throws SQLException {
+		return UniqueIdFactory.getMaxId(TABLE, "id");
 	}
 
 }

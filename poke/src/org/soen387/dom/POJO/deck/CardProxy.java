@@ -55,5 +55,17 @@ protected Card getFromMapper(Long id) throws MapperException, DomainObjectCreati
 		throw new MapperException(ee);
 	}
 }
+
+@Override
+public Long getDeckId() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public void setDeckId(Long deckId) {
+	// TODO Auto-generated method stub
+	
+}
 	
 }
