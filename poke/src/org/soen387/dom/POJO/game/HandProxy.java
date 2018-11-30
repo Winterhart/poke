@@ -24,16 +24,6 @@ public class HandProxy extends DomainObjectProxy<Long, Hand> implements IHand {
 		}
 	}
 
-	@Override
-	public List<ICard> getCards() {
-		return getInnerObject().getCards();
-	}
-
-	@Override
-	public void setCards(List<ICard> cards) {
-		getInnerObject().setCards(cards);
-		
-	}
 
 	@Override
 	public Long getGameId() {
@@ -55,6 +45,18 @@ public class HandProxy extends DomainObjectProxy<Long, Hand> implements IHand {
 	public void setDeckId(Long deckId) {
 		getInnerObject().setDeckId(deckId);
 		
+	}
+
+
+	@Override
+	public Long getCardId() {
+		return getInnerObject().getCardId();
+	}
+
+
+	@Override
+	public void setCardId(Long cardId) {
+		getInnerObject().setCardId(cardId);
 	}
 
 

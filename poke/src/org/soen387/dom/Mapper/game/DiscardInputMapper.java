@@ -54,35 +54,34 @@ public class DiscardInputMapper implements IdentityBasedProducer {
 		
 	}
 	
-	public static IDiscard findByGameIdAndDeckId(Long deckId, Long gameId) throws SQLException, MapperException {
-		IDiscard discard = null;
+	public static List<IDiscard> findByGameIdAndDeckId(Long deckId, Long gameId) throws SQLException, MapperException {
+		List<IDiscard> diss = new ArrayList<IDiscard>();
 		ResultSet rs = DiscardFinder.findAll();
 		while(rs.next()) {
 			if(rs.getLong("gameId") == gameId && rs.getLong("deckId") == deckId) {
 				try {
-					return IdentityMap.get(rs.getLong("id"), Discard.class);
+					
+					diss.add(IdentityMap.get(rs.getLong("id"), Discard.class));
 					
 				}catch(DomainObjectNotFoundException ee) {
-					System.out.println("Domain not found " + ee.getMessage());	
+					System.out.println("Domain not found " + ee.getMessage());
+					
 				}
 				
-				return getDiscard(rs);
-			
+				diss.add(new DiscardProxy(rs.getLong("id")));
 			}
 
 		}
 		
-		return discard;
+		return diss;
 	}
 	
 	private static Discard getDiscard(ResultSet rs) throws SQLException, MapperException {
-		List<ICard> generatedList = new ArrayList<ICard>();
-		generatedList = findCards(rs.getLong("deckId"), rs.getLong("gameId"));
 		try {
 			return DiscardFactory.createClean(
 					rs.getLong("id"), 
 					rs.getLong("version"), 
-					generatedList, 
+					rs.getLong("cardId"),
 					rs.getLong("deckId"), 
 					rs.getLong("gameId"));
 			
@@ -93,17 +92,6 @@ public class DiscardInputMapper implements IdentityBasedProducer {
 		return null;
 	}
 	
-	private static List<ICard> findCards(Long deckId, Long gameId) throws SQLException, MapperException{
-		List<ICard> cards = new ArrayList<ICard>();
-		ResultSet rs = DiscardFinder.findAll();
-		while(rs.next()) {
-			if(rs.getLong("gameId") == gameId && rs.getLong("deckId") == deckId) {
-				Long cardId = rs.getLong("cardId");
-				cards.add(CardInputMapper.find(cardId));
-			}
-		}
-		
-		return cards;
-	}
+
 
 }

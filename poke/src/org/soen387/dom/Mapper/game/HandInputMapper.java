@@ -9,8 +9,6 @@ import org.dsrg.soenea.domain.mapper.DomainObjectNotFoundException;
 import org.dsrg.soenea.domain.mapper.IdentityMap;
 import org.dsrg.soenea.domain.producer.IdentityBasedProducer;
 import org.dsrg.soenea.domain.producer.IdentityBasedProducerMethod;
-import org.soen387.dom.Mapper.deck.CardInputMapper;
-import org.soen387.dom.POJO.deck.ICard;
 import org.soen387.dom.POJO.game.Hand;
 import org.soen387.dom.POJO.game.HandFactory;
 import org.soen387.dom.POJO.game.HandProxy;
@@ -18,8 +16,6 @@ import org.soen387.dom.POJO.game.IHand;
 import org.soen387.ser.Finder.HandFinder;
 
 public class HandInputMapper implements IdentityBasedProducer {
-
-
 	@IdentityBasedProducerMethod
 	public static Hand find(Long id) throws SQLException, MapperException {
 		try {
@@ -55,35 +51,34 @@ public class HandInputMapper implements IdentityBasedProducer {
 		
 	}
 	
-	public static IHand findByGameIdAndDeckId(Long deckId, Long gameId) throws SQLException, MapperException {
-		IHand Hand = null;
+	public static List<IHand> findByGameIdAndDeckId(Long deckId, Long gameId) throws SQLException, MapperException {
+		List<IHand> diss = new ArrayList<IHand>();
 		ResultSet rs = HandFinder.findAll();
 		while(rs.next()) {
 			if(rs.getLong("gameId") == gameId && rs.getLong("deckId") == deckId) {
 				try {
-					return IdentityMap.get(rs.getLong("id"), Hand.class);
+					
+					diss.add(IdentityMap.get(rs.getLong("id"), Hand.class));
 					
 				}catch(DomainObjectNotFoundException ee) {
-					System.out.println("Domain not found " + ee.getMessage());	
+					System.out.println("Domain not found " + ee.getMessage());
+					
 				}
 				
-				return getHand(rs);
-			
+				diss.add(new HandProxy(rs.getLong("id")));
 			}
 
 		}
 		
-		return Hand;
+		return diss;
 	}
 	
 	private static Hand getHand(ResultSet rs) throws SQLException, MapperException {
-		List<ICard> generatedList = new ArrayList<ICard>();
-		generatedList = findCards(rs.getLong("deckId"), rs.getLong("gameId"));
 		try {
 			return HandFactory.createClean(
 					rs.getLong("id"), 
 					rs.getLong("version"), 
-					generatedList, 
+					rs.getLong("cardId"),
 					rs.getLong("deckId"), 
 					rs.getLong("gameId"));
 			
@@ -92,19 +87,6 @@ public class HandInputMapper implements IdentityBasedProducer {
 		}
 		
 		return null;
-	}
-	
-	private static List<ICard> findCards(Long deckId, Long gameId) throws SQLException, MapperException{
-		List<ICard> cards = new ArrayList<ICard>();
-		ResultSet rs = HandFinder.findAll();
-		while(rs.next()) {
-			if(rs.getLong("gameId") == gameId && rs.getLong("deckId") == deckId) {
-				Long cardId = rs.getLong("cardId");
-				cards.add(CardInputMapper.find(cardId));
-			}
-		}
-		
-		return cards;
 	}
 
 }

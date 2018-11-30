@@ -26,14 +26,14 @@ public class DiscardProxy extends DomainObjectProxy<Long, Discard> implements ID
 
 
 	@Override
-	public List<ICard> getCards() {
-		return getInnerObject().getCards();
+	public Long getCardId() {
+		return getInnerObject().getCardId();
 	}
 
+
 	@Override
-	public void setCards(List<ICard> cards) {
-		getInnerObject().setCards(cards);
-		
+	public void setCardId(Long cardId) {
+		getInnerObject().setCardId(cardId);
 	}
 
 	@Override

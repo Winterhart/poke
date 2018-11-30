@@ -13,7 +13,7 @@ import org.soen387.dom.POJO.deck.ICard;
 @Interface(IBench.class)
 @ExternalProducer(BenchProxy.class)
 public class Bench extends DomainObject<Long> implements IBench {
-	private List<ICard> cards;
+	private Long cardId;
 	private Long gameId;
 	private Long deckId;
 
@@ -26,6 +26,12 @@ public class Bench extends DomainObject<Long> implements IBench {
 	public Long getDeckId() {
 		return deckId;
 	}
+	public Long getCardId() {
+		return cardId;
+	}
+	public void setCardId(Long cardId) {
+		this.cardId = cardId;
+	}
 	public void setDeckId(Long deckId) {
 		this.deckId = deckId;
 	}
@@ -33,17 +39,11 @@ public class Bench extends DomainObject<Long> implements IBench {
 		super(id, version);
 		// TODO Auto-generated constructor stub
 	}
-	public Bench(Long id, long version, List<ICard> cards, Long gameId, Long deckId) {
+	public Bench(Long id, long version, Long cardId, Long gameId, Long deckId) {
 		super(id, version);
-		this.cards = cards;
+		this.cardId = cardId;
 		this.gameId = gameId;
 		this.deckId = deckId;
-	}
-	public List<ICard> getCards() {
-		return cards;
-	}
-	public void setCards(List<ICard> cards) {
-		this.cards = cards;
 	}
 
 

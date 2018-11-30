@@ -9,8 +9,6 @@ import org.dsrg.soenea.domain.mapper.DomainObjectNotFoundException;
 import org.dsrg.soenea.domain.mapper.IdentityMap;
 import org.dsrg.soenea.domain.producer.IdentityBasedProducer;
 import org.dsrg.soenea.domain.producer.IdentityBasedProducerMethod;
-import org.soen387.dom.Mapper.deck.CardInputMapper;
-import org.soen387.dom.POJO.deck.ICard;
 import org.soen387.dom.POJO.game.Bench;
 import org.soen387.dom.POJO.game.BenchFactory;
 import org.soen387.dom.POJO.game.BenchProxy;
@@ -18,7 +16,6 @@ import org.soen387.dom.POJO.game.IBench;
 import org.soen387.ser.Finder.BenchFinder;
 
 public class BenchInputMapper implements IdentityBasedProducer   {
-
 
 	@IdentityBasedProducerMethod
 	public static Bench find(Long id) throws SQLException, MapperException {
@@ -55,35 +52,34 @@ public class BenchInputMapper implements IdentityBasedProducer   {
 		
 	}
 	
-	public static IBench findByGameIdAndDeckId(Long deckId, Long gameId) throws SQLException, MapperException {
-		IBench Bench = null;
+	public static List<IBench> findByGameIdAndDeckId(Long deckId, Long gameId) throws SQLException, MapperException {
+		List<IBench> diss = new ArrayList<IBench>();
 		ResultSet rs = BenchFinder.findAll();
 		while(rs.next()) {
 			if(rs.getLong("gameId") == gameId && rs.getLong("deckId") == deckId) {
 				try {
-					return IdentityMap.get(rs.getLong("id"), Bench.class);
+					
+					diss.add(IdentityMap.get(rs.getLong("id"), Bench.class));
 					
 				}catch(DomainObjectNotFoundException ee) {
-					System.out.println("Domain not found " + ee.getMessage());	
+					System.out.println("Domain not found " + ee.getMessage());
+					
 				}
 				
-				return getBench(rs);
-			
+				diss.add(new BenchProxy(rs.getLong("id")));
 			}
 
 		}
 		
-		return Bench;
+		return diss;
 	}
 	
 	private static Bench getBench(ResultSet rs) throws SQLException, MapperException {
-		List<ICard> generatedList = new ArrayList<ICard>();
-		generatedList = findCards(rs.getLong("deckId"), rs.getLong("gameId"));
 		try {
 			return BenchFactory.createClean(
 					rs.getLong("id"), 
 					rs.getLong("version"), 
-					generatedList, 
+					rs.getLong("cardId"),
 					rs.getLong("deckId"), 
 					rs.getLong("gameId"));
 			
@@ -92,19 +88,6 @@ public class BenchInputMapper implements IdentityBasedProducer   {
 		}
 		
 		return null;
-	}
-	
-	private static List<ICard> findCards(Long deckId, Long gameId) throws SQLException, MapperException{
-		List<ICard> cards = new ArrayList<ICard>();
-		ResultSet rs = BenchFinder.findAll();
-		while(rs.next()) {
-			if(rs.getLong("gameId") == gameId && rs.getLong("deckId") == deckId) {
-				Long cardId = rs.getLong("cardId");
-				cards.add(CardInputMapper.find(cardId));
-			}
-		}
-		
-		return cards;
 	}
 
 }

@@ -1,18 +1,16 @@
 package org.soen387.dom.POJO.game;
 
-import java.util.List;
 
 import org.dsrg.soenea.domain.DomainObject;
 import org.dsrg.soenea.domain.annotation.ExternalProducer;
 import org.dsrg.soenea.domain.annotation.IDFieldType;
 import org.dsrg.soenea.domain.annotation.Interface;
-import org.soen387.dom.POJO.deck.ICard;
 
 @IDFieldType(Long.class)
 @Interface(IHand.class)
 @ExternalProducer(HandProxy.class)
 public class Hand extends DomainObject<Long> implements IHand {
-	private List<ICard> cards;
+	private Long cardId;
 	private Long gameId;
 	private Long deckId;
 	
@@ -34,20 +32,21 @@ public class Hand extends DomainObject<Long> implements IHand {
 
 	protected Hand(Long id, long version) {
 		super(id, version);
-		// TODO Auto-generated constructor stub
 	}
 	
-	public Hand(Long id, long version, List<ICard> cards, Long gameId, Long deckId) {
+	public Long getCardId() {
+		return cardId;
+	}
+
+	public void setCardId(Long cardId) {
+		this.cardId = cardId;
+	}
+
+	public Hand(Long id, long version, Long cardId, Long gameId, Long deckId) {
 		super(id, version);
-		this.cards = cards;
+		this.cardId = cardId;
 		this.gameId = gameId;
 		this.deckId = deckId;
-	}
-	public List<ICard> getCards() {
-		return cards;
-	}
-	public void setCards(List<ICard> cards) {
-		this.cards = cards;
 	}
 
 	
