@@ -9,4 +9,6 @@ public interface IDeck extends IDomainObject<Long>{
 	public List<ICard> getCards();
 
 	public void setCards(List<ICard> cards);
+	public Long getOwnerId();
+	public void setOwnerId(Long ownerId);
 }

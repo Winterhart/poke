@@ -32,5 +32,15 @@ public class DeckProxy extends DomainObjectProxy<Long, Deck> implements IDeck  {
 		getInnerObject().setCards(cards);
 		
 	}
+	
+	@Override
+	public Long getOwnerId() {
+		return getInnerObject().getOwnerId();
+	}
+
+	@Override
+	public void setOwnerId(Long ownerId) {
+		getInnerObject().setOwnerId(ownerId);
+	}
 
 }

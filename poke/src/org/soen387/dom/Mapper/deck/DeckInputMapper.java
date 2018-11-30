@@ -64,7 +64,8 @@ public class DeckInputMapper implements IdentityBasedProducer {
 		return DeckFactory.createClean(
 				rs.getLong("id"),
 				rs.getLong("version"),
-				cardFromDeck);
+				cardFromDeck,
+				rs.getLong("ownerId"));
 	}
 
 }

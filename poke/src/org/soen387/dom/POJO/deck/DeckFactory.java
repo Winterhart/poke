@@ -10,20 +10,20 @@ import org.soen387.ser.TDG.ChallengeTDG;
 public class DeckFactory {
 	
 	//Quick Builder
-	public static Deck createNew(List<ICard> cards) throws SQLException, MapperException{
+	public static Deck createNew(List<ICard> cards, Long ownerId) throws SQLException, MapperException{
 		Long version = (long) 1;
-		return createNew(ChallengeTDG.getMaxId(), version, cards);
+		return createNew(ChallengeTDG.getMaxId(), version, cards, ownerId);
 	}
 	
 	// Full builder 
-	public static Deck createNew(Long id, long version, List<ICard> cards) throws SQLException, MapperException{
-		Deck obj = new Deck(id, version, cards);
+	public static Deck createNew(Long id, long version, List<ICard> cards, Long ownerId) throws SQLException, MapperException{
+		Deck obj = new Deck(id, version, cards, ownerId);
 		UoW.getCurrent().registerNew(obj);
 		return obj;
 	}
 	
-	public static Deck createClean(Long id, long version, List<ICard> cards) {
-		Deck obj = new Deck(id, version, cards);
+	public static Deck createClean(Long id, long version, List<ICard> cards, Long ownerId) {
+		Deck obj = new Deck(id, version, cards, ownerId);
 		UoW.getCurrent().registerClean(obj);
 		return obj;
 	}

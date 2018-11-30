@@ -14,14 +14,24 @@ public class Deck extends DomainObject<Long> implements IDeck {
 	
 
 	private List<ICard> cards;
+	private Long ownerId;
+	
+	public Long getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = ownerId;
+	}
+
 	protected Deck(Long id, long version) {
 		super(id, version);
-		// TODO Auto-generated constructor stub
 	}
 	
-	public Deck(Long id, long version, List<ICard> cards) {
+	public Deck(Long id, long version, List<ICard> cards, Long ownerId) {
 		super(id, version);
 		this.cards = cards;
+		this.ownerId = ownerId;
 	}
 
 	public List<ICard> getCards() {
