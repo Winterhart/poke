@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.soen387.dom.Helper.CardHelper;
-import org.soen387.Util.DeckParser;
+import org.soen387.util.DeckParser;
 
 public class TestDeckParser {
 	

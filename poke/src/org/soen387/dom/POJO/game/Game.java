@@ -1,7 +1,13 @@
 package org.soen387.dom.POJO.game;
 
 import org.dsrg.soenea.domain.DomainObject;
+import org.dsrg.soenea.domain.annotation.ExternalProducer;
+import org.dsrg.soenea.domain.annotation.IDFieldType;
+import org.dsrg.soenea.domain.annotation.Interface;
 
+@IDFieldType(Long.class)
+@Interface(IGame.class)
+@ExternalProducer(GameProxy.class)
 public class Game  extends DomainObject<Long>  implements IGame{
 	
 	private Long challengerId;

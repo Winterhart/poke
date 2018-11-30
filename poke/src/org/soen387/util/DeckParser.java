@@ -1,4 +1,4 @@
-package org.soen387.Util;
+package org.soen387.util;
 
 import java.util.ArrayList;
 import java.util.List;

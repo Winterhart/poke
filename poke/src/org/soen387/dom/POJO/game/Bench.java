@@ -3,8 +3,15 @@ package org.soen387.dom.POJO.game;
 import java.util.List;
 
 import org.dsrg.soenea.domain.DomainObject;
+import org.dsrg.soenea.domain.annotation.ExternalProducer;
+import org.dsrg.soenea.domain.annotation.IDFieldType;
+import org.dsrg.soenea.domain.annotation.Interface;
 import org.soen387.dom.POJO.deck.ICard;
 
+
+@IDFieldType(Long.class)
+@Interface(IBench.class)
+@ExternalProducer(BenchProxy.class)
 public class Bench extends DomainObject<Long> implements IBench {
 	private List<ICard> cards;
 

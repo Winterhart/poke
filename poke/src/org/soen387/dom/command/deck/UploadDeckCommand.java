@@ -7,10 +7,10 @@ import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.domain.command.impl.annotation.SetInRequestAttribute;
 import org.dsrg.soenea.domain.command.validator.source.Source;
 import org.dsrg.soenea.domain.helper.Helper;
-import org.soen387.Util.DeckParser;
 import org.soen387.dom.Helper.CardHelper;
 import org.soen387.dom.POJO.deck.ICard;
 import org.soen387.dom.POJO.deck.IDeck;
+import org.soen387.util.DeckParser;
 
 public class UploadDeckCommand extends ValidatorCommand  {
 

@@ -1,4 +1,4 @@
-package org.soen387.Util;
+package org.soen387.util;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
