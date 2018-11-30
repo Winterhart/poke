@@ -21,11 +21,11 @@ public class Challenge extends DomainObject<Long> implements IChallenge {
 	}
 	
 	public Challenge(Long id, Long version, Long challengerId, 
-			Long challengeeId, Long initialDeck) {
+			Long challengeeId, Long initialDeck, int ChallengeStatus) throws InvalidChallengeStatusException {
 		super(id, version);
 		this.challengerId = challengerId;
 		this.challengeeId = challengeeId;
-		this.status = ChallengeStatus.A;
+		setChallengeStatus(ChallengeStatus);
 		this.deckInitializer = initialDeck;
 	}
 

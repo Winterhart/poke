@@ -7,7 +7,7 @@ import org.soen387.dom.Mapper.challenge.ChallengeInputMapper;
 
 public class ChallengeProxy extends DomainObjectProxy<Long, Challenge> implements IChallenge {
 
-	protected ChallengeProxy(Long id) {
+	public ChallengeProxy(Long id) {
 		super(id);
 	}
 
