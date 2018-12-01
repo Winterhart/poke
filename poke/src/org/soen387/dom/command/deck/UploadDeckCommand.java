@@ -38,7 +38,11 @@ public class UploadDeckCommand extends ValidatorCommand  {
 	public void process() throws CommandException {
 		//Grab Deck in request
 		List<CardHelper> rawDeck = DeckParser.parseDeck(deck);
-		
+		if(rawDeck == null) {
+			String message = "Deck not in right format";
+			addNotification(message);
+			throw new CommandException(message);
+		}
 		//Grab User Id
 		Object rawUserId = helper.getSessionAttribute(RequestAttributes.CURRENT_USER_ID);
 		Long parsedUserId = Long.parseLong(rawUserId.toString());
@@ -50,16 +54,19 @@ public class UploadDeckCommand extends ValidatorCommand  {
 		} catch (SQLException | MapperException e) {
 			System.out.println("Error while Adding Deck");
 			e.printStackTrace();
-			throw new CommandException("Error while adding deck");
+			String message = "Error while Adding Deck";
+			addNotification(message);
+			throw new CommandException(message);
 		}
 
 		if(addedDeck == null) {
 			//Failure to add Deck...
-			throw new CommandException("Failure to add Deck");
+			String message= "Failure to add Deck";
+			addNotification(message);
+			throw new CommandException(message);
+			
 		}
-		if(rawDeck.size() != 40) {
-			throw new CommandException("Deck is not in right format");
-		}
+
 		//For each card try to insert
 		for(CardHelper ch : rawDeck) {
 			try {
@@ -67,7 +74,9 @@ public class UploadDeckCommand extends ValidatorCommand  {
 			} catch (SQLException | MapperException e) {
 				System.out.println("Error while Adding Card");
 				e.printStackTrace();
-				throw new CommandException("Error while adding Card");
+				String message = "Error while adding card";
+				addNotification(message);
+				throw new CommandException(message);
 			}
 		}
 		

@@ -1,9 +1,10 @@
 package org.soen387.app.dispatcher.deck;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import org.dsrg.soenea.application.servlet.dispatcher.Dispatcher;
-import org.dsrg.soenea.domain.command.CommandException;
+import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.command.deck.UploadDeckCommand;
 
 public class ManageDeck extends Dispatcher {
@@ -16,10 +17,11 @@ public class ManageDeck extends Dispatcher {
 				//User want to upload a deck
 				UploadDeckCommand upload = new UploadDeckCommand(myHelper);
 				upload.execute();
+				UoW.getCurrent().commit();
 				forward("/WEB-INF/jsp/success.jsp");
-			} catch (CommandException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
-				myHelper.setRequestAttribute("message", e);
+				myHelper.setRequestAttribute("message", e.getMessage());
 				forward("/WEB-INF/jsp/fail.jsp");
 			}
 			
