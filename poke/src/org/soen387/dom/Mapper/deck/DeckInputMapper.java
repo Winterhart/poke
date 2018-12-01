@@ -13,9 +13,7 @@ import org.dsrg.soenea.domain.producer.IdentityBasedProducerMethod;
 import org.soen387.dom.POJO.deck.Deck;
 import org.soen387.dom.POJO.deck.DeckFactory;
 import org.soen387.dom.POJO.deck.DeckProxy;
-import org.soen387.dom.POJO.deck.ICard;
 import org.soen387.dom.POJO.deck.IDeck;
-import org.soen387.ser.Finder.CardFinder;
 import org.soen387.ser.Finder.DeckFinder;
 
 public class DeckInputMapper implements IdentityBasedProducer {
@@ -25,10 +23,10 @@ public class DeckInputMapper implements IdentityBasedProducer {
 		try {
 			return IdentityMap.get(id, Deck.class);
 		}catch(DomainObjectNotFoundException e) {
-			System.out.println("Getting data from database for card: " + id);
+			System.out.println("Getting data from database for deck: " + id);
 		}
 		
-		ResultSet rs = CardFinder.find(id);
+		ResultSet rs = DeckFinder.find(id);
 		if(!rs.next()) {
 			throw new MapperException("Card " + id+ " not found...");
 		}
@@ -60,7 +58,7 @@ public class DeckInputMapper implements IdentityBasedProducer {
 					rs.getLong("version"),
 					rs.getLong("ownerId"));
 		}catch(Exception e) {
-			System.out.println("Can't load card for deck..." + e.getMessage());
+			System.out.println("Can't load deck..." + e.getMessage());
 		}
 		return null;
 

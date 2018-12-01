@@ -17,5 +17,10 @@ public class UrlParser {
 		return null;
 		
 	}
+	
+	public static String getLastWord(String url) {
+		String[] split = url.split("/");
+		return split[split.length-1];
+	}
 
 }
