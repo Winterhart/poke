@@ -12,6 +12,10 @@ import com.gargoylesoftware.htmlunit.util.NameValuePair;
 
 public class GameUtils {
 
+	public static String retire(WebClient webClient, Board game)
+			throws MalformedURLException, IOException {
+		return retire(webClient, game.getId(), game.getVersion());
+	}
 	public static String retire(WebClient webClient, long game, int version)
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Retire"), HttpMethod.POST);
@@ -67,7 +71,7 @@ public class GameUtils {
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Deck"), HttpMethod.POST);
 	
-		requestSettings.setRequestParameters(new ArrayList());
+		requestSettings.setRequestParameters(new ArrayList<NameValuePair>());
 		requestSettings.getRequestParameters().add(new NameValuePair("deck", deck));
 	
 		Page page = webClient.getPage(requestSettings);
@@ -86,6 +90,11 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	public static  String viewDeck(WebClient webClient, Deck deck)
+			throws MalformedURLException, IOException {
+		return viewDeck(webClient, deck.getId());
+	}
+	
 	public static  String viewDeck(WebClient webClient, long deck)
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Deck/"+deck), HttpMethod.GET);
@@ -106,6 +115,11 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	public static  String challengePlayer(WebClient webClient, Player player, Deck deck)
+			throws MalformedURLException, IOException {
+		return challengePlayer(webClient, player.getId(), deck.getId());
+	}
+	
 	public static  String challengePlayer(WebClient webClient, long player, long deck)
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Player/" + player + "/Challenge"), HttpMethod.POST);
@@ -155,6 +169,12 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	
+	public static  String acceptChallenge(WebClient webClient, long challenge, int version, Deck deck) 
+			throws MalformedURLException, IOException {
+		return acceptChallenge(webClient, challenge, version, deck.getId());
+	}
+	
 	public static  String acceptChallenge(WebClient webClient, long challenge, int version, long deck)
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Challenge/" + challenge + "/Accept"), HttpMethod.POST);
@@ -209,9 +229,13 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	public static  String playPokemonToBench(WebClient webClient, Board game, Card card)
+			throws MalformedURLException, IOException {
+		return playPokemonToBench(webClient, game.getId(), card.getId(), game.getVersion());
+	}
 	public static  String playPokemonToBench(WebClient webClient, long game, long card, int version)
 			throws MalformedURLException, IOException {
-		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/\" + card + \"/Play"), HttpMethod.POST);
+		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/" + card + "/Play"), HttpMethod.POST);
 	
 		requestSettings.setRequestParameters(new ArrayList<NameValuePair>());
 		requestSettings.getRequestParameters().add(new NameValuePair("version", version+""));
@@ -224,7 +248,7 @@ public class GameUtils {
 
 	public static  String evolvePokemon(WebClient webClient, long game, long card, long target, int version)
 			throws MalformedURLException, IOException {
-		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/\" + card + \"/Play"), HttpMethod.POST);
+		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/" + card + "/Play"), HttpMethod.POST);
 	
 		requestSettings.setRequestParameters(new ArrayList<NameValuePair>());
 		requestSettings.getRequestParameters().add(new NameValuePair("basic", target+""));
@@ -238,7 +262,7 @@ public class GameUtils {
 
 	public static  String attachEnergy(WebClient webClient, long game, long card, long target, int version)
 			throws MalformedURLException, IOException {
-		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/\" + card + \"/Play"), HttpMethod.POST);
+		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/" + card + "/Play"), HttpMethod.POST);
 	
 		requestSettings.setRequestParameters(new ArrayList<NameValuePair>());
 		requestSettings.getRequestParameters().add(new NameValuePair("pokemon", target+""));
@@ -250,9 +274,13 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	public static  String playTrainer(WebClient webClient, Board game, Card card)
+			throws MalformedURLException, IOException {
+		return playPokemonToBench(webClient, game.getId(), card.getId(), game.getVersion());
+	}
 	public static  String playTrainer(WebClient webClient, long game, long card, int version)
 			throws MalformedURLException, IOException {
-		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/\" + card + \"/Play"), HttpMethod.POST);
+		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/" + card + "/Play"), HttpMethod.POST);
 	
 		requestSettings.setRequestParameters(new ArrayList<NameValuePair>());
 		requestSettings.getRequestParameters().add(new NameValuePair("version", version+""));
@@ -263,6 +291,10 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	public static String endTurn(WebClient webClient, Board game)
+			throws MalformedURLException, IOException {
+		return endTurn(webClient, game.getId(), game.getVersion());
+	}
 	public static String endTurn(WebClient webClient, long game,int version)
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/EndTurn"), HttpMethod.POST);

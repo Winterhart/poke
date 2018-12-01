@@ -38,7 +38,7 @@ public class TestDeckParser {
 			"e \"Fire\"\n" +
 			"e \"Fire\"\n" +
 			"e \"Fire\"\n" +
-			"p \"Charizard\"\n" +
+			"p \"Raichu\" \"Pikachu\"\n" +
 			"e \"Fire\"\n" +
 			"e \"Fire\"\n" +
 			"e \"Fire\"\n" +
@@ -180,6 +180,48 @@ public class TestDeckParser {
 			"e \"Lightning\"\n" +
 			"e \"Lightning\"\n" +
 			"e \"Lightning\"\n";
+	
+	public static String TEST_DECK5 =
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n";
 	@Test
 	public void testDeckPar() {
 		
@@ -187,9 +229,11 @@ public class TestDeckParser {
 		List<CardHelper> correctDeck2 = DeckParser.parseDeck(TEST_DECK2);
 		List<CardHelper> notCorrectDeck = DeckParser.parseDeck(TEST_DECK3_BAD);
 		List<CardHelper> notCorrectDeck2 = DeckParser.parseDeck(TEST_DECK4_BAD);
-
+		List<CardHelper> correctDeck5 = DeckParser.parseDeck(TEST_DECK5);
+		
 		assertEquals(correctDeck.size(), 40);
 		assertEquals(correctDeck2.size(), 40);
+		assertEquals(correctDeck5.size(), 40);
 		assertEquals(notCorrectDeck, null);
 		assertEquals(notCorrectDeck2, null);
 		

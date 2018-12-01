@@ -70,7 +70,7 @@ public class UploadDeckCommand extends ValidatorCommand  {
 		//For each card try to insert
 		for(CardHelper ch : rawDeck) {
 			try {
-				CardFactory.createNew(ch.getCardName(), ch.getCardType(), addedDeck.getId(), "");
+				CardFactory.createNew(ch.getCardName(), ch.getCardType(), addedDeck.getId(), ch.getBase());
 			} catch (SQLException | MapperException e) {
 				System.out.println("Error while Adding Card");
 				e.printStackTrace();

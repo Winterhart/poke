@@ -22,12 +22,23 @@ public class DeckParser {
 				String[] splittedData = s.split(" ");
 				String cardName = splittedData[1];
 				String cardType = splittedData[0];
+				String base = "";
+				
+				if(splittedData.length > 2) {
+					//it contains base
+					base = splittedData[2];
+				}
+				
+				cardName = cardName.replaceAll("\"", "");
+				cardType = cardType.replaceAll("\"", "");
+				base = base.replaceAll("\"", "");
+				
 				
 				boolean isTypeOkay = cardType.equals("e") || cardType.equals("t") || cardType.equals("p");
 				boolean isNameOkay =(!cardName.isEmpty() && cardName != null);
 				if(isTypeOkay && isNameOkay) 
 				{
-					CardHelper card = new CardHelper(cardName, cardType);
+					CardHelper card = new CardHelper(cardName, cardType, base);
 					cards.add(card);
 				}else {
 					return null;

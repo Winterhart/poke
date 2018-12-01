@@ -4,6 +4,13 @@ public class CardHelper {
 
 	private String cardType;
 	private String cardName;
+	private String base;
+	public String getBase() {
+		return base;
+	}
+	public void setBase(String base) {
+		this.base = base;
+	}
 	public String getCardType() {
 		return cardType;
 	}
@@ -16,10 +23,11 @@ public class CardHelper {
 	public void setCardName(String cardName) {
 		this.cardName = cardName;
 	}
-	public CardHelper(String cardName, String cardType) {
+	public CardHelper(String cardName, String cardType, String base) {
 		super();
 		this.cardType = cardType;
 		this.cardName = cardName;
+		this.base = base;
 	}
 	
 	
