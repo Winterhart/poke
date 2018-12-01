@@ -38,6 +38,20 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
 import org.dsrg.soenea.service.threadLocal.ThreadLocalTracker;
 import org.dsrg.soenea.uow.MapperFactory;
 import org.dsrg.soenea.uow.UoW;
+import org.soen387.dom.Mapper.challenge.ChallengeOutputMapper;
+import org.soen387.dom.Mapper.deck.CardOutputMapper;
+import org.soen387.dom.Mapper.deck.DeckOutputMapper;
+import org.soen387.dom.Mapper.game.BenchOutputMapper;
+import org.soen387.dom.Mapper.game.DiscardOutputMapper;
+import org.soen387.dom.Mapper.game.GameOutputMapper;
+import org.soen387.dom.Mapper.game.HandOutputMapper;
+import org.soen387.dom.POJO.challenge.Challenge;
+import org.soen387.dom.POJO.deck.Card;
+import org.soen387.dom.POJO.deck.Deck;
+import org.soen387.dom.POJO.game.Bench;
+import org.soen387.dom.POJO.game.Discard;
+import org.soen387.dom.POJO.game.Game;
+import org.soen387.dom.POJO.game.Hand;
 
 @WebServlet("/PokeServlet")
 public class PokeFC extends Servlet {
@@ -147,6 +161,13 @@ public class PokeFC extends Servlet {
 	 public static void setupUoW() {
 		 MapperFactory myDomain2MapperMapper = new MapperFactory();
 		 myDomain2MapperMapper.addMapping(User.class, UserOutputMapper.class);
+		 myDomain2MapperMapper.addMapping(Deck.class, DeckOutputMapper.class);
+		 myDomain2MapperMapper.addMapping(Card.class, CardOutputMapper.class);
+		 myDomain2MapperMapper.addMapping(Challenge.class, ChallengeOutputMapper.class);
+		 myDomain2MapperMapper.addMapping(Game.class, GameOutputMapper.class);
+		 myDomain2MapperMapper.addMapping(Bench.class, BenchOutputMapper.class);
+		 myDomain2MapperMapper.addMapping(Hand.class, HandOutputMapper.class);
+		 myDomain2MapperMapper.addMapping(Discard.class, DiscardOutputMapper.class);
 		 UoW.initMapperFactory(myDomain2MapperMapper);
 	 } 
 	

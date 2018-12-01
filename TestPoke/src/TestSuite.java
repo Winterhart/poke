@@ -528,7 +528,7 @@ public class TestSuite {
 			
 		}
 	}
-
+	
 	public long getNewDeckId(WebClient webClient, String deck) throws MalformedURLException, IOException {
 		String jsonText = GameUtils.viewDecks(webClient);
 		DocumentContext dc = JsonPath.parse(jsonText);
