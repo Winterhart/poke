@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import org.dsrg.soenea.application.servlet.dispatcher.Dispatcher;
 import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.soen387.dom.command.game.ListGameCommand;
+import org.soen387.dom.command.game.ViewHandCommand;
 import org.soen387.util.UrlParser;
 
 public class GameDispatcher extends Dispatcher {
@@ -26,6 +27,7 @@ public class GameDispatcher extends Dispatcher {
 				//Very beautiful code here...
 				switch(lastWord) {
 				case("game"):
+
 					try {
 						cusCom = new ListGameCommand(myHelper);
 						cusCom.execute();
@@ -37,7 +39,20 @@ public class GameDispatcher extends Dispatcher {
 					}
 					break;
 				case("hand"):
-					//setup target Id variable
+					//setup game Id variable
+					String gameS = UrlParser.getIdInUR(myRequest.getPathInfo());
+					myHelper.setRequestAttribute("gameId", gameS);
+					
+					try {
+						cusCom = new ViewHandCommand(myHelper);
+						cusCom.execute();
+						forward("/WEB-INF/jsp/hand.jsp");
+					}catch(Exception ee) {
+						System.out.println("Problem with executing GameDispatcher: " + ee.getMessage());
+						myHelper.setRequestAttribute("message", ee.getMessage());
+						forward("/WEB-INF/jsp/fail.jsp");
+					}
+
 					
 					break;
 				case("discard"):

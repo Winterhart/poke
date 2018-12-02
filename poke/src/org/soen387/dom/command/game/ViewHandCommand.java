@@ -8,14 +8,17 @@ import org.dsrg.soenea.domain.command.CommandException;
 import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.domain.helper.Helper;
 import org.soen387.dom.Mapper.game.GameInputMapper;
+import org.soen387.dom.Mapper.game.HandInputMapper;
 import org.soen387.dom.POJO.game.IGame;
+import org.soen387.dom.POJO.game.IHand;
+import org.soen387.dom.command.game.ListGameCommand.GameJsonHelper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class ListGameCommand extends ValidatorCommand {
+public class ViewHandCommand extends ValidatorCommand {
 
-	public ListGameCommand(Helper helper) {
+	public ViewHandCommand(Helper helper) {
 		super(helper);
 	}
 
@@ -26,48 +29,41 @@ public class ListGameCommand extends ValidatorCommand {
 			Object rawUserId = helper.getSessionAttribute(RequestAttributes.CURRENT_USER_ID);
 			parsedUserId = Long.parseLong(rawUserId.toString());
 			System.out.println("User Id: " + parsedUserId.toString());
-
+			
+		Long gameId = null;
+			gameId = Long.parseLong((String)helper.getRequestAttribute("gameId"));
+			
+			
+		if(gameId == null) {
+			String message = "Cant' parse Game id";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		Long deckId = null;
+		//We need to find the deck used in this game...
+		
 		
 		// Attempt to Get Data
 		try {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			List<IGame> games = 
-					GameInputMapper.findAllForUser(parsedUserId);
-			List<GameJsonHelper> jGame = new ArrayList<GameJsonHelper>();
+			List<IHand> ham = HandInputMapper.findByGameIdAndDeckId(deckId, gameId); 
+			List<Long> handJson = new ArrayList<Long>();
 		
-			for(IGame g : games) {
-				Long[] pls = {g.getChallengerId(), g.getChallengeeId()};
-				jGame.add(new GameJsonHelper(
-						g.getId(),
-						g.getVersion(),
-						pls));
+			for(IHand h : ham) {
+				handJson.add(h.getCardId());
 			}
 			
-			String jsonGames = gson.toJson(jGame);
-			helper.setRequestAttribute("games", jsonGames);
+			// Change back to array
+			Long[] handJ = handJson.toArray(handJ);
+			
+			String jsonH = gson.toJson(handJ);
+			helper.setRequestAttribute("hand", jsonH);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			String message = "Can't find games " + e.getMessage();
+			String message = "Can't find Hand data " + e.getMessage();
 			addNotification(message);
-			throw new CommandException(message);
-			
 		}
-		
-	}
-	
-	private class GameJsonHelper{
-		private Long id;
-		private Long version;
-		private Long[] players;
-		
-		public GameJsonHelper(Long id, Long version, Long[] players) {
-			super();
-			this.id = id;
-			this.version = version;
-			this.players = players;
-		}
-		
 		
 	}
 

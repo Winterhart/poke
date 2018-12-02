@@ -72,7 +72,7 @@
         <attribute name="type" />
     </Permalink>
     <Permalink>
-        <pattern>Poke/Game/(\d+)/(Discard)</pattern>
+        <pattern>Poke/Game/(\d+)/Player/(\d+)\(Discard)</pattern>
         <dispatcher>org.soen387.app.dispatcher.game.GameDispatcher</dispatcher>
         <attribute name="game" />
         <attribute name="type" />
