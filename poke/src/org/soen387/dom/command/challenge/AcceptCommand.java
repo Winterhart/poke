@@ -13,6 +13,8 @@ import org.soen387.dom.Mapper.deck.DeckInputMapper;
 import org.soen387.dom.POJO.challenge.Challenge;
 import org.soen387.dom.POJO.challenge.ChallengeStatus;
 import org.soen387.dom.POJO.deck.IDeck;
+import org.soen387.dom.POJO.game.GameFactory;
+import org.soen387.dom.command.game.CreateGameCommand;
 import org.soen387.dom.Mapper.challenge.ChallengeInputMapper;
 
 public class AcceptCommand extends ValidatorCommand  {
@@ -108,9 +110,8 @@ public class AcceptCommand extends ValidatorCommand  {
 		try {
 			cha.setVersion(chaVersion);
 			cha.setStatus(3);
-			//TODO : Create a new Game
+
 			UoW.getCurrent().registerDirty(cha);
-			UoW.getCurrent().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			String message = "Not able to Update Challenge";
@@ -120,5 +121,6 @@ public class AcceptCommand extends ValidatorCommand  {
 		}
 		
 	}
+	
 
 }

@@ -12,6 +12,7 @@ import org.soen387.dom.command.challenge.ChallengePlayerCommand;
 import org.soen387.dom.command.challenge.ListChallengeCommand;
 import org.soen387.dom.command.challenge.RefuseCommand;
 import org.soen387.dom.command.challenge.WithdrawCommand;
+import org.soen387.dom.command.game.CreateGameCommand;
 import org.soen387.util.UrlParser;
 
 public class ChallengePlayer extends Dispatcher {
@@ -52,6 +53,12 @@ public class ChallengePlayer extends Dispatcher {
 			
 			try {
 				customCommand.execute();
+				if(lastWord.equalsIgnoreCase("accept")) {
+					//We must also add a game
+					CreateGameCommand gameC = new CreateGameCommand(myHelper);
+					gameC.execute();
+					
+				}
 				myHelper.setRequestAttribute("message", "Operation Success");
 				forward("/WEB-INF/jsp/success.jsp");
 			}catch(Exception ee) {

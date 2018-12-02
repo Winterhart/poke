@@ -21,22 +21,27 @@ public class Game  extends DomainObject<Long>  implements IGame{
 	
 	
 	
+	public Game(Long id, long version, Long challengerId, Long challengeeId, Long currentTurn, int numberOfTurn,
+			GameStatus challengerStatus, GameStatus challengeeStatus, Long challengerDeck, Long challengeeDeck) {
+		super(id, version);
+		this.challengerId = challengerId;
+		this.challengeeId = challengeeId;
+		this.currentTurn = currentTurn;
+		this.numberOfTurn = numberOfTurn;
+		this.challengerStatus = challengerStatus;
+		this.challengeeStatus = challengeeStatus;
+		this.challengerDeck = challengerDeck;
+		this.challengeeDeck = challengeeDeck;
+	}
+
+
+
 	protected Game(Long id, long version) {
 		super(id, version);
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	public Game(Long id, long version, Long challengerId,
-			Long challengeeId, Long challengerDeckId, Long challengeeDeckId) {
-		super(id, version);
-		this.challengerId = challengerId;
-		this.challengeeId = challengeeId;
-		this.challengerDeck = challengerDeckId;
-		this.challengeeDeck = challengeeDeckId;
-		this.currentTurn = challengerId;
-		numberOfTurn = 0;
-	}
+
 
 	public Long getChallengerDeck() {
 		return challengerDeck;
