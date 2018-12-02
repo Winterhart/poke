@@ -1,7 +1,6 @@
 package org.soen387.dom.Mapper.game;
 
-import org.soen387.dom.Mapper.deck.CardInputMapper;
-import org.soen387.dom.POJO.deck.ICard;
+
 import org.soen387.dom.POJO.game.Discard;
 import org.soen387.dom.POJO.game.DiscardFactory;
 import org.soen387.dom.POJO.game.DiscardProxy;
@@ -41,6 +40,7 @@ public class DiscardInputMapper implements IdentityBasedProducer {
 			try {
 				
 				diss.add(IdentityMap.get(rs.getLong("id"), Discard.class));
+				continue;
 				
 			}catch(DomainObjectNotFoundException ee) {
 				System.out.println("Domain not found " + ee.getMessage());
@@ -62,6 +62,7 @@ public class DiscardInputMapper implements IdentityBasedProducer {
 				try {
 					
 					diss.add(IdentityMap.get(rs.getLong("id"), Discard.class));
+					continue;
 					
 				}catch(DomainObjectNotFoundException ee) {
 					System.out.println("Domain not found " + ee.getMessage());

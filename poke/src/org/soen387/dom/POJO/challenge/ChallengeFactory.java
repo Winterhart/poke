@@ -6,8 +6,11 @@ import org.dsrg.soenea.uow.UoW;
 import org.soen387.ser.TDG.ChallengeTDG;
 
 public class ChallengeFactory {
+	
+	
+	
 	public static  Challenge createNew(Long challengerId, Long challengeeId,
-			Long initialDec, int status) throws SQLException, MapperException, InvalidChallengeStatusException{
+			Long initialDec, int status) throws SQLException, MapperException{
 		
 		Long version = (long) 1;
 		return createNew(ChallengeTDG.getMaxId(), version, challengerId, 
@@ -15,7 +18,7 @@ public class ChallengeFactory {
 	}
 	
 	public static  Challenge createNew(Long id, Long version, Long challengerId,
-			Long challengeeId, Long initialDec, int status) throws SQLException, MapperException, InvalidChallengeStatusException{
+			Long challengeeId, Long initialDec, int status) throws SQLException, MapperException{
 		
 		Challenge u = new Challenge(id, version, challengerId, challengeeId, 
 				initialDec, status);
@@ -25,7 +28,7 @@ public class ChallengeFactory {
 	}
 	
 	public static Challenge createClean(Long id, Long version, Long challengerId, 
-			Long challengeeId, Long initialDec, int status) throws InvalidChallengeStatusException {
+			Long challengeeId, Long initialDec, int status) {
 		Challenge u = new Challenge(id, version, challengerId, challengeeId, initialDec, status);
 		UoW.getCurrent().registerClean(u);
 		return u;

@@ -3,6 +3,8 @@ package org.soen387.dom.POJO.challenge;
 import org.dsrg.soenea.domain.DomainObjectCreationException;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.proxy.DomainObjectProxy;
+import org.dsrg.soenea.domain.user.User;
+import org.dsrg.soenea.domain.user.UserProxy;
 import org.soen387.dom.Mapper.challenge.ChallengeInputMapper;
 
 public class ChallengeProxy extends DomainObjectProxy<Long, Challenge> implements IChallenge {
@@ -58,32 +60,36 @@ public class ChallengeProxy extends DomainObjectProxy<Long, Challenge> implement
 		
 	}
 
-	@Override
-	public ChallengeStatus getStatus() {
-		return getInnerObject().getStatus();
-	}
-
-	@Override
-	public void setStatus(ChallengeStatus status) {
-		getInnerObject().setStatus(status);
-		
-	}
 
 	@Override
 	public Long getDeckInitializer() {
 		return getInnerObject().getDeckInitializer();
 	}
 
-	@Override
-	public int getChallengeStatus() throws InvalidChallengeStatusException {
-		return getInnerObject().getChallengeStatus();
-	}
 
 	@Override
-	public void setChallengeStatus(int status) throws InvalidChallengeStatusException {
-		getInnerObject().setChallengeStatus(status);
+	public int getStatus() {
+		return getInnerObject().getStatus();
+	}
+
+
+	@Override
+	public void setStatus(int status) {
+		getInnerObject().setStatus(status);
 		
 	}
 
+	public boolean equals(Object obj) {
+		if (obj instanceof ChallengeProxy) return getId().equals(((ChallengeProxy)obj).getId());
+		if (obj instanceof Challenge) return getId().equals(((Challenge)obj).getId());
+		return false;		
+	}
+
+
+	@Override
+	public void setDeckInitializer(Long deckInitializer) {
+		getInnerObject().setDeckInitializer(deckInitializer);
+		
+	}
 
 }

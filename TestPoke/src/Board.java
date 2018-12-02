@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.jayway.jsonpath.DocumentContext;
@@ -42,6 +45,35 @@ public class Board {
 	
 	public int getId() {
 		return id;
+	}
+
+	//Scarey unchecked suppression :\
+	@SuppressWarnings("unchecked")
+	public List<Card> getAtachedEnergy(Player player, Deck deck, Card card) {
+		String query = "game.play['" + player.getId() + "'].bench[?(@['id']==" + card.getId() + ")]";
+		List<Map<String, Object>> target = dc.read(query);
+		List<Card> energy = new ArrayList<Card>();
+		if(target.get(0).get("e")!=null) { 
+			for(int i:(List<Integer>)target.get(0).get("e")) {
+				for(int j = 0; j < 40; j++) {
+					Card c = deck.findCard(j);
+					if(c.getId()==i) {
+						energy.add(c);
+						break;
+					}
+				}
+			}
+		}
+		return energy;
+	}
+	
+	public Card getAtachedPokemon(Player player, Deck deck, int card) {
+		List<Map<String, Object>> target = dc.read("game.play['" + player.getId() + "'].bench[?(@['id']==" + card + ")]");
+		for(int j = 0; j < 40; j++) {
+			Card c = deck.findCard(j);
+			if(card==(int)target.get(0).get("b"))return c;
+		}
+		return null;
 	}
 	
 	

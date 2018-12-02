@@ -19,4 +19,20 @@ public class Card {
 	public String getBasicName() {
 		return (String)jPathResult.get("b");
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Card) return this.equals((Card)obj);
+		return super.equals(obj);
+	}
+	
+	public boolean equals(Card obj) {
+		if(obj==null) return false;
+		return this.getId() == obj.getId();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getId();
+	}
 }

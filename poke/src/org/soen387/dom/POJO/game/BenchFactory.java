@@ -6,6 +6,7 @@ import java.util.List;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.POJO.deck.ICard;
+import org.soen387.ser.TDG.BenchTDG;
 import org.soen387.ser.TDG.DiscardTDG;
 
 public class BenchFactory {
@@ -14,7 +15,7 @@ public class BenchFactory {
 	public static Bench createNew(Long cardId, Long gameId, Long deckId) throws SQLException, MapperException{
 		
 		Long version = (long) 1;
-		return createNew(DiscardTDG.getMaxId(), version, cardId, gameId, deckId);
+		return createNew(BenchTDG.getMaxId(), version, cardId, gameId, deckId);
 	}
 	
 	// Full builder 

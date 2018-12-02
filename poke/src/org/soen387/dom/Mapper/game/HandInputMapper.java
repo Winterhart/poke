@@ -38,6 +38,7 @@ public class HandInputMapper implements IdentityBasedProducer {
 			try {
 				
 				diss.add(IdentityMap.get(rs.getLong("id"), Hand.class));
+				continue;
 				
 			}catch(DomainObjectNotFoundException ee) {
 				System.out.println("Domain not found " + ee.getMessage());
@@ -59,6 +60,7 @@ public class HandInputMapper implements IdentityBasedProducer {
 				try {
 					
 					diss.add(IdentityMap.get(rs.getLong("id"), Hand.class));
+					continue;
 					
 				}catch(DomainObjectNotFoundException ee) {
 					System.out.println("Domain not found " + ee.getMessage());

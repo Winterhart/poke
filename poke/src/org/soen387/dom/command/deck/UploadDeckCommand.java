@@ -10,6 +10,7 @@ import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.domain.command.impl.annotation.SetInRequestAttribute;
 import org.dsrg.soenea.domain.command.validator.source.Source;
 import org.dsrg.soenea.domain.helper.Helper;
+import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.Helper.CardHelper;
 import org.soen387.dom.POJO.deck.CardFactory;
 import org.soen387.dom.POJO.deck.Deck;
@@ -79,6 +80,17 @@ public class UploadDeckCommand extends ValidatorCommand  {
 				throw new CommandException(message);
 			}
 		}
+		
+		
+		try {
+			UoW.getCurrent().commit();
+		} catch (InstantiationException | IllegalAccessException | MapperException | SQLException e) {
+			e.printStackTrace();
+			String message = "Error while adding card" + e.getMessage();
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
 		
 		String message = "Deck Created";
 		helper.setRequestAttribute("message", message);

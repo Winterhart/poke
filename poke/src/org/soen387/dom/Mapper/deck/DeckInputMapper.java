@@ -41,6 +41,7 @@ public class DeckInputMapper implements IdentityBasedProducer {
 			if(rs.getLong("ownerId") == userId) {
 				try {
 					decks.add(IdentityMap.get(rs.getLong("id"), Deck.class));
+					continue;
 				}catch(DomainObjectNotFoundException e) {
 					System.out.println("Not found dom obj for obj..." + e.getMessage());
 				}

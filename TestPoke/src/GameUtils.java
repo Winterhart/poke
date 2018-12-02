@@ -219,6 +219,11 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	public static  String viewDiscard(WebClient webClient, Board game, Player player)
+			throws MalformedURLException, IOException {
+		return viewDiscard(webClient, game.getId(), player.getId());
+	}
+	
 	public static  String viewDiscard(WebClient webClient, long game, long player)
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/"+game+"/Player/" + player + "/Discard"), HttpMethod.GET);
@@ -260,6 +265,10 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	public static  String attachEnergy(WebClient webClient, Board game, Card card, Card target)
+			throws MalformedURLException, IOException {
+		return attachEnergy(webClient, game.getId(), card.getId(), target.getId(), game.getVersion());
+	}
 	public static  String attachEnergy(WebClient webClient, long game, long card, long target, int version)
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/" + card + "/Play"), HttpMethod.POST);

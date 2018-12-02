@@ -1,0 +1,25 @@
+{
+	"game": {
+		"id": 1,
+		"version": 9,
+		"players": [2, 1],
+		"current": 2,
+		"decks": [2, 1],
+		"play": {
+			"2": {
+				"status": "playing",
+				"handsize": 2,
+				"decksize": 36,
+				"discardsize": 0,
+				"bench": [{"id": 42, "e": [43]}]
+			},
+			"1": {
+				"status": "playing",
+				"handsize": 3,
+				"decksize": 37,
+				"discardsize": 0,
+				"bench": []
+			}
+		}
+	}
+}

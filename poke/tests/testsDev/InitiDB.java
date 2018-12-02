@@ -2,6 +2,7 @@ package testsDev;
 
 import java.sql.SQLException;
 
+import org.dsrg.soenea.service.tdg.UserTDG;
 import org.junit.Test;
 import org.soen387.ser.TDG.BenchTDG;
 import org.soen387.ser.TDG.CardTDG;
@@ -17,9 +18,8 @@ public class InitiDB {
 	@Test
 	public void testInitDB() {
 		
-		try {
-			PokeFC.prepareDbRegistry("");
-
+		PokeFC.prepareDbRegistry("");			
+		try {			
 			HandTDG.dropTable();
 			BenchTDG.dropTable();
 			DiscardTDG.dropTable();
@@ -27,7 +27,14 @@ public class InitiDB {
 			GameTDG.dropTable();
 			ChallengeTDG.dropTable();
 			DeckTDG.dropTable();
-
+			UserTDG.dropTable();
+			UserTDG.dropUserRoleTable();
+		} catch(Exception e){
+			System.out.println("Problem while droping table " + e.getMessage());
+		}
+		try {			
+			UserTDG.createTable();
+			UserTDG.createUserRoleTable();
 			DeckTDG.createTable();
 			ChallengeTDG.createTable();
 			GameTDG.createTable();
@@ -35,11 +42,8 @@ public class InitiDB {
 			DiscardTDG.createTable();
 			BenchTDG.createTable();
 			HandTDG.createTable();
-
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch(Exception e){
+			System.out.println("Problem while creating table: " + e.getMessage());
 		}
 		
 

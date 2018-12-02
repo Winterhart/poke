@@ -7,6 +7,7 @@ import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.POJO.deck.ICard;
 import org.soen387.ser.TDG.DiscardTDG;
+import org.soen387.ser.TDG.HandTDG;
 
 public class HandFactory {
 	
@@ -14,7 +15,7 @@ public class HandFactory {
 	public static Hand createNew(Long cardId, Long gameId, Long deckId) throws SQLException, MapperException{
 		
 		Long version = (long) 1;
-		return createNew(DiscardTDG.getMaxId(), version, cardId, gameId, deckId);
+		return createNew(HandTDG.getMaxId(), version, cardId, gameId, deckId);
 	}
 	
 	// Full builder 

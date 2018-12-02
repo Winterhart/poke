@@ -19,14 +19,14 @@ public class ChallengeOutputMapper extends GenericOutputMapper<Long, Challenge> 
 					d.getVersion(), 
 					d.getChallengerId(), 
 					d.getChallengeeId(), 
-					d.getChallengeStatus(), 
+					d.getStatus(),
 					d.getDeckInitializer());
 			
 			if(result == 0) {
 				System.out.println("Not able to add Challenge " + d.getId());
 				throw new MapperException("Not able to add Challenge " + d.getId());
 			}
-		}catch(SQLException | InvalidChallengeStatusException e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
@@ -40,14 +40,14 @@ public class ChallengeOutputMapper extends GenericOutputMapper<Long, Challenge> 
 					d.getVersion(), 
 					d.getChallengerId(), 
 					d.getChallengeeId(), 
-					d.getChallengeStatus(), 
+					d.getStatus(), 
 					d.getDeckInitializer());
 			
 			if(result == 0) {
 				System.out.println("Not able to update Challenge " + d.getId());
 				throw new LostUpdateException("Not able to update Challenge " + d.getId());
 			}
-		}catch(SQLException | InvalidChallengeStatusException e) {
+		}catch(SQLException  e) {
 			e.printStackTrace();
 		}
 		

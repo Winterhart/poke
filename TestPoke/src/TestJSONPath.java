@@ -48,6 +48,7 @@ public class TestJSONPath {
 			System.out.println(jPathResult.size());
 			*/
 			
+			/*
 			String jsonText = "";
 			BufferedReader br = new BufferedReader(new FileReader("listGames.json"));
 			String line = "";
@@ -60,8 +61,23 @@ public class TestJSONPath {
 			DocumentContext dc = JsonPath.parse(jsonText);
 			String query = "games[?((@.players[0]==1 || @.players[1]==1) && (@.players[0]==2 || @.players[1]==2)) ]";
 			List<Map<String, Object>> jPathResult = dc.read(query);
-			
 			System.out.println(jPathResult);
+			*/
+			
+			String jsonText = "";
+			BufferedReader br = new BufferedReader(new FileReader("board.json"));
+			String line = "";
+			while((line = br.readLine()) != null) {
+				jsonText += line + "\n";
+			}
+			
+			System.out.println(jsonText);
+			DocumentContext dc = JsonPath.parse(jsonText);
+			List<Map<String, Object>> target = dc.read("game.play['2'].bench[?(@['id']==42)]");
+			System.out.println(target.get(0));
+			for(int i:(List<Integer>)target.get(0).get("e")) {
+				System.out.print(i + " ");
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();

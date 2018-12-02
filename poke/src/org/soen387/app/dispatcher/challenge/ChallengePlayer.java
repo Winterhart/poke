@@ -9,6 +9,7 @@ import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.command.challenge.AcceptCommand;
 import org.soen387.dom.command.challenge.ChallengePlayerCommand;
+import org.soen387.dom.command.challenge.ListChallengeCommand;
 import org.soen387.dom.command.challenge.RefuseCommand;
 import org.soen387.dom.command.challenge.WithdrawCommand;
 import org.soen387.util.UrlParser;
@@ -51,7 +52,6 @@ public class ChallengePlayer extends Dispatcher {
 			
 			try {
 				customCommand.execute();
-				UoW.getCurrent().commit();
 				myHelper.setRequestAttribute("message", "Operation Success");
 				forward("/WEB-INF/jsp/success.jsp");
 			}catch(Exception ee) {
@@ -59,21 +59,20 @@ public class ChallengePlayer extends Dispatcher {
 				myHelper.setRequestAttribute("message", ee.getMessage());
 				forward("/WEB-INF/jsp/fail.jsp");
 			}	
-		}else if(myRequest.getMethod().equalsIgnoreCase("GET")) {
-			try {
-				ValidatorCommand customCommand = null;
-				customCommand.execute();
-				myHelper.setRequestAttribute("message", "Operation Success");
-				forward("/WEB-INF/jsp/success.jsp");
-			}catch(Exception ee) {
-				System.out.println("Problem with executing List player: " + ee.getMessage());
-				myHelper.setRequestAttribute("message", ee.getMessage());
-				forward("/WEB-INF/jsp/fail.jsp");
+		}else {
+			if(myRequest.getMethod().equalsIgnoreCase("GET")) {
+				try {
+					ListChallengeCommand customCommand = new ListChallengeCommand(myHelper);
+					customCommand.execute();
+					forward("/WEB-INF/jsp/challenges.jsp");
+				}catch(Exception ee) {
+					System.out.println("Problem with executing List player: " + ee.getMessage());
+					myHelper.setRequestAttribute("message", ee.getMessage());
+					forward("/WEB-INF/jsp/fail.jsp");
+				}
+				
 			}
 			
-		}else {
-			System.out.println("Don't supported other than GET/POST");
-			forward("/WEB-INF/jsp/fail.jsp");
 		}
 	}
 }

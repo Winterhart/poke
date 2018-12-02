@@ -101,7 +101,8 @@ public class ChallengeTDG {
 	}
 	
 	public static long getMaxId() throws SQLException {
-		return UniqueIdFactory.getMaxId(TABLE, "id");
+		long item =UniqueIdFactory.getMaxId(TABLE, "id");
+		return item;
 	}
 
 }

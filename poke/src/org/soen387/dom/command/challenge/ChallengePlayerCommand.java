@@ -10,8 +10,8 @@ import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.domain.command.validator.source.Source;
 import org.dsrg.soenea.domain.helper.Helper;
 import org.dsrg.soenea.domain.user.mapper.UserInputMapper;
+import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.Mapper.deck.DeckInputMapper;
-import org.soen387.dom.POJO.challenge.Challenge;
 import org.soen387.dom.POJO.challenge.ChallengeFactory;
 import org.soen387.dom.POJO.deck.IDeck;
 
@@ -89,9 +89,10 @@ public class ChallengePlayerCommand extends ValidatorCommand  {
 		// Attempt to create a Challenge
 		try {
 			ChallengeFactory.createNew(parsedUserId, targetUserId, initDeckId, 0);
+			UoW.getCurrent().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			String message = "Not able to create the Deck";
+			String message = "Not able to create the Challenge";
 			addNotification(message);
 			throw new CommandException(message);
 			

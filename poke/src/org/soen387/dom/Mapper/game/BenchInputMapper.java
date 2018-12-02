@@ -39,6 +39,7 @@ public class BenchInputMapper implements IdentityBasedProducer   {
 			try {
 				
 				diss.add(IdentityMap.get(rs.getLong("id"), Bench.class));
+				continue;
 				
 			}catch(DomainObjectNotFoundException ee) {
 				System.out.println("Domain not found " + ee.getMessage());
@@ -60,7 +61,7 @@ public class BenchInputMapper implements IdentityBasedProducer   {
 				try {
 					
 					diss.add(IdentityMap.get(rs.getLong("id"), Bench.class));
-					
+					continue;
 				}catch(DomainObjectNotFoundException ee) {
 					System.out.println("Domain not found " + ee.getMessage());
 					

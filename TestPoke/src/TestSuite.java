@@ -1726,6 +1726,402 @@ public class TestSuite {
 			Assert.assertTrue(false);
 		}
 	}
+
+	@Test
+	public void testViewDiscardSuccess() {
+		try {
+			//Player A
+				WebClient webClientA = new WebClient();
+				String jsonText;
+				DocumentContext dc;
+				List<Map<String, Object>> jPathResult;
+				Player playerA = Player.createPlayer(webClientA, "testViewDiscardSuccessA", "testViewDiscardSuccessAPass");
+				Deck deckA = Deck.createDeck(webClientA, Deck.TEST_DECK6);
+	
+			//Player B
+				WebClient webClientB = new WebClient();
+				Player playerB = Player.createPlayer(webClientB, "testViewDiscardSuccessB", "testViewDiscardSuccessBPass");
+				Deck deckB = Deck.createDeck(webClientB, Deck.TEST_DECK6);
+				GameUtils.challengePlayer(webClientB, playerA, deckB);
+	
+			//Player A
+				jsonText = GameUtils.listChallenges(webClientA);
+				dc = JsonPath.parse(jsonText);
+				String query = "challenges[?(@['challenger']==" + playerB.getId() + " && @['challengee']==" + playerA.getId() + " && @['status']==0)]";
+				jPathResult = dc.read(query);
+				
+				int challengeId = (Integer)((Object)jPathResult.get(0).get("id"));
+				int challengeVersion =(Integer)((Object)jPathResult.get(0).get("version"));
+	
+				jsonText = GameUtils.acceptChallenge(webClientA, challengeId, challengeVersion, deckA);
+				
+				jsonText = GameUtils.listGames(webClientA);
+				dc = JsonPath.parse(jsonText);
+				query = "games[?(@['players'][0]==" + playerB.getId() + "  && @['players'][1]==" +  playerA.getId() + ")].id";
+				jPathResult = dc.read(query);
+				int gameId = (Integer)((Object)jPathResult.get(0));
+			
+				Board boardB = Board.createBoard(webClientB, gameId);
+				
+				jsonText = GameUtils.viewDiscard(webClientB, boardB, playerA);
+				dc = JsonPath.parse(jsonText);
+				query = "discard.length()";
+				Assert.assertEquals(0, (int)dc.read(query));				
+				
+				jsonText = GameUtils.viewDiscard(webClientB, boardB, playerB);
+				dc = JsonPath.parse(jsonText);
+				query = "discard.length()";
+				Assert.assertEquals(0, (int)dc.read(query));
+				
+				GameUtils.playTrainer(webClientB, boardB, deckB.findCard(0));
+				
+				boardB = Board.createBoard(webClientB, gameId);
+				
+				//Note that this time we're having webClientA look at the discards
+				jsonText = GameUtils.viewDiscard(webClientA, boardB, playerA);
+				dc = JsonPath.parse(jsonText);
+				query = "discard.length()";
+				Assert.assertEquals(0, (int)dc.read(query));				
+				
+				jsonText = GameUtils.viewDiscard(webClientA, boardB, playerB);
+				dc = JsonPath.parse(jsonText);
+				query = "discard.length()";
+				Assert.assertEquals(1, (int)dc.read(query));
+				int card = (int)dc.read("discard[0]");
+				Assert.assertEquals(deckB.findCard(0).getId(), card);
+
+				GameUtils.endTurn(webClientB, Board.createBoard(webClientB, gameId));
+				
+				Board boardA = Board.createBoard(webClientA, gameId);
+				GameUtils.playTrainer(webClientA, boardA, deckA.findCard(0));
+
+				boardB = Board.createBoard(webClientB, gameId);
+				
+				//Note that this time we're going back to having player B look at the discards on player A's turn
+				jsonText = GameUtils.viewDiscard(webClientA, boardB, playerA);
+				dc = JsonPath.parse(jsonText);
+				query = "discard.length()";
+				Assert.assertEquals(1, (int)dc.read(query));				
+				card = (int)dc.read("discard[0]");
+				Assert.assertEquals(deckA.findCard(0).getId(), card);
+				
+				jsonText = GameUtils.viewDiscard(webClientA, boardB, playerB);
+				dc = JsonPath.parse(jsonText);
+				query = "discard.length()";
+				Assert.assertEquals(1, (int)dc.read(query));
+				card = (int)dc.read("discard[0]");
+				Assert.assertEquals(deckB.findCard(0).getId(), card);
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testViewDiscardFailureNotMyGame() {
+		try {
+			//Player A
+				WebClient webClientA = new WebClient();
+				String jsonText;
+				DocumentContext dc;
+				List<Map<String, Object>> jPathResult;
+				Player playerA = Player.createPlayer(webClientA, "testViewDiscardFailureNotMyGameA", "testViewDiscardFailureNotMyGameAPass");
+				Deck deckA = Deck.createDeck(webClientA, Deck.TEST_DECK1);
+	
+			//Player B
+				WebClient webClientB = new WebClient();
+				Player playerB = Player.createPlayer(webClientB, "testViewDiscardFailureNotMyGameB", "testViewDiscardFailureNotMyGameBPass");
+				Deck deckB = Deck.createDeck(webClientB, Deck.TEST_DECK1);
+				GameUtils.challengePlayer(webClientB, playerA, deckB);
+	
+			//Player A
+				jsonText = GameUtils.listChallenges(webClientA);
+				dc = JsonPath.parse(jsonText);
+				String query = "challenges[?(@['challenger']==" + playerB.getId() + " && @['challengee']==" + playerA.getId() + " && @['status']==0)]";
+				jPathResult = dc.read(query);
+				
+				int challengeId = (Integer)((Object)jPathResult.get(0).get("id"));
+				int challengeVersion =(Integer)((Object)jPathResult.get(0).get("version"));
+	
+				jsonText = GameUtils.acceptChallenge(webClientA, challengeId, challengeVersion, deckA);	
+				
+				jsonText = GameUtils.listGames(webClientA);
+				dc = JsonPath.parse(jsonText);
+				query = "games[?(@['players'][0]==" + playerB.getId() + "  && @['players'][1]==" + playerA.getId() + ")].id";
+				jPathResult = dc.read(query);
+				int gameId = (Integer)((Object)jPathResult.get(0));
+			
+				Board boardA = Board.createBoard(webClientA, gameId);
+				
+			//Player C
+				WebClient webClientC = new WebClient();
+				Player.createPlayer(webClientC, "testViewDiscardFailureNotMyGameC", "testViewDiscardFailureNotMyGameCPass");
+				
+				jsonText = GameUtils.viewDiscard(webClientC, boardA, playerB);
+				dc = JsonPath.parse(jsonText);
+				Assert.assertEquals("fail", dc.read("$['status']"));
+				
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testViewDiscardFailureViewingDiscardOfSomeoneNotPlaying() {
+		try {
+			//Player A
+				WebClient webClientA = new WebClient();
+				String jsonText;
+				DocumentContext dc;
+				List<Map<String, Object>> jPathResult;
+				Player playerA = Player.createPlayer(webClientA, "testViewDiscardFailureViewingDiscardOfSomeoneNotPlayingA", "testViewDiscardFailureViewingDiscardOfSomeoneNotPlayingAPass");
+				Deck deckA = Deck.createDeck(webClientA, Deck.TEST_DECK1);
+	
+			//Player B
+				WebClient webClientB = new WebClient();
+				Player playerB = Player.createPlayer(webClientB, "testViewDiscardFailureViewingDiscardOfSomeoneNotPlayingB", "testViewDiscardFailureViewingDiscardOfSomeoneNotPlayingBPass");
+				Deck deckB = Deck.createDeck(webClientB, Deck.TEST_DECK1);
+				GameUtils.challengePlayer(webClientB, playerA, deckB);
+	
+			//Player A
+				jsonText = GameUtils.listChallenges(webClientA);
+				dc = JsonPath.parse(jsonText);
+				String query = "challenges[?(@['challenger']==" + playerB.getId() + " && @['challengee']==" + playerA.getId() + " && @['status']==0)]";
+				jPathResult = dc.read(query);
+				
+				int challengeId = (Integer)((Object)jPathResult.get(0).get("id"));
+				int challengeVersion =(Integer)((Object)jPathResult.get(0).get("version"));
+	
+				jsonText = GameUtils.acceptChallenge(webClientA, challengeId, challengeVersion, deckA);	
+				
+				jsonText = GameUtils.listGames(webClientA);
+				dc = JsonPath.parse(jsonText);
+				query = "games[?(@['players'][0]==" + playerB.getId() + "  && @['players'][1]==" + playerA.getId() + ")].id";
+				jPathResult = dc.read(query);
+				int gameId = (Integer)((Object)jPathResult.get(0));
+			
+				Board boardA = Board.createBoard(webClientA, gameId);
+				
+			//Player C
+				WebClient webClientC = new WebClient();
+				Player playerC = Player.createPlayer(webClientC, "testViewDiscardFailureViewingDiscardOfSomeoneNotPlayingC", "testViewDiscardFailureViewingDiscardOfSomeoneNotPlayingCPass");
+				
+				jsonText = GameUtils.viewDiscard(webClientA, boardA, playerC);
+				dc = JsonPath.parse(jsonText);
+				Assert.assertEquals("fail", dc.read("$['status']"));
+				
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPlayEnergySuccess() {
+		try {
+			//Player A
+				WebClient webClientA = new WebClient();
+				String jsonText;
+				DocumentContext dc;
+				List<Map<String, Object>> jPathResult;
+				Player playerA = Player.createPlayer(webClientA, "testPlayEnergySuccessA", "testPlayEnergySuccessA");
+				Deck deckA = Deck.createDeck(webClientA, Deck.TEST_DECK1);
+		
+			//Player B
+				WebClient webClientB = new WebClient();
+				Player playerB = Player.createPlayer(webClientB, "testPlayEnergySuccessB", "testPlayEnergySuccessBPass");
+				Deck deckB = Deck.createDeck(webClientB, Deck.TEST_DECK6);
+				GameUtils.challengePlayer(webClientB, playerA, deckB);
+		
+			//Player A
+				jsonText = GameUtils.listChallenges(webClientA);
+				dc = JsonPath.parse(jsonText);
+				String query = "challenges[?(@['challenger']==" + playerB.getId() + " && @['challengee']==" + playerA.getId() + " && @['status']==0)]";
+				jPathResult = dc.read(query);
+				
+				int challengeId = (Integer)((Object)jPathResult.get(0).get("id"));
+				int challengeVersion =(Integer)((Object)jPathResult.get(0).get("version"));
+		
+				jsonText = GameUtils.acceptChallenge(webClientA, challengeId, challengeVersion, deckA);
+				
+				jsonText = GameUtils.listGames(webClientA);
+				dc = JsonPath.parse(jsonText);
+				query = "games[?(@['players'][0]==" + playerB.getId() + "  && @['players'][1]==" +  playerA.getId() + ")].id";
+				jPathResult = dc.read(query);
+				int gameId = (Integer)((Object)jPathResult.get(0));
+			
+				jsonText = GameUtils.viewBoard(webClientA, gameId);
+				dc = JsonPath.parse(jsonText);
+				
+				
+				Board board;
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				board = Board.createBoard(webClientB, gameId);
+				//Now it's player B's turn. Let's play that Pikachu and play that lightning on it.
+				GameUtils.playPokemonToBench(webClientB, board, deckB.findCard(1));
+				board = Board.createBoard(webClientB, gameId); //Get that new version!
+				GameUtils.attachEnergy(webClientB, board, deckB.findCard(2), deckB.findCard(1));
+				board = Board.createBoard(webClientB, gameId); //Let's see if it got played properly.
+			
+				List<Card> attachedEnergy = board.getAtachedEnergy(playerB, deckB, deckB.findCard(1));
+				Assert.assertTrue(!attachedEnergy.isEmpty());
+				Assert.assertEquals(deckB.findCard(2), attachedEnergy.get(0));
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPlayEnergySuccessMultipleEnergyOnConsecutiveTurns() {
+		try {
+			//Player A
+				WebClient webClientA = new WebClient();
+				String jsonText;
+				DocumentContext dc;
+				List<Map<String, Object>> jPathResult;
+				Player playerA = Player.createPlayer(webClientA, "testPlayEnergySuccessMultipleEnergyOnConsecutiveTurnsA", "testPlayEnergySuccessMultipleEnergyOnConsecutiveTurnsAPass");
+				Deck deckA = Deck.createDeck(webClientA, Deck.TEST_DECK1);
+		
+			//Player B
+				WebClient webClientB = new WebClient();
+				Player playerB = Player.createPlayer(webClientB, "testPlayEnergySuccessMultipleEnergyOnConsecutiveTurnsB", "testPlayEnergySuccessMultipleEnergyOnConsecutiveTurnsBPass");
+				Deck deckB = Deck.createDeck(webClientB, Deck.TEST_DECK6);
+				GameUtils.challengePlayer(webClientB, playerA, deckB);
+		
+			//Player A
+				jsonText = GameUtils.listChallenges(webClientA);
+				dc = JsonPath.parse(jsonText);
+				String query = "challenges[?(@['challenger']==" + playerB.getId() + " && @['challengee']==" + playerA.getId() + " && @['status']==0)]";
+				jPathResult = dc.read(query);
+				
+				int challengeId = (Integer)((Object)jPathResult.get(0).get("id"));
+				int challengeVersion =(Integer)((Object)jPathResult.get(0).get("version"));
+		
+				jsonText = GameUtils.acceptChallenge(webClientA, challengeId, challengeVersion, deckA);
+				
+				jsonText = GameUtils.listGames(webClientA);
+				dc = JsonPath.parse(jsonText);
+				query = "games[?(@['players'][0]==" + playerB.getId() + "  && @['players'][1]==" +  playerA.getId() + ")].id";
+				jPathResult = dc.read(query);
+				int gameId = (Integer)((Object)jPathResult.get(0));
+			
+				jsonText = GameUtils.viewBoard(webClientA, gameId);
+				dc = JsonPath.parse(jsonText);
+				
+				
+				Board board;
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				board = Board.createBoard(webClientB, gameId);
+				//Now it's player B's turn. Let's play that Pikachu and play that lightning on it.
+				GameUtils.playPokemonToBench(webClientB, board, deckB.findCard(1));
+				board = Board.createBoard(webClientB, gameId); //Get that new version!
+				GameUtils.attachEnergy(webClientB, board, deckB.findCard(2), deckB.findCard(1));
+				board = Board.createBoard(webClientB, gameId); //Let's see if it got played properly.
+			
+				
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				
+				board = Board.createBoard(webClientB, gameId);
+				GameUtils.playPokemonToBench(webClientB, board, deckB.findCard(3));
+				board = Board.createBoard(webClientB, gameId); 
+				GameUtils.attachEnergy(webClientB, board, deckB.findCard(4), deckB.findCard(1));
+				board = Board.createBoard(webClientB, gameId); 
+
+				List<Card> attachedEnergy = board.getAtachedEnergy(playerB, deckB, deckB.findCard(1));
+				//The first Pokemon played got both energy
+				Assert.assertTrue(attachedEnergy.contains(deckB.findCard(2)));
+				Assert.assertTrue(attachedEnergy.contains(deckB.findCard(4)));
+				attachedEnergy = board.getAtachedEnergy(playerB, deckB, deckB.findCard(3));
+				//The other Pokemon has no energy
+				Assert.assertTrue(attachedEnergy.isEmpty());
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testPlayEnergyFailureMultipleEnergyOnSameTurn() {
+		try {
+			//Player A
+				WebClient webClientA = new WebClient();
+				String jsonText;
+				DocumentContext dc;
+				List<Map<String, Object>> jPathResult;
+				Player playerA = Player.createPlayer(webClientA, "testPlayEnergyFailureMultipleEnergyOnSameTurnA", "testPlayEnergyFailureMultipleEnergyOnSameTurnAPass");
+				Deck deckA = Deck.createDeck(webClientA, Deck.TEST_DECK1);
+		
+			//Player B
+				WebClient webClientB = new WebClient();
+				Player playerB = Player.createPlayer(webClientB, "testPlayEnergyFailureMultipleEnergyOnSameTurnB", "testPlayEnergyFailureMultipleEnergyOnSameTurnBPass");
+				Deck deckB = Deck.createDeck(webClientB, Deck.TEST_DECK6);
+				GameUtils.challengePlayer(webClientB, playerA, deckB);
+		
+			//Player A
+				jsonText = GameUtils.listChallenges(webClientA);
+				dc = JsonPath.parse(jsonText);
+				String query = "challenges[?(@['challenger']==" + playerB.getId() + " && @['challengee']==" + playerA.getId() + " && @['status']==0)]";
+				jPathResult = dc.read(query);
+				
+				int challengeId = (Integer)((Object)jPathResult.get(0).get("id"));
+				int challengeVersion =(Integer)((Object)jPathResult.get(0).get("version"));
+		
+				jsonText = GameUtils.acceptChallenge(webClientA, challengeId, challengeVersion, deckA);
+				
+				jsonText = GameUtils.listGames(webClientA);
+				dc = JsonPath.parse(jsonText);
+				query = "games[?(@['players'][0]==" + playerB.getId() + "  && @['players'][1]==" +  playerA.getId() + ")].id";
+				jPathResult = dc.read(query);
+				int gameId = (Integer)((Object)jPathResult.get(0));
+			
+				jsonText = GameUtils.viewBoard(webClientA, gameId);
+				dc = JsonPath.parse(jsonText);
+				
+				
+				Board board;
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				GameUtils.endTurn(webClientB, board = Board.createBoard(webClientB, gameId));
+				GameUtils.endTurn(webClientA, board = Board.createBoard(webClientA, gameId));
+				board = Board.createBoard(webClientB, gameId);
+				//Now it's player B's turn. Let's play that Pikachu and play that lightning on it.
+				GameUtils.playPokemonToBench(webClientB, board, deckB.findCard(1));
+				board = Board.createBoard(webClientB, gameId); //Get that new version!
+				GameUtils.attachEnergy(webClientB, board, deckB.findCard(2), deckB.findCard(1));
+				board = Board.createBoard(webClientB, gameId); //Let's see if it got played properly.
+				GameUtils.playPokemonToBench(webClientB, board, deckB.findCard(3));
+				board = Board.createBoard(webClientB, gameId); 
+				jsonText=GameUtils.attachEnergy(webClientB, board, deckB.findCard(4), deckB.findCard(1));
+				dc = JsonPath.parse(jsonText);
+				Assert.assertEquals("fail", dc.read("$['status']"));
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
 	
 	@Test
 	public void testRetireFromGameSuccess() {

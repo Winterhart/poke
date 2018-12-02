@@ -12,16 +12,12 @@ public interface IChallenge extends IDomainObject<Long> {
 
 	public void setChallengeeId(Long challengeeId);
 
-	public ChallengeStatus getStatus();
-
-	public void setStatus(ChallengeStatus status);
-
 	public Long getDeckInitializer();
+
 	
-	public int getChallengeStatus() 
-			throws InvalidChallengeStatusException;
-	
-	public void setChallengeStatus(int status) 
-			throws InvalidChallengeStatusException;
+	public int getStatus();
+
+	public void setStatus(int status);
+	public void setDeckInitializer(Long deckInitializer);
 
 }

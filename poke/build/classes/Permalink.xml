@@ -33,10 +33,27 @@
         <dispatcher>org.soen387.app.dispatcher.challenge.ChallengePlayer</dispatcher>
         <attribute name="challengee" />
     </Permalink>
+        <Permalink>
+        <pattern>Poke/Challenge</pattern>
+        <dispatcher>org.soen387.app.dispatcher.challenge.ChallengePlayer</dispatcher>
+    </Permalink>
     <Permalink>
-        <pattern>Poke/Challenge/(\d+)/(Accept)</pattern>
+        <pattern>Poke/Challenge/(\d+)/Accept</pattern>
         <dispatcher>org.soen387.app.dispatcher.challenge.ChallengePlayer</dispatcher>
         <attribute name="challenge" />
         <attribute name="type" />
     </Permalink>
+    <Permalink>
+        <pattern>Poke/Challenge/(\d+)/Refuse</pattern>
+        <dispatcher>org.soen387.app.dispatcher.challenge.ChallengePlayer</dispatcher>
+        <attribute name="challenge" />
+        <attribute name="type" />
+    </Permalink>
+    <Permalink>
+        <pattern>Poke/Challenge/(\d+)/Withdraw</pattern>
+        <dispatcher>org.soen387.app.dispatcher.challenge.ChallengePlayer</dispatcher>
+        <attribute name="challenge" />
+        <attribute name="type" />
+    </Permalink>
+    
 </permalinks>
