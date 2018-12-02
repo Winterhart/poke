@@ -56,26 +56,31 @@ public class ChallengeInputMapper implements IdentityBasedProducer {
 		return chas;
 	}
 	
-//	public static List<IChallenge> findAllByUser(Long userId) throws SQLException, MapperException {
-//		//TODO: Refactor to make it more efficient....
-//		List<IChallenge> chas= new ArrayList<IChallenge>();
-//		ResultSet rs = ChallengeFinder.findAll();
-//		
-//		while(rs.next()) {
-//			if(rs.getLong("challengerId") == userId || rs.getLong("challengeeId") == userId) {
-//				try {
-//					chas.add(IdentityMap.get(rs.getLong("id"), Challenge.class));
-//					continue;
-//				}catch(DomainObjectNotFoundException ee) {
-//					System.out.println("Object not found");
-//				}
-//				
-//				chas.add(new ChallengeProxy(rs.getLong("id")));
-//			}
-//			
-//		}
-//		return chas;
-//	}
+	public static List<IChallenge> findAllByUser(Long userId) throws SQLException, MapperException {
+		//TODO: Optimise this query l
+		ArrayList<IChallenge> chas = new ArrayList<IChallenge>();
+		ResultSet rs = ChallengeFinder.findAll();
+		
+		while(rs.next()) {
+			try {
+
+				Challenge a  = new Challenge(rs.getLong("id"), 
+						rs.getLong("version"), 
+						rs.getLong("challengerId"), 
+						rs.getLong("challengeeId"), 
+						rs.getLong("deckInit"),
+						rs.getInt("challengeStatus"));
+				if(rs.getLong("challengerId") == 
+						userId || rs.getLong("challengeeId") == userId) {
+					chas.add(a);
+				}
+
+			}catch(Exception ee) {
+				System.out.println("Object not found" + ee.getMessage());
+			}
+		}
+		return chas;
+	}
 	
 	
 	private static Challenge getChallenge(ResultSet rs) throws SQLException {

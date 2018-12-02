@@ -98,10 +98,17 @@ public class AcceptCommand extends ValidatorCommand  {
 			throw new CommandException(message);
 		}
 		
+		if(cha.getStatus() != 0) {
+			String message = "Challenge's status already completed";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
 		// Attempt to Update a Challenge
 		try {
 			cha.setVersion(chaVersion);
 			cha.setStatus(3);
+			//TODO : Create a new Game
 			UoW.getCurrent().registerDirty(cha);
 			UoW.getCurrent().commit();
 		} catch (Exception e) {

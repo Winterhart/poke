@@ -31,7 +31,8 @@ public class ListChallengeCommand extends ValidatorCommand {
 		// Attempt to Get Challenges
 		try {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			List<IChallenge> challenges = ChallengeInputMapper.findAll();
+			List<IChallenge> challenges = 
+					ChallengeInputMapper.findAllByUser(parsedUserId);
 			List<ChallengeJsonHelper> chH = new ArrayList<ChallengeJsonHelper>();
 			
 			//TODO: Refactor to use IdentityMap 
@@ -54,7 +55,7 @@ public class ListChallengeCommand extends ValidatorCommand {
 		}
 		
 	}
-	
+	;
 	private class ChallengeJsonHelper{
 		private Long id;
 		private Long version;
