@@ -7,11 +7,8 @@ import org.dsrg.soenea.application.servlet.impl.RequestAttributes;
 import org.dsrg.soenea.domain.command.CommandException;
 import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.domain.helper.Helper;
-import org.soen387.dom.Mapper.game.GameInputMapper;
 import org.soen387.dom.Mapper.game.HandInputMapper;
-import org.soen387.dom.POJO.game.IGame;
 import org.soen387.dom.POJO.game.IHand;
-import org.soen387.dom.command.game.ListGameCommand.GameJsonHelper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,13 +29,7 @@ public class ViewHandCommand extends ValidatorCommand {
 			
 		Long gameId = null;
 			gameId = Long.parseLong((String)helper.getRequestAttribute("gameId"));
-			
-			
-		if(gameId == null) {
-			String message = "Cant' parse Game id";
-			addNotification(message);
-			throw new CommandException(message);
-		}
+
 		Long deckId = null;
 		//We need to find the deck used in this game...
 		
@@ -54,7 +45,8 @@ public class ViewHandCommand extends ValidatorCommand {
 			}
 			
 			// Change back to array
-			Long[] handJ = handJson.toArray(handJ);
+			Long[] handJ = new Long[handJson.size()];
+			handJ = handJson.toArray(handJ);
 			
 			String jsonH = gson.toJson(handJ);
 			helper.setRequestAttribute("hand", jsonH);

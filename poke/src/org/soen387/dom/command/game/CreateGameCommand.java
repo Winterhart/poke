@@ -8,6 +8,7 @@ import org.dsrg.soenea.domain.helper.Helper;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.Mapper.challenge.ChallengeInputMapper;
 import org.soen387.dom.POJO.challenge.Challenge;
+import org.soen387.dom.POJO.game.Game;
 import org.soen387.dom.POJO.game.GameFactory;
 import org.soen387.dom.POJO.game.GameStatus;
 
@@ -18,6 +19,10 @@ public class CreateGameCommand extends ValidatorCommand  {
 	
 	public CreateGameCommand(Helper helper) {
 		super(helper);
+	}
+	
+	public Helper getHelper() {
+		return this.helper;
 	}
 
 	@Override
@@ -38,7 +43,7 @@ public class CreateGameCommand extends ValidatorCommand  {
 			deckIdTobeUsed = Long.parseLong(deckUse);
 			
 		}catch(Exception e) {
-			String message = "Invalid Post parameters Id";
+			String message = "Invalid Post parameters Id in Game";
 			addNotification(message);
 			throw new CommandException(message);
 		}
@@ -58,7 +63,7 @@ public class CreateGameCommand extends ValidatorCommand  {
 		
 		
 		try {
-			GameFactory.createNew(
+			Game game = GameFactory.createNew(
 					cha.getChallengerId(),
 					cha.getChallengeeId(),
 					cha.getChallengerId(),
@@ -67,7 +72,8 @@ public class CreateGameCommand extends ValidatorCommand  {
 					GameStatus.playing,
 					cha.getDeckInitializer(),
 					deckIdTobeUsed);
-			UoW.getCurrent().commit();
+			
+			helper.setRequestAttribute("gameId", game.getId());
 			
 		}catch(Exception e) {
 			e.printStackTrace();
