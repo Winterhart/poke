@@ -60,15 +60,11 @@ public class GameInputMapper implements IdentityBasedProducer {
 		ResultSet rs = GameFinder.findAll();
 		
 		while(rs.next()) {
-			if(rs.getLong("challengerId") == userId || rs.getLong("challengeeId") == userId) {
-				try {
-					games.add(IdentityMap.get(rs.getLong("id"), Game.class));
-					continue;
-				}catch(DomainObjectNotFoundException ee) {
-					System.out.println("Domain Exception " + ee.getMessage());
-				}
-				
-				games.add(new GameProxy(rs.getLong("id")));	
+			if(rs.getLong("challengerId") == userId || 
+					rs.getLong("challengeeId") == userId) {
+					 Game newGame = getGame(rs);
+					 games.add(newGame);
+					 continue;
 			}
 
 		}

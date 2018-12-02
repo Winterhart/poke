@@ -9,5 +9,6 @@
 <command name="org.soen387.app.dispatcher.challenge.ListPlayers" get="true"/>
 <command name="org.soen387.app.dispatcher.deck.ManageDeck" post="true" get="true"/>
 <command name="org.soen387.app.dispatcher.challenge.ChallengePlayer" post="true" get="true"/>
+<command name="org.soen387.app.dispatcher.game.GameDispatcher" post="true" get="true"/>
 </role> 
 </roles>
