@@ -10,7 +10,6 @@ import org.soen387.dom.Mapper.challenge.ChallengeInputMapper;
 import org.soen387.dom.POJO.challenge.Challenge;
 import org.soen387.dom.POJO.game.Game;
 import org.soen387.dom.POJO.game.GameFactory;
-import org.soen387.dom.POJO.game.GameStatus;
 
 public class CreateGameCommand extends ValidatorCommand  {
 
@@ -66,10 +65,10 @@ public class CreateGameCommand extends ValidatorCommand  {
 			Game game = GameFactory.createNew(
 					cha.getChallengerId(),
 					cha.getChallengeeId(),
-					cha.getChallengerId(),
+					cha.getChallengeeId(),
 					0,
-					GameStatus.playing,
-					GameStatus.playing,
+					"playing",
+					"playing",
 					cha.getDeckInitializer(),
 					deckIdTobeUsed);
 			

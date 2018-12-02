@@ -59,8 +59,13 @@
         <pattern>Poke/Game/(\d+)</pattern>
         <dispatcher>org.soen387.app.dispatcher.game.GameDispatcher</dispatcher>
         <attribute name="game" />
-        <attribute name="type" />
     </Permalink>
+    <Permalink>
+        <pattern>Poke/Game/(\d+)/(EndTurn)</pattern>
+        <dispatcher>org.soen387.app.dispatcher.game.GameDispatcher</dispatcher>
+        <attribute name="game" />
+        <attribute name="type" />
+    </Permalink>    
     <Permalink>
         <pattern>Poke/Game</pattern>
         <dispatcher>org.soen387.app.dispatcher.game.GameDispatcher</dispatcher>

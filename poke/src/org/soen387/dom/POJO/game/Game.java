@@ -14,15 +14,15 @@ public class Game  extends DomainObject<Long>  implements IGame{
 	private Long challengeeId;
 	private Long currentTurn;
 	private int numberOfTurn;
-	private GameStatus challengerStatus;
-	private GameStatus challengeeStatus;
+	private String challengerStatus;
+	private String challengeeStatus;
 	private Long challengerDeck;
 	private Long challengeeDeck;
 	
 	
 	
 	public Game(Long id, long version, Long challengerId, Long challengeeId, Long currentTurn, int numberOfTurn,
-			GameStatus challengerStatus, GameStatus challengeeStatus, Long challengerDeck, Long challengeeDeck) {
+			String challengerStatus, String challengeeStatus, Long challengerDeck, Long challengeeDeck) {
 		super(id, version);
 		this.challengerId = challengerId;
 		this.challengeeId = challengeeId;
@@ -38,7 +38,6 @@ public class Game  extends DomainObject<Long>  implements IGame{
 
 	protected Game(Long id, long version) {
 		super(id, version);
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -87,19 +86,19 @@ public class Game  extends DomainObject<Long>  implements IGame{
 		this.numberOfTurn = numberOfTurn;
 	}
 
-	public GameStatus getChallengerStatus() {
+	public String getChallengerStatus() {
 		return challengerStatus;
 	}
 
-	public void setChallengerStatus(GameStatus challengerStatus) {
+	public void setChallengerStatus(String challengerStatus) {
 		this.challengerStatus = challengerStatus;
 	}
 
-	public GameStatus getChallengeeStatus() {
+	public String getChallengeeStatus() {
 		return challengeeStatus;
 	}
 
-	public void setChallengeeStatus(GameStatus challengeeStatus) {
+	public void setChallengeeStatus(String challengeeStatus) {
 		this.challengeeStatus = challengeeStatus;
 	}
 	

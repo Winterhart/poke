@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import org.dsrg.soenea.application.servlet.dispatcher.Dispatcher;
 import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.domain.helper.Helper;
-import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.command.challenge.AcceptCommand;
 import org.soen387.dom.command.challenge.ChallengePlayerCommand;
 import org.soen387.dom.command.challenge.ListChallengeCommand;
@@ -15,6 +14,8 @@ import org.soen387.dom.command.challenge.RefuseCommand;
 import org.soen387.dom.command.challenge.WithdrawCommand;
 import org.soen387.dom.command.game.CreateGameCommand;
 import org.soen387.dom.command.game.DrawCardCommand;
+import org.soen387.dom.command.game.EndTurnFirstTimeCommand;
+
 import org.soen387.util.UrlParser;
 
 public class ChallengePlayer extends Dispatcher {
@@ -60,14 +61,15 @@ public class ChallengePlayer extends Dispatcher {
 					CreateGameCommand gameC = new CreateGameCommand(myHelper);
 					gameC.execute();
 					
-					myHelper.setRequestAttribute("stat", "fresh");
-					
 					Helper previousH = gameC.getHelper();
 					Long gameId =  (long)previousH.getRequestAttribute("gameId");
 					myHelper.setRequestAttribute("gameId", gameId);
 					//We must draw a card
 					DrawCardCommand drawC = new DrawCardCommand(myHelper);
 					drawC.execute();
+					
+					EndTurnFirstTimeCommand endIt = new EndTurnFirstTimeCommand(myHelper);
+					endIt.execute();
 
 					
 				}

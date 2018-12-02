@@ -21,13 +21,13 @@ public interface IGame extends IDomainObject<Long> {
 
 	public void setNumberOfTurn(int numberOfTurn);
 
-	public GameStatus getChallengerStatus();
+	public String getChallengerStatus();
 
-	public void setChallengerStatus(GameStatus challengerStatus);
+	public void setChallengerStatus(String challengerStatus);
 
-	public GameStatus getChallengeeStatus();
+	public String getChallengeeStatus();
 
-	public void setChallengeeStatus(GameStatus challengeeStatus);
+	public void setChallengeeStatus(String challengeeStatus);
 
 	
 	public Long getChallengerId();

@@ -81,23 +81,23 @@ public class GameProxy extends DomainObjectProxy<Long,Game> implements IGame  {
 	}
 
 	@Override
-	public GameStatus getChallengerStatus() {
+	public String getChallengerStatus() {
 		return getInnerObject().getChallengerStatus();
 	}
 
 	@Override
-	public void setChallengerStatus(GameStatus challengerStatus) {
+	public void setChallengerStatus(String challengerStatus) {
 		getInnerObject().setChallengerStatus(challengerStatus);
 		
 	}
 
 	@Override
-	public GameStatus getChallengeeStatus() {
+	public String getChallengeeStatus() {
 		return getInnerObject().getChallengeeStatus();
 	}
 
 	@Override
-	public void setChallengeeStatus(GameStatus challengeeStatus) {
+	public void setChallengeeStatus(String challengeeStatus) {
 		getInnerObject().setChallengeeStatus(challengeeStatus);
 		
 	}

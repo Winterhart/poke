@@ -30,7 +30,7 @@ public class DrawCardCommand extends ValidatorCommand {
 	public void process() throws CommandException {
 		Long parsedUserId = null;
 		Long gameId = null;
-		String status = null;
+
 		
 		try {
 			Object rawUserId = helper.getSessionAttribute(RequestAttributes.CURRENT_USER_ID);
@@ -38,8 +38,6 @@ public class DrawCardCommand extends ValidatorCommand {
 			System.out.println("User Id: " + parsedUserId.toString());
 			
 			gameId = (long)helper.getRequestAttribute("gameId");
-			
-			status= (String)helper.getRequestAttribute("stat");
 			
 			
 		}catch(Exception e) {
@@ -59,16 +57,11 @@ public class DrawCardCommand extends ValidatorCommand {
 			throw new CommandException(message);
 			
 		}
-		if(game.getNumberOfTurn() == 0 && status.equals("fresh") ) {
-			// allowing to draw card
-			
-		}else {
-			//Must be current turn for User
-			if(game.getCurrentTurn() != parsedUserId) {
-				String message = "It's not your turn or game...";
-				addNotification(message);
-				throw new CommandException(message);
-			}
+
+		if(game.getCurrentTurn() != parsedUserId) {
+			String message = "It's not your turn or game...";
+			addNotification(message);
+			throw new CommandException(message);
 		}
 
 		// Which deck must play
@@ -141,7 +134,6 @@ public class DrawCardCommand extends ValidatorCommand {
 		
 		try {
 			HandFactory.createNew(cardIdToPick, gameId, deckId);
-			UoW.getCurrent().commit();
 			
 		}catch(Exception e) {
 			e.printStackTrace();

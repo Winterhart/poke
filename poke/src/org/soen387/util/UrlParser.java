@@ -1,6 +1,5 @@
 package org.soen387.util;
 
-import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
 

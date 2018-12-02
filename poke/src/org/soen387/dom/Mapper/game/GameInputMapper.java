@@ -13,7 +13,6 @@ import org.dsrg.soenea.domain.producer.IdentityBasedProducerMethod;
 import org.soen387.dom.POJO.game.Game;
 import org.soen387.dom.POJO.game.GameFactory;
 import org.soen387.dom.POJO.game.GameProxy;
-import org.soen387.dom.POJO.game.GameStatus;
 import org.soen387.dom.POJO.game.IGame;
 import org.soen387.ser.Finder.GameFinder;
 
@@ -73,8 +72,7 @@ public class GameInputMapper implements IdentityBasedProducer {
 
 	private static Game getGame(ResultSet rs) throws SQLException {
 		
-		GameStatus gsChallenger = getGameStatusFromString(rs.getString("challengerStatus"));
-		GameStatus gsChallengee = getGameStatusFromString(rs.getString("challengeeStatus"));
+
 		try {
 			return GameFactory.createClean(
 					rs.getLong("id"), 
@@ -83,8 +81,8 @@ public class GameInputMapper implements IdentityBasedProducer {
 					rs.getLong("challengeeId"),
 					rs.getLong("currentTurn"),
 					rs.getInt("numberOfTurn"),
-					gsChallenger,
-					gsChallengee,
+					rs.getString("challengerStatus"),
+					rs.getString("challengeeStatus"),
 					rs.getLong("challengerDeckId"), 
 					rs.getLong("challengeeDeckId"));
 		}catch(Exception ee) {
@@ -94,14 +92,6 @@ public class GameInputMapper implements IdentityBasedProducer {
 		return null;
 	}
 	
-	private static GameStatus getGameStatusFromString(String gameStatus) {
-		GameStatus g = null;
-		for(GameStatus gs : GameStatus.values()) {
-			if(gameStatus.equalsIgnoreCase(gs.toString())) {
-				return g;
-			}
-		}
-		return g;
-	}
+
 
 }

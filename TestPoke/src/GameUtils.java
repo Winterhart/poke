@@ -306,7 +306,8 @@ public class GameUtils {
 	}
 	public static String endTurn(WebClient webClient, long game,int version)
 			throws MalformedURLException, IOException {
-		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/EndTurn"), HttpMethod.POST);
+		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" 
+			+ game + "/EndTurn"), HttpMethod.POST);
 	
 		requestSettings.setRequestParameters(new ArrayList<NameValuePair>());
 		requestSettings.getRequestParameters().add(new NameValuePair("version", version+""));
