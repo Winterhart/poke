@@ -14,6 +14,7 @@ import org.soen387.dom.command.game.GameMoveCommand;
 import org.soen387.dom.command.game.ListGameCommand;
 import org.soen387.dom.command.game.RetireCommand;
 import org.soen387.dom.command.game.ViewBoardCommand;
+import org.soen387.dom.command.game.ViewDiscardCommand;
 import org.soen387.dom.command.game.ViewHandCommand;
 import org.soen387.util.UrlParser;
 
@@ -135,7 +136,25 @@ public class GameDispatcher extends Dispatcher {
 					break;
 
 				case("discard"):
-					//TODO: setup target Id variable
+					//setup game Id variable
+					String gameStr = UrlParser.getIdInUR(myRequest.getPathInfo());
+					myHelper.setRequestAttribute("gameId", gameStr);
+					
+
+					
+					try {
+						List<Long> multipleIdURL = UrlParser.getThoseId(myRequest.getPathInfo());
+						myHelper.setRequestAttribute("gameId", multipleIdURL.get(0));
+						myHelper.setRequestAttribute("player", multipleIdURL.get(1));
+						ViewDiscardCommand vDis = new ViewDiscardCommand(myHelper);
+						vDis.execute();
+						forward("/WEB-INF/jsp/discard.jsp");
+					}catch(Exception ee) {
+						System.out.println("Problem with executing GameDispatcher: " + ee.getMessage());
+						myHelper.setRequestAttribute("message", ee.getMessage());
+						forward("/WEB-INF/jsp/fail.jsp");
+					}
+
 					break;
 				default:
 					//Handle special case where last word is an ID
