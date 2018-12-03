@@ -44,8 +44,8 @@ public class GameOutputMapper extends GenericOutputMapper<Long, Game> {
 					d.getChallengeeId(),
 					d.getCurrentTurn(),
 					d.getNumberOfTurn(),
-					d.getChallengerStatus().toString(),
-					d.getChallengeeStatus().toString(),
+					d.getChallengerStatus(),
+					d.getChallengeeStatus(),
 					d.getChallengerDeck(),
 					d.getChallengeeDeck());
 			if(result == 0) {

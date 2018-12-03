@@ -103,7 +103,7 @@ public class GameTDG {
 		ps.setLong(3, currentTurn);
 		ps.setInt(4, numberOfTurn);
 		ps.setString(5, challengerStatus);
-		ps.setString(6, challengerStatus);
+		ps.setString(6, challengeeStatus);
 		ps.setLong(7, challengerDeckId);
 		ps.setLong(8, challengeeDeckId);
 		ps.setLong(9, id);

@@ -1,6 +1,7 @@
 package org.soen387.app.dispatcher.game;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 
@@ -10,6 +11,7 @@ import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.soen387.dom.command.game.DrawCardCommand;
 import org.soen387.dom.command.game.EndTurnCommand;
 import org.soen387.dom.command.game.ListGameCommand;
+import org.soen387.dom.command.game.RetireCommand;
 import org.soen387.dom.command.game.ViewBoardCommand;
 import org.soen387.dom.command.game.ViewHandCommand;
 import org.soen387.util.UrlParser;
@@ -27,22 +29,49 @@ public class GameDispatcher extends Dispatcher {
 			//Very beautiful code here...
 			switch(lastWord) {
 			case("endturn"):
-				//setup game Id variable
-				Long gameIdS = Long.parseLong(UrlParser.getIdInUR(myRequest.getPathInfo()));
-				myHelper.setRequestAttribute("gameId", gameIdS);
-				
+					//setup game Id variable
+					Long gameIdS = Long.parseLong(UrlParser.getIdInUR(myRequest.getPathInfo()));
+					myHelper.setRequestAttribute("gameId", gameIdS);
+					
+					try {
+						EndTurnCommand endTurn = new EndTurnCommand(myHelper);
+						endTurn.execute();
+						DrawCardCommand c = new DrawCardCommand(myHelper);
+						c.execute();	
+						forward("/WEB-INF/jsp/success.jsp");
+					}catch(Exception ee) {
+						System.out.println("Problem with executing GameDispatcher: " + ee.getMessage());
+						myHelper.setRequestAttribute("message", ee.getMessage());
+						forward("/WEB-INF/jsp/fail.jsp");
+					}
+			break;
+			case("play"):
+					//Must Handle : playTrainer, attachEnergy, 
+					//evolvePokemon (based on card Type do action)
+					
+					List<Long> multipleIdURL = UrlParser.getThoseId(myRequest.getPathInfo());
+					//TODO: this
+					try {
+						forward("/WEB-INF/jsp/success.jsp");
+					}catch(Exception ee) {
+						System.out.println("Problem with executing GameDispatcher: " + ee.getMessage());
+						myHelper.setRequestAttribute("message", ee.getMessage());
+						forward("/WEB-INF/jsp/fail.jsp");
+					}
+			break;
+			case("retire"):
+				Long gameId = Long.parseLong((String)UrlParser.getIdInUR(myRequest.getPathInfo()));
+				myHelper.setRequestAttribute("gameId", gameId);
 				try {
-					EndTurnCommand endTurn = new EndTurnCommand(myHelper);
-					endTurn.execute();
-					DrawCardCommand c = new DrawCardCommand(myHelper);
-					c.execute();	
+					RetireCommand r = new RetireCommand(myHelper);
+					r.execute();
 					forward("/WEB-INF/jsp/success.jsp");
 				}catch(Exception ee) {
 					System.out.println("Problem with executing GameDispatcher: " + ee.getMessage());
 					myHelper.setRequestAttribute("message", ee.getMessage());
 					forward("/WEB-INF/jsp/fail.jsp");
 				}
-				break;
+			break;
 			default:
 				myHelper.setRequestAttribute("message", "Not supported Operation");
 				forward("/WEB-INF/jsp/fail.jsp");
@@ -89,7 +118,7 @@ public class GameDispatcher extends Dispatcher {
 					break;
 
 				case("discard"):
-					//setup target Id variable
+					//TODO: setup target Id variable
 					break;
 				default:
 					//Handle special case where last word is an ID

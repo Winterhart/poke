@@ -226,7 +226,8 @@ public class GameUtils {
 	
 	public static  String viewDiscard(WebClient webClient, long game, long player)
 			throws MalformedURLException, IOException {
-		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/"+game+"/Player/" + player + "/Discard"), HttpMethod.GET);
+		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/"+
+			game+"/Player/" + player + "/Discard"), HttpMethod.GET);
 	
 		Page page = webClient.getPage(requestSettings);
 		String jsonText = page.getWebResponse().getContentAsString();
@@ -240,7 +241,8 @@ public class GameUtils {
 	}
 	public static  String playPokemonToBench(WebClient webClient, long game, long card, int version)
 			throws MalformedURLException, IOException {
-		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/" + card + "/Play"), HttpMethod.POST);
+		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" +
+			game + "/Hand/" + card + "/Play"), HttpMethod.POST);
 	
 		requestSettings.setRequestParameters(new ArrayList<NameValuePair>());
 		requestSettings.getRequestParameters().add(new NameValuePair("version", version+""));
