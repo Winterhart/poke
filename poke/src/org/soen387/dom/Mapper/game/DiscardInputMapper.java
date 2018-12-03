@@ -77,6 +77,31 @@ public class DiscardInputMapper implements IdentityBasedProducer {
 		return diss;
 	}
 	
+	public static List<IDiscard> findAttachedCard(Long deckId, Long gameId, Long linkCId) throws SQLException, MapperException {
+		List<IDiscard> diss = new ArrayList<IDiscard>();
+		ResultSet rs = DiscardFinder.findAll();
+		while(rs.next()) {
+			if(rs.getLong("gameId") == gameId 
+					&& rs.getLong("deckId") == deckId 
+					&& rs.getLong("linkCId") == linkCId) {
+				try {
+					
+					diss.add(IdentityMap.get(rs.getLong("id"), Discard.class));
+					continue;
+					
+				}catch(DomainObjectNotFoundException ee) {
+					System.out.println("Domain not found " + ee.getMessage());
+					
+				}
+				
+				diss.add(new DiscardProxy(rs.getLong("id")));
+			}
+
+		}
+		
+		return diss;
+	}
+	
 	private static Discard getDiscard(ResultSet rs) throws SQLException, MapperException {
 		try {
 			return DiscardFactory.createClean(

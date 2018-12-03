@@ -13,6 +13,8 @@ import org.dsrg.soenea.domain.helper.Helper;
 import org.dsrg.soenea.uow.MissingMappingException;
 import org.dsrg.soenea.uow.UoW;
 import org.soen387.dom.Mapper.deck.CardInputMapper;
+import org.soen387.dom.Mapper.game.BenchInputMapper;
+import org.soen387.dom.Mapper.game.DiscardInputMapper;
 import org.soen387.dom.Mapper.game.GameInputMapper;
 import org.soen387.dom.Mapper.game.HandInputMapper;
 import org.soen387.dom.POJO.deck.CardType;
@@ -21,6 +23,8 @@ import org.soen387.dom.POJO.game.BenchFactory;
 import org.soen387.dom.POJO.game.DiscardFactory;
 import org.soen387.dom.POJO.game.Game;
 import org.soen387.dom.POJO.game.Hand;
+import org.soen387.dom.POJO.game.IBench;
+import org.soen387.dom.POJO.game.IDiscard;
 import org.soen387.dom.POJO.game.IHand;
 
 public class GameMoveCommand extends ValidatorCommand {
@@ -72,6 +76,7 @@ public class GameMoveCommand extends ValidatorCommand {
 			
 		}
 		
+		
 		// Validation Game
 		if(parsedUserId != game.getChallengerId() 
 				&& parsedUserId != game.getChallengeeId()) {
@@ -85,6 +90,12 @@ public class GameMoveCommand extends ValidatorCommand {
 			addNotification(message);
 			throw new CommandException(message);
 		}
+//		// It's your turn
+//		if(game.getCurrentTurn() != parsedUserId) {
+//			String message = "It's not your turn";
+//			addNotification(message);
+//			throw new CommandException(message);
+//		}
 		
 		if(parsedUserId == game.getChallengerId()
 				&& game.getChallengerStatus().equalsIgnoreCase("retire")) {
@@ -141,7 +152,7 @@ public class GameMoveCommand extends ValidatorCommand {
 			}
 		}
 		if(tarHandObj == null) {
-			String message = "The target card is not in your hand";
+			String message = "The target card is not in your hand (gen)";
 			addNotification(message);
 			throw new CommandException(message);
 		}
@@ -150,11 +161,11 @@ public class GameMoveCommand extends ValidatorCommand {
 		switch(gameMove) {
 		case("energy"):
 			//To energy action
-			doEnergy();
+			doEnergy(cId, game, tarHandObj, gameId, deckId);
 			break;
 		case("evolve"):
 			//To evolve action
-			doEvolve();
+			doEvolve(cId, game, tarHandObj, gameId, deckId);
 			break;
 		default:
 			//Play Trainer or Pokemon to bench
@@ -175,7 +186,7 @@ public class GameMoveCommand extends ValidatorCommand {
 			card = CardInputMapper.find(cId);
 		} catch (SQLException | MapperException e) {
 			e.printStackTrace();
-			String message = "The target card is not in your hand";
+			String message = "The target card is not in your hand (base)";
 			addNotification(message);
 			throw new CommandException(message);
 		}
@@ -223,11 +234,192 @@ public class GameMoveCommand extends ValidatorCommand {
 		
 	}
 	
-	private void doEvolve() {
+	private void doEvolve(Long cId, Game game, IHand hand, 
+			Long gameId, Long deckId) throws CommandException {
+		Long targetPokemonE = null;
+		try {
+			targetPokemonE = Long.parseLong((String)helper.getRequestAttribute("basic"));
+		}catch(Exception e) {
+			e.printStackTrace();
+			String message = "Can't parse card for evolve";
+			addNotification(message);
+			throw new CommandException(message);
+		}
 		
+		// Target Pokemon must be in bench
+		List<IBench> benchCards = new ArrayList<IBench>();
+		try {
+			benchCards = BenchInputMapper.findByGameIdAndDeckId(deckId, gameId);
+		}catch(Exception e) {
+			e.printStackTrace();
+			String message = "Can't get bench for evolve";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
+		ICard cardInBench = null;
+		IBench bcInBench = null;
+		for(IBench b : benchCards) {
+			if(b.getCardId() == targetPokemonE) {
+				try {
+					bcInBench = b;
+					cardInBench = CardInputMapper.find(b.getCardId());
+				}catch(Exception e) {
+					e.printStackTrace();
+					String message = "Can't get detailed bench for pokemon";
+					addNotification(message);
+					throw new CommandException(message);
+				}
+			}
+
+		}
+		
+		ICard cardInHand = null;
+		if(UoW.getCurrent() == null) {
+			UoW.newCurrent();
+		}
+		try {
+			cardInHand = CardInputMapper.find(cId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String message = "The target card is not in your hand (ev)";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
+		//Grab Energy previously attached to card on Bench
+		List<IDiscard> energies = new ArrayList<IDiscard>();
+		try {
+			energies = DiscardInputMapper.findAttachedCard(deckId, gameId, cardInBench.getId());
+		}catch(Exception e) {
+			e.printStackTrace();
+			String message = "The can't get linked energy ";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
+		// It's a poke and bench
+		if(cardInHand.getCardType() == CardType.p 
+				&& cardInHand.getBase().equalsIgnoreCase(cardInBench.getName())) {
+			// User want to play Trainer
+			try {
+				
+				//Update Energy card to point to new card (update)
+				for(IDiscard e : energies) {
+					e.setLinkCId(cardInHand.getId());
+					UoW.getCurrent().registerDirty(e);
+				}
+				
+				// Remove from Bench
+				UoW.getCurrent().registerRemoved(bcInBench);
+				
+				// Remove from Hand
+				UoW.getCurrent().registerRemoved(hand);
+				
+				// Send bench card to discard
+				DiscardFactory.createNew(cardInBench.getId(),
+						gameId, deckId, cardInHand.getId());
+				
+				// Send Hand to Bench (create)
+				BenchFactory.createNew(cardInHand.getId(), gameId, deckId);
+				
+
+				
+
+
+				UoW.getCurrent().commit();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				String message = "Can't update on play energy";
+				addNotification(message);
+				throw new CommandException(message);
+			}
+			
+		}else {
+			String message = "Card is not a pokemon";
+			addNotification(message);
+			throw new CommandException(message);
+		}
 	}
 	
-	private void doEnergy() {
+	private void doEnergy(Long cId, Game game, IHand hand, 
+			Long gameId, Long deckId) throws CommandException {
+		
+		Long targetPokemonE = null;
+		try {
+			targetPokemonE = Long.parseLong((String)helper.getRequestAttribute("pokemon"));
+		}catch(Exception e) {
+			e.printStackTrace();
+			String message = "Can't parse card for energy";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
+		// Target Pokemon must be in bench
+		List<IBench> benchCards = new ArrayList<IBench>();
+		try {
+			benchCards = BenchInputMapper.findByGameIdAndDeckId(deckId, gameId);
+		}catch(Exception e) {
+			e.printStackTrace();
+			String message = "Can't get bench for energy";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
+		ICard cardInBench = null;
+		for(IBench b : benchCards) {
+			if(b.getCardId() == targetPokemonE) {
+				try {
+					cardInBench = CardInputMapper.find(b.getCardId());
+				}catch(Exception e) {
+					e.printStackTrace();
+					String message = "Can't get detailed bench for pokemon (energy)";
+					addNotification(message);
+					throw new CommandException(message);
+				}
+			}
+
+		}
+		
+		ICard cardInHand = null;
+		if(UoW.getCurrent() == null) {
+			UoW.newCurrent();
+		}
+		try {
+			cardInHand = CardInputMapper.find(cId);
+		} catch (SQLException | MapperException e) {
+			e.printStackTrace();
+			String message = "The target card is not in your hand (energy)";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
+		// It's a poke and bench
+		if(cardInHand.getCardType() == CardType.e 
+				&& cardInBench.getCardType() == CardType.p) {
+			// User want to attach energy
+			try {
+				
+				//Remove from Hand
+				UoW.getCurrent().registerRemoved(hand);
+				// Create in Discard with link to bench pokemon
+				DiscardFactory.createNew(cardInHand.getId(), gameId, deckId, cardInBench.getId());
+				//Done 
+				UoW.getCurrent().commit();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				String message = "Can't update on play energy, wrong target card (energy)";
+				addNotification(message);
+				throw new CommandException(message);
+			}
+			
+		}else {
+			String message = "Card is not a pokemon";
+			addNotification(message);
+			throw new CommandException(message);
+		}
 		
 	}
 

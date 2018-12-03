@@ -7,14 +7,20 @@ import org.dsrg.soenea.application.servlet.impl.RequestAttributes;
 import org.dsrg.soenea.domain.command.CommandException;
 import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.domain.helper.Helper;
+import org.soen387.dom.Mapper.deck.CardInputMapper;
 import org.soen387.dom.Mapper.game.BenchInputMapper;
 import org.soen387.dom.Mapper.game.DiscardInputMapper;
 import org.soen387.dom.Mapper.game.GameInputMapper;
 import org.soen387.dom.Mapper.game.HandInputMapper;
+import org.soen387.dom.POJO.deck.CardType;
+import org.soen387.dom.POJO.deck.ICard;
 import org.soen387.dom.POJO.game.Game;
 import org.soen387.dom.POJO.game.IBench;
 import org.soen387.dom.POJO.game.IDiscard;
 import org.soen387.dom.POJO.game.IHand;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class ViewBoardCommand extends ValidatorCommand {
 
@@ -138,7 +144,7 @@ public class ViewBoardCommand extends ValidatorCommand {
     		sB.append("\n");
     		for(IBench card : benchChallenger) {
     			sB.append("{ ");
-    			sB.append(" \"id\": " + card.getCardId() + "\"e\": [], \"b\": 0");
+    			sB.append(buildBenchString(card));
     			sB.append(" },");
         		sB.append("\n");
     		}
@@ -164,7 +170,7 @@ public class ViewBoardCommand extends ValidatorCommand {
     		sB.append("\n");
     		for(IBench card : benchChallengee) {
     			sB.append("{ ");
-    			sB.append(" \"id\": " + card.getCardId() + "\"e\": [], \"b\": 0");
+    			sB.append(buildBenchString(card));
     			sB.append(" },");
         		sB.append("\n");
     		}
@@ -186,6 +192,56 @@ public class ViewBoardCommand extends ValidatorCommand {
 			throw new CommandException(message);
 			
 		}
+		
+	}
+	
+	private static String buildBenchString(IBench benchData) throws CommandException {
+		
+		List<IDiscard> attachedCards = new ArrayList<IDiscard>();
+		try {
+			attachedCards = DiscardInputMapper.findAttachedCard(
+					benchData.getDeckId(), benchData.getGameId(), benchData.getCardId());
+		}catch(Exception e) {
+			e.printStackTrace();
+			String message = "Can't find load discard (viewBoard) " + e.getMessage();
+			throw new CommandException(message);
+		}
+
+		String energiesString = "[]";
+		String basePoke = "0";
+		if(attachedCards.size() > 0) {
+			// Build the Array
+			List<Long> energys = new ArrayList<Long>();
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			for(IDiscard d : attachedCards) {
+				try {
+					ICard card = CardInputMapper.find(d.getCardId());
+					if(card.getCardType() == CardType.e) {
+						Long t = card.getId();
+						energys.add((long)t);
+					}else if(card.getCardType() == CardType.p) {
+						basePoke = card.getId().toString();
+					}
+					
+				}catch(Exception e) {
+					String message = "Can't find load card (viewBoard) " + e.getMessage();
+					throw new CommandException(message);
+				}
+
+			}
+			
+			energiesString = gson.toJson(energys);
+		}
+		StringBuilder ben = new StringBuilder();
+		ben.append("\"id\": ");
+		ben.append(benchData.getCardId());
+		ben.append(", \"e\": ");
+		ben.append(energiesString);
+		ben.append(", \"b\": ");
+		ben.append(basePoke);
+		
+
+		return ben.toString();
 		
 	}
 	

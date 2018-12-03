@@ -70,6 +70,13 @@ public class GameDispatcher extends Dispatcher {
 						myHelper.setRequestAttribute("handId", multipleIdURL.get(1));
 						GameMoveCommand move = new GameMoveCommand(myHelper);
 						move.execute();
+						
+						EndTurnCommand end = new EndTurnCommand(myHelper);
+						end.execute();
+						
+						DrawCardCommand draw = new DrawCardCommand(myHelper);
+						draw.execute();
+						
 						forward("/WEB-INF/jsp/success.jsp");
 					}catch(Exception ee) {
 						System.out.println("Problem with executing GameDispatcher: " + ee.getMessage());

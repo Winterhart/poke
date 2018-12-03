@@ -80,9 +80,9 @@ public class BenchInputMapper implements IdentityBasedProducer   {
 			return BenchFactory.createClean(
 					rs.getLong("id"), 
 					rs.getLong("version"), 
-					rs.getLong("cardId"),
-					rs.getLong("deckId"), 
-					rs.getLong("gameId"));
+					rs.getLong("cardId"), 
+					rs.getLong("gameId"),
+					rs.getLong("deckId"));
 			
 		}catch(Exception ee) {
 			ee.printStackTrace();
