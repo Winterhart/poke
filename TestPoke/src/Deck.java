@@ -10,7 +10,47 @@ import net.minidev.json.JSONArray;
 public class Deck {
 	DocumentContext dc = null;
 	long id;
-
+	public static String TEST_DECK7 =
+			"p \"Raichu\" \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"p \"Meowth\"\n" +
+			"e \"Lightning\"\n" +
+			"t \"Tierno\"\n" +
+			"t \"Tierno\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"e \"Lightning\"\n" +
+			"p \"Pikachu\"\n" +
+			"e \"Lightning\"\n";
 	public static String TEST_DECK6 =
 	"t \"Tierno\"\n" +
 	"p \"Pikachu\"\n" +

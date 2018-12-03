@@ -251,6 +251,10 @@ public class GameUtils {
 		return jsonText;
 	}
 
+	public static  String evolvePokemon(WebClient webClient, Board game, Card card, Card target)
+			throws MalformedURLException, IOException {
+		return evolvePokemon(webClient, game.getId(), card.getId(), target.getId(), game.getVersion());
+	}
 	public static  String evolvePokemon(WebClient webClient, long game, long card, long target, int version)
 			throws MalformedURLException, IOException {
 		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/Hand/" + card + "/Play"), HttpMethod.POST);
@@ -306,8 +310,7 @@ public class GameUtils {
 	}
 	public static String endTurn(WebClient webClient, long game,int version)
 			throws MalformedURLException, IOException {
-		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" 
-			+ game + "/EndTurn"), HttpMethod.POST);
+		WebRequest requestSettings = new WebRequest(new URL(TestSuite.URL_BASE+"Poke/Game/" + game + "/EndTurn"), HttpMethod.POST);
 	
 		requestSettings.setRequestParameters(new ArrayList<NameValuePair>());
 		requestSettings.getRequestParameters().add(new NameValuePair("version", version+""));

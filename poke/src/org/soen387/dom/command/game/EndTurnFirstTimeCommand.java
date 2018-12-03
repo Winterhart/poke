@@ -43,7 +43,7 @@ public class EndTurnFirstTimeCommand extends ValidatorCommand  {
 			
 		}
 		
-		if(game.getChallengerId() != parsedUserId && game.getChallengeeDeck() != parsedUserId) {
+		if(game.getChallengerId() != parsedUserId && game.getChallengeeId() != parsedUserId) {
 			String message = "You are not in this game...";
 			addNotification(message);
 			throw new CommandException(message);
@@ -53,14 +53,8 @@ public class EndTurnFirstTimeCommand extends ValidatorCommand  {
 			int numOfTurn = game.getNumberOfTurn();
 			numOfTurn++;
 			game.setCurrentTurn(game.getChallengerId());
-			game.setNumberOfTurn(numOfTurn);
-
-			if(UoW.getCurrent() == null) {
-				UoW.newCurrent();
-			}
-			
+			game.setNumberOfTurn(numOfTurn);	
 			UoW.getCurrent().registerDirty(game);
-			UoW.getCurrent().commit();
 			
 		}catch(Exception ee) {
 			String message = "Problem while updating EndTurn";

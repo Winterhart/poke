@@ -32,11 +32,10 @@ public class GameDispatcher extends Dispatcher {
 				myHelper.setRequestAttribute("gameId", gameIdS);
 				
 				try {
-
-					DrawCardCommand c = new DrawCardCommand(myHelper);
-					c.execute();	
 					EndTurnCommand endTurn = new EndTurnCommand(myHelper);
 					endTurn.execute();
+					DrawCardCommand c = new DrawCardCommand(myHelper);
+					c.execute();	
 					forward("/WEB-INF/jsp/success.jsp");
 				}catch(Exception ee) {
 					System.out.println("Problem with executing GameDispatcher: " + ee.getMessage());
@@ -56,13 +55,12 @@ public class GameDispatcher extends Dispatcher {
 				String lastWord = UrlParser.getLastWord(myRequest.getPathInfo());
 				lastWord = lastWord.toLowerCase();
 				
-				ValidatorCommand cusCom = null;
 				//Very beautiful code here...
 				switch(lastWord) {
 				case("game"):
 
 					try {
-						cusCom = new ListGameCommand(myHelper);
+						ListGameCommand cusCom = new ListGameCommand(myHelper);
 						cusCom.execute();
 						forward("/WEB-INF/jsp/games.jsp");
 					}catch(Exception ee) {
@@ -71,13 +69,14 @@ public class GameDispatcher extends Dispatcher {
 						forward("/WEB-INF/jsp/fail.jsp");
 					}
 					break;
+					
 				case("hand"):
 					//setup game Id variable
 					String gameS = UrlParser.getIdInUR(myRequest.getPathInfo());
 					myHelper.setRequestAttribute("gameId", gameS);
 					
 					try {
-						cusCom = new ViewHandCommand(myHelper);
+						ViewHandCommand cusCom = new ViewHandCommand(myHelper);
 						cusCom.execute();
 						forward("/WEB-INF/jsp/hand.jsp");
 					}catch(Exception ee) {
@@ -88,6 +87,7 @@ public class GameDispatcher extends Dispatcher {
 
 					
 					break;
+
 				case("discard"):
 					//setup target Id variable
 					break;
@@ -108,19 +108,7 @@ public class GameDispatcher extends Dispatcher {
 					}
 					
 					break;
-				}
-				
-				
-				
-				if(cusCom == null) {
-					System.out.println("Operation not supported ");
-					myHelper.setRequestAttribute("message", "Operation not supported");
-					forward("/WEB-INF/jsp/fail.jsp");
-				}
-				
-
-				
-				
+				}		
 			}
 		}
 		

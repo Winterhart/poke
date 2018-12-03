@@ -7,7 +7,9 @@ import org.dsrg.soenea.application.servlet.impl.RequestAttributes;
 import org.dsrg.soenea.domain.command.CommandException;
 import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.dsrg.soenea.domain.helper.Helper;
+import org.soen387.dom.Mapper.game.GameInputMapper;
 import org.soen387.dom.Mapper.game.HandInputMapper;
+import org.soen387.dom.POJO.game.Game;
 import org.soen387.dom.POJO.game.IHand;
 
 import com.google.gson.Gson;
@@ -31,30 +33,59 @@ public class ViewHandCommand extends ValidatorCommand {
 			gameId = Long.parseLong((String)helper.getRequestAttribute("gameId"));
 
 		Long deckId = null;
-		//We need to find the deck used in this game...
+		// Get the Game
+		Game game = null;
+		try {
+			game = GameInputMapper.find(gameId);
+		}catch(Exception e) {
+			e.printStackTrace();
+			String message = "Can't find the Game " + e.getMessage();
+			addNotification(message);
+			throw new CommandException(message);
+		}
 		
+		//Business Rule can only view your hand
+		if(game.getChallengerId() != parsedUserId && game.getChallengeeId() != parsedUserId) {
+			String message = "That's not your game";
+			addNotification(message);
+			throw new CommandException(message);
+		}
+		
+		if(game.getChallengeeId() == parsedUserId) {
+			deckId = game.getChallengeeDeck();
+		}else {
+			deckId = game.getChallengerDeck();
+		}
+		
+		//We need to find the deck used in this game...
+		List<IHand> ham = new ArrayList<IHand>();
+		try {
+			ham = HandInputMapper.findByGameIdAndDeckId(deckId, gameId); 
+		}catch(Exception e) {
+			System.out.println("You don't have hand...");
+		}
 		
 		// Attempt to Get Data
+		//From https://stackoverflow.com/questions/37091548/convert-arraylist-with-gson-to-string
 		try {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			List<IHand> ham = HandInputMapper.findByGameIdAndDeckId(deckId, gameId); 
 			List<Long> handJson = new ArrayList<Long>();
 		
 			for(IHand h : ham) {
-				handJson.add(h.getCardId());
+				Long tmp = h.getCardId();
+				handJson.add(tmp);
 			}
 			
 			// Change back to array
-			Long[] handJ = new Long[handJson.size()];
-			handJ = handJson.toArray(handJ);
-			
-			String jsonH = gson.toJson(handJ);
+			String jsonH = gson.toJson(handJson);
+			System.out.println(jsonH);
 			helper.setRequestAttribute("hand", jsonH);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			String message = "Can't find Hand data " + e.getMessage();
 			addNotification(message);
+			throw new CommandException(message);
 		}
 		
 	}

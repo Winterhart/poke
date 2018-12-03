@@ -58,7 +58,7 @@ public class EndTurnCommand extends ValidatorCommand {
 			throw new CommandException(message);
 		}
 		
-		if(game.getChallengerId() != parsedUserId && game.getChallengeeDeck() != parsedUserId) {
+		if(game.getChallengerId() != parsedUserId && game.getChallengeeId() != parsedUserId) {
 			String message = "You are not in this game...";
 			addNotification(message);
 			throw new CommandException(message);
@@ -83,11 +83,7 @@ public class EndTurnCommand extends ValidatorCommand {
 			game.setCurrentTurn(newUserTurn);
 			game.setNumberOfTurn(numOfTurn);
 			//game.setVersion(versionL++);
-			if(UoW.getCurrent() == null) {
-				UoW.newCurrent();
-			}
 			UoW.getCurrent().registerDirty(game);
-			UoW.getCurrent().commit();
 			
 			helper.setRequestAttribute("message", "Turn ended");
 			

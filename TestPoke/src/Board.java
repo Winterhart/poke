@@ -8,10 +8,12 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
+import net.minidev.json.JSONArray;
+
 public class Board {
 	
-	DocumentContext dc = null;
-	int id;
+	private DocumentContext dc = null;
+	private int id;
 	
 	public Board(DocumentContext dc, int id) {
 		super();
@@ -46,6 +48,11 @@ public class Board {
 	public int getId() {
 		return id;
 	}
+	
+	public List<Integer>  getDecks() {
+		String query = "game.decks";
+		return dc.read(query);
+	}
 
 	//Scarey unchecked suppression :\
 	@SuppressWarnings("unchecked")
@@ -67,11 +74,14 @@ public class Board {
 		return energy;
 	}
 	
-	public Card getAtachedPokemon(Player player, Deck deck, int card) {
-		List<Map<String, Object>> target = dc.read("game.play['" + player.getId() + "'].bench[?(@['id']==" + card + ")]");
+	public Card getAtachedPokemon(Player player, Deck deck, Card card) {
+		List<Map<String, Object>> target = dc.read("game.play['" + player.getId() + "'].bench[?(@['id']==" + card.getId() + ")]");
+		int i = (Integer)target.get(0).get("b");
 		for(int j = 0; j < 40; j++) {
 			Card c = deck.findCard(j);
-			if(card==(int)target.get(0).get("b"))return c;
+			if(c.getId()==i) {
+				return c;
+			}
 		}
 		return null;
 	}

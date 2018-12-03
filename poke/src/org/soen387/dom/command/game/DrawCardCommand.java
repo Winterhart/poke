@@ -22,6 +22,7 @@ import org.soen387.dom.POJO.game.IHand;
 
 public class DrawCardCommand extends ValidatorCommand {
 
+
 	public DrawCardCommand(Helper helper) {
 		super(helper);
 	}
@@ -57,90 +58,95 @@ public class DrawCardCommand extends ValidatorCommand {
 			throw new CommandException(message);
 			
 		}
+		
+		if(parsedUserId != game.getChallengerId() 
+				&& parsedUserId != game.getChallengeeId()) {
+			String message = "Game is not yours...";
+			addNotification(message);
+			throw new CommandException(message);
+		}
 
-		if(game.getCurrentTurn() != parsedUserId) {
-			String message = "It's not your turn or game...";
-			addNotification(message);
-			throw new CommandException(message);
-		}
-
-		// Which deck must play
-		Long deckId = null;
-		if(game.getCurrentTurn() == game.getChallengerId()) {
-			deckId = game.getChallengerDeck();
-		}else {
-			deckId = game.getChallengeeDeck();
-		}
-		
-		// Deck must not be empty
-		List<ICard> deck = new ArrayList<ICard>();
-		List<IHand> hand = new ArrayList<IHand>();
-		List<IBench> bench = new ArrayList<IBench>();
-		List<IDiscard> dis = new ArrayList<IDiscard>();
-		
-		//Grab cards
-		try {
-			deck = CardInputMapper.findAllByDeckId(deckId);
-		}catch(Exception e) {
-			e.printStackTrace();
-			String message = "Can't find cards...";
-			addNotification(message);
-			throw new CommandException(message);
-		}
-		try {
-			hand = HandInputMapper.findByGameIdAndDeckId(deckId, gameId);
-		}catch(Exception e) {
-			e.printStackTrace();
-			String message = "Can't find hand...";
-			addNotification(message);
-			throw new CommandException(message);
-		}
-		try {
-			bench = BenchInputMapper.findByGameIdAndDeckId(deckId, gameId);
-		}catch(Exception e) {
-			e.printStackTrace();
-			String message = "Can't find bench...";
-			addNotification(message);
-			throw new CommandException(message);
-		}
-		try {
-			dis = DiscardInputMapper.findByGameIdAndDeckId(deckId, gameId);
-		}catch(Exception e) {
-			e.printStackTrace();
-			String message = "Can't find dicard...";
-			addNotification(message);
-			throw new CommandException(message);
-		}
-		
-
-
-		
-		//Which card must be draw next
-		Long cardIdToPick = null;
-		int count = hand.size() + bench.size() + dis.size();
-		if(count == deck.size()) {
-			String message = "You have no card left";
-			addNotification(message);
-			throw new CommandException(message);
-		}else {
-			cardIdToPick = deck.get(count).getId();
-		}
-		
-		if(hand.size() == 7) {
-			String message = "Your hand is full";
-			addNotification(message);
-			throw new CommandException(message);
-		}
-		
-		try {
-			HandFactory.createNew(cardIdToPick, gameId, deckId);
+			// Which deck must play
+			Long deckId = null;
+			if(game.getCurrentTurn() == game.getChallengerId()) {
+				deckId = game.getChallengerDeck();
+			}else {
+				deckId = game.getChallengeeDeck();
+			}
 			
-		}catch(Exception e) {
-			e.printStackTrace();
-			String message = "Game could not be created...";
-			addNotification(message);
-			throw new CommandException(message);
-		}
+			// Deck must not be empty
+			List<ICard> deck = new ArrayList<ICard>();
+			List<IHand> hand = new ArrayList<IHand>();
+			List<IBench> bench = new ArrayList<IBench>();
+			List<IDiscard> dis = new ArrayList<IDiscard>();
+			
+			//Grab cards
+			try {
+				deck = CardInputMapper.findAllByDeckId(deckId);
+			}catch(Exception e) {
+				e.printStackTrace();
+				String message = "Can't find cards...";
+				addNotification(message);
+				throw new CommandException(message);
+			}
+			try {
+				hand = HandInputMapper.findByGameIdAndDeckId(deckId, gameId);
+			}catch(Exception e) {
+				e.printStackTrace();
+				String message = "Can't find hand...";
+				addNotification(message);
+				throw new CommandException(message);
+			}
+			try {
+				bench = BenchInputMapper.findByGameIdAndDeckId(deckId, gameId);
+			}catch(Exception e) {
+				e.printStackTrace();
+				String message = "Can't find bench...";
+				addNotification(message);
+				throw new CommandException(message);
+			}
+			try {
+				dis = DiscardInputMapper.findByGameIdAndDeckId(deckId, gameId);
+			}catch(Exception e) {
+				e.printStackTrace();
+				String message = "Can't find dicard...";
+				addNotification(message);
+				throw new CommandException(message);
+			}
+			
+
+
+			
+			//Which card must be draw next
+			Long cardIdToPick = null;
+			int count = hand.size() + bench.size() + dis.size();
+			if(count == deck.size()) {
+				String message = "You have no card left";
+				addNotification(message);
+				throw new CommandException(message);
+			}else {
+				cardIdToPick = deck.get(count).getId();
+			}
+			
+			if(hand.size() > 7) {
+				String message = "Your hand is full";
+				addNotification(message);
+				throw new CommandException(message);
+			}
+			
+			try {
+				HandFactory.createNew(cardIdToPick, gameId, deckId);
+				if(UoW.getCurrent() == null) {
+					UoW.newCurrent();
+				}
+				UoW.getCurrent().commit();
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				String message = "Game could not be created...";
+				addNotification(message);
+				throw new CommandException(message);
+			}
 		
 	}
 

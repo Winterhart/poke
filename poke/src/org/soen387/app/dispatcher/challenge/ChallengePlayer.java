@@ -64,12 +64,12 @@ public class ChallengePlayer extends Dispatcher {
 					Helper previousH = gameC.getHelper();
 					Long gameId =  (long)previousH.getRequestAttribute("gameId");
 					myHelper.setRequestAttribute("gameId", gameId);
-					//We must draw a card
-					DrawCardCommand drawC = new DrawCardCommand(myHelper);
-					drawC.execute();
-					
+
 					EndTurnFirstTimeCommand endIt = new EndTurnFirstTimeCommand(myHelper);
 					endIt.execute();
+					//We must draw a card for player
+					DrawCardCommand drawC = new DrawCardCommand(myHelper);
+					drawC.execute();
 
 					
 				}

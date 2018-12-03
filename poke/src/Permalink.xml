@@ -73,8 +73,6 @@
     <Permalink>
         <pattern>Poke/Game/(\d+)/(Hand)</pattern>
         <dispatcher>org.soen387.app.dispatcher.game.GameDispatcher</dispatcher>
-        <attribute name="game" />
-        <attribute name="type" />
     </Permalink>
     <Permalink>
         <pattern>Poke/Game/(\d+)/Player/(\d+)/(Discard)</pattern>

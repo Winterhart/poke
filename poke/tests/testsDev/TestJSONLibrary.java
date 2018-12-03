@@ -2,8 +2,12 @@ package testsDev;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
+import org.soen387.dom.POJO.game.Hand;
+import org.soen387.dom.POJO.game.IHand;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,6 +23,36 @@ public class TestJSONLibrary {
 			
 			String patates = gson.toJson(pat);
 			System.out.println(patates);
+			
+		}catch(Exception ee) {
+			ee.printStackTrace();
+		}
+
+	}
+	
+	@Test
+	public void testStydd() {
+		try {
+			List<IHand> ham = new ArrayList<IHand>();
+			Long id = (long) 1;
+			long v = (long)1;
+			Long c = (long)23;
+			Long g = (long)2;
+			Long d = (long)2;
+			ham.add(new Hand(id, v, c, g, d));
+			ham.add(new Hand(id, v,c, g, d));
+
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			List<Long> handJson = new ArrayList<Long>();
+		
+			for(IHand h : ham) {
+				Long ddd = h.getCardId();
+				handJson.add((long)h.getCardId());
+			}
+			
+			// Change back to array
+			String jsonH = gson.toJson(handJson);
+			System.out.println(jsonH);
 			
 		}catch(Exception ee) {
 			ee.printStackTrace();
