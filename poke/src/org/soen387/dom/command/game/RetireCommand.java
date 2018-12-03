@@ -53,7 +53,8 @@ public class RetireCommand extends ValidatorCommand {
 			
 		}
 		
-		if(parsedUserId != game.getChallengerId() && parsedUserId != game.getChallengeeId()) {
+		if(parsedUserId != game.getChallengerId() 
+				&& parsedUserId != game.getChallengeeId()) {
 			String message = "That's not your game";
 			addNotification(message);
 			throw new CommandException(message);
@@ -65,14 +66,16 @@ public class RetireCommand extends ValidatorCommand {
 			throw new CommandException(message);
 		}
 		
-		if(parsedUserId == game.getChallengerId() && game.getChallengerStatus().equalsIgnoreCase("retire")) {
+		if(parsedUserId == game.getChallengerId()
+				&& game.getChallengerStatus().equalsIgnoreCase("retire")) {
 			String message = "You retire from game";
 			addNotification(message);
 			throw new CommandException(message);
 		}
 		
 		
-		if(parsedUserId == game.getChallengeeId() && game.getChallengeeStatus().equalsIgnoreCase("retire")) {
+		if(parsedUserId == game.getChallengeeId() 
+				&& game.getChallengeeStatus().equalsIgnoreCase("retire")) {
 			String message = "You retire from game";
 			addNotification(message);
 			throw new CommandException(message);

@@ -24,8 +24,15 @@ public class UrlParser {
 	}
 
 	public static List<Long> getThoseId(String pathInfo) {
-		// TODO Auto-generated method stub
-		return null;
+		String[] splittedURL = pathInfo.split("/");
+		List<Long> ids = new ArrayList<Long>();
+		for(String s: splittedURL) {
+			if(StringUtils.isNumeric(s)) {
+				ids.add(Long.parseLong(s));
+			}
+		}
+		
+		return ids;
 	}
 
 }

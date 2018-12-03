@@ -10,6 +10,7 @@ import org.dsrg.soenea.application.servlet.dispatcher.Dispatcher;
 import org.dsrg.soenea.domain.command.impl.ValidatorCommand;
 import org.soen387.dom.command.game.DrawCardCommand;
 import org.soen387.dom.command.game.EndTurnCommand;
+import org.soen387.dom.command.game.GameMoveCommand;
 import org.soen387.dom.command.game.ListGameCommand;
 import org.soen387.dom.command.game.RetireCommand;
 import org.soen387.dom.command.game.ViewBoardCommand;
@@ -50,8 +51,24 @@ public class GameDispatcher extends Dispatcher {
 					//evolvePokemon (based on card Type do action)
 					
 					List<Long> multipleIdURL = UrlParser.getThoseId(myRequest.getPathInfo());
-					//TODO: this
-					try {
+					
+					if(myRequest.getParameterMap().containsKey("pokemon")) {
+						myHelper.setRequestAttribute("action", "energy");
+						myHelper.setRequestAttribute("pokemon", myRequest.getParameter("pokemon"));
+						
+					}else if(myRequest.getParameterMap().containsKey("basic")) {
+						myHelper.setRequestAttribute("action", "evolve");
+						myHelper.setRequestAttribute("basic", myRequest.getParameter("basic"));
+						
+					}else {
+						myHelper.setRequestAttribute("action", "normal");
+					}
+					
+					try {	
+						myHelper.setRequestAttribute("gameId", multipleIdURL.get(0));
+						myHelper.setRequestAttribute("handId", multipleIdURL.get(1));
+						GameMoveCommand move = new GameMoveCommand(myHelper);
+						move.execute();
 						forward("/WEB-INF/jsp/success.jsp");
 					}catch(Exception ee) {
 						System.out.println("Problem with executing GameDispatcher: " + ee.getMessage());
