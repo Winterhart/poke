@@ -1,12 +1,10 @@
 package org.soen387.dom.POJO.game;
 
-import java.util.List;
 
 import org.dsrg.soenea.domain.DomainObjectCreationException;
 import org.dsrg.soenea.domain.MapperException;
 import org.dsrg.soenea.domain.proxy.DomainObjectProxy;
 import org.soen387.dom.Mapper.game.DiscardInputMapper;
-import org.soen387.dom.POJO.deck.ICard;
 
 public class DiscardProxy extends DomainObjectProxy<Long, Discard> implements IDiscard {
 
@@ -55,6 +53,17 @@ public class DiscardProxy extends DomainObjectProxy<Long, Discard> implements ID
 	@Override
 	public void setDeckId(Long deckId) {
 		getInnerObject().setDeckId(deckId);
+		
+	}
+
+	@Override
+	public Long getLinkCId() {
+		return getInnerObject().getLinkCId();
+	}
+
+	@Override
+	public void setLinkCId(Long linkCId) {
+		getInnerObject().setLinkCId(linkCId);
 		
 	}
 

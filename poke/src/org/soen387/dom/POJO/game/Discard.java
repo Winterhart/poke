@@ -13,6 +13,29 @@ import org.dsrg.soenea.domain.annotation.Interface;
 public class Discard extends DomainObject<Long> implements IDiscard {
 	private Long cardId;
 	private Long gameId;
+	private Long linkCId;
+	
+	protected Discard(Long id, long version) {
+		super(id, version);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Discard(Long id, long version, Long cardId, Long gameId, Long deckId, Long linkCId) {
+		super(id, version);
+		this.cardId = cardId;
+		this.gameId = gameId;
+		this.deckId = deckId;
+		this.linkCId = linkCId;
+	}
+	
+	public Long getLinkCId() {
+		return linkCId;
+	}
+
+	public void setLinkCId(Long linkCId) {
+		this.linkCId = linkCId;
+	}
+
 	public Long getCardId() {
 		return cardId;
 	}
@@ -22,17 +45,7 @@ public class Discard extends DomainObject<Long> implements IDiscard {
 	}
 	private Long deckId;
 	
-	protected Discard(Long id, long version) {
-		super(id, version);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public Discard(Long id, long version, Long cardId, Long gameId, Long deckId) {
-		super(id, version);
-		this.cardId = cardId;
-		this.gameId = gameId;
-		this.deckId = deckId;
-	}
+
 	public Long getGameId() {
 		return gameId;
 	}

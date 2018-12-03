@@ -22,6 +22,7 @@ public class DiscardTDG {
 			"cardId BIGINT NOT NULL, " +
 			"deckId BIGINT NOT NULL, " +
 			"gameId BIGINT NOT NULL, " +
+			"linkCId BIGINT NOT NULL, " +
 			"CONSTRAINT FK_DISCARD_cardId "
 			+ "FOREIGN KEY (cardId) REFERENCES card(id) "
 			+ "ON DELETE CASCADE " 
@@ -38,13 +39,13 @@ public class DiscardTDG {
 			"DROP TABLE IF EXISTS " + TABLE + ";";
 	
 	private final static String INSERT_QUERY =
-			"INSERT INTO " + TABLE + " (id, version, cardId, deckId, gameId) values(?,?,?,?,?) ;";
+			"INSERT INTO " + TABLE + " (id, version, cardId, deckId, gameId, linkCId) values(?,?,?,?,?,?) ;";
 	
 	private final static String DELETE_QUERY_ID = 
 			" DELETE FROM " + TABLE + " WHERE id=? and version=? ;";
 	
 	private final static String UPDATE_QUERY_ID = 
-			"UPDATE " + TABLE + " SET version=version+1, cardId=?, deckId=?, gameId=? " +
+			"UPDATE " + TABLE + " SET version=version+1, cardId=?, deckId=?, gameId=?, linkCId=? " +
 					"WHERE id=? and version=?";
 	
 	public static void dropTable() throws SQLException {
@@ -56,7 +57,7 @@ public class DiscardTDG {
 	}
 	
 	public static int insert(Long id, Long version, Long cardId, 
-			Long deckId, Long gameId) throws SQLException {
+			Long deckId, Long gameId, Long linkCId) throws SQLException {
 		Connection conn = DbRegistry.getDbConnection();
 		PreparedStatement ps = conn.prepareStatement(INSERT_QUERY);
 		ps.setLong(1, id);
@@ -64,20 +65,22 @@ public class DiscardTDG {
 		ps.setLong(3, cardId);
 		ps.setLong(4, deckId);
 		ps.setLong(5, gameId);
+		ps.setLong(6, linkCId);
 		int result = SQLLogger.processUpdate(ps);
 		ps.close();
 		return result;
 	}
 	
 	public static int update(Long id, Long version, Long cardId,
-			Long deckId, Long gameId) throws SQLException {
+			Long deckId, Long gameId, Long linkCId) throws SQLException {
 		Connection conn = DbRegistry.getDbConnection();
 		PreparedStatement ps = conn.prepareStatement(UPDATE_QUERY_ID);
 		ps.setLong(1, cardId);
 		ps.setLong(2, deckId);
 		ps.setLong(3, gameId);
-		ps.setLong(4, id);
-		ps.setLong(5, version);
+		ps.setLong(4, linkCId);
+		ps.setLong(5, id);
+		ps.setLong(6, version);
 		int result = SQLLogger.processUpdate(ps);
 		ps.close();
 		return result;

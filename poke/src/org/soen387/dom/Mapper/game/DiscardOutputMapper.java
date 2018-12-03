@@ -20,7 +20,8 @@ public class DiscardOutputMapper extends GenericOutputMapper<Long, Discard> {
 						d.getVersion(), 
 						d.getCardId(), 
 						d.getDeckId(), 
-						d.getGameId());
+						d.getGameId(),
+						d.getLinkCId());
 				
 				if(result == 0) {
 					System.out.println("Not able to add Discard " + d.getId());
@@ -41,7 +42,8 @@ public class DiscardOutputMapper extends GenericOutputMapper<Long, Discard> {
 					d.getVersion(), 
 					d.getCardId(), 
 					d.getDeckId(), 
-					d.getGameId());
+					d.getGameId(),
+					d.getLinkCId());
 			
 			if(result == 0) {
 				System.out.println("Not able to update Discard " + d.getId());

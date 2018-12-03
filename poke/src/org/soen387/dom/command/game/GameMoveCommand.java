@@ -185,7 +185,7 @@ public class GameMoveCommand extends ValidatorCommand {
 			try {
 				
 				DiscardFactory.createNew(hand.getCardId(),
-						gameId, deckId);
+						gameId, deckId, (long)0);
 				UoW.getCurrent().registerRemoved(hand);
 				UoW.getCurrent().commit();
 				
@@ -198,7 +198,7 @@ public class GameMoveCommand extends ValidatorCommand {
 			
 		}else if(card.getCardType() == CardType.p) {
 			// User want to play Pokemon
-			// User want to play Trainer
+
 			try {
 				
 				BenchFactory.createNew(hand.getCardId(),

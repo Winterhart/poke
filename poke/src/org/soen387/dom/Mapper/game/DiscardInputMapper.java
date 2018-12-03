@@ -84,7 +84,8 @@ public class DiscardInputMapper implements IdentityBasedProducer {
 					rs.getLong("version"), 
 					rs.getLong("cardId"),
 					rs.getLong("deckId"), 
-					rs.getLong("gameId"));
+					rs.getLong("gameId"),
+					rs.getLong("linkCId"));
 			
 		}catch(Exception ee) {
 			ee.printStackTrace();

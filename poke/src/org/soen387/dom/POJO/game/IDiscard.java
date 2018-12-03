@@ -1,9 +1,7 @@
 package org.soen387.dom.POJO.game;
 
-import java.util.List;
 
 import org.dsrg.soenea.domain.interf.IDomainObject;
-import org.soen387.dom.POJO.deck.ICard;
 
 public interface IDiscard extends IDomainObject<Long>  {
 	public Long getCardId();
@@ -12,4 +10,6 @@ public interface IDiscard extends IDomainObject<Long>  {
 	public void setGameId(Long gameId);
 	public Long getDeckId();
 	public void setDeckId(Long deckId);
+	public Long getLinkCId();
+	public void setLinkCId(Long linkCId);
 }
