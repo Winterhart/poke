@@ -1,6 +1,6 @@
 # Pokegame
 Pokemon card game in a web application with Java EE and no web framework
-(This assignement is not the perfect solution and it is incomplete)
+**(This assignement is not the perfect solution and it is incomplete)**
 
 ## Date: Fall 2018
 ## Course: SOEN 387
